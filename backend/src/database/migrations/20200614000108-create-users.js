@@ -18,6 +18,11 @@ module.exports = {
         allowNull: false,
         unique: true
       },
+      cpf: {
+        type: Sequelize.REAL,
+        allowNull: false,
+        unique: true
+      },
       password_hash: {
         type: Sequelize.STRING,
         allowNull: false

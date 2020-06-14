@@ -6,6 +6,7 @@ class User extends Model {
       {
         name: Sequelize.STRING,
         email: Sequelize.STRING,
+        cpf: Sequelize.REAL,
         password_hash: Sequelize.STRING
       },
       { sequelize: connection }

@@ -3,15 +3,26 @@ import User from '../models/User'
 class UserController {
   async store (request, response) {
     // Cadastrar usuário
-    const { name, email, password } = request.body
+    const { name, email, cpf, password } = request.body
 
-    const newUser = await User.create({
-      password_hash: password,
-      name,
-      email
-    })
+    try {
+      const emailExist = await User.findOne({ where: { email } })
+      const cpfExist = await User.findOne({ where: { cpf } })
 
-    return response.json(newUser)
+      if (emailExist) { return response.status(400).json({ error: 'The email already exists!' }) }
+      if (cpfExist) { return response.status(400).json({ error: 'The CPF already exists!' }) }
+
+      const newUser = await User.create({
+        password_hash: password,
+        name,
+        email,
+        cpf
+      })
+
+      return response.json(newUser)
+    } catch (error) {
+      response.json(error)
+    }
   }
 
   async update (request, response) {
