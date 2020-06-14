@@ -22,7 +22,44 @@ class UserController {
 
   async update (request, response) {
     // Alterar usuário
-    return response.json()
+    const { name, email, cpf, oldPassword, newPassword, confirmationPassword } = request.body
+
+    try {
+      const user = await User.findByPk(request.userId)
+
+      if (email !== user.email) {
+        const emailExist = await User.findOne({ where: { email } })
+
+        if (emailExist) {
+          return response.status(401).json(
+            { error: 'The email already exists in the database.' }
+          )
+        }
+      }
+
+      if (newPassword !== confirmationPassword) {
+        return response.status(401).json(
+          { error: 'The confirmation password does not match the new password' }
+        )
+      }
+
+      if (oldPassword && !(await user.checkPassword(oldPassword))) {
+        return response.status(401).json(
+          { error: 'Password does not match' }
+        )
+      }
+
+      await user.update({
+        password: newPassword,
+        name,
+        email,
+        cpf
+      })
+
+      return response.json({ message: `user ${user.name} has been updated` })
+    } catch (error) {
+      return response.json(error)
+    }
   }
 
   async index (request, response) {
