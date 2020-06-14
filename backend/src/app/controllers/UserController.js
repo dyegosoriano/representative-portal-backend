@@ -62,19 +62,19 @@ class UserController {
     }
   }
 
-  async index (request, response) {
-    // Listagem de usuários
-    return response.json()
-  }
-
   async show (request, response) {
     // Exibir um único usuário
-    return response.json()
-  }
+    try {
+      const { name, email, cpf } = await User.findByPk(request.userId)
 
-  async delete (request, response) {
-    // Remover usuário
-    return response.json()
+      return response.json({
+        name,
+        email,
+        cpf
+      })
+    } catch (error) {
+      return response.status(500)
+    }
   }
 }
 

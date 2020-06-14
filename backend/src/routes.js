@@ -11,6 +11,7 @@ routes
   .post('/user', UserController.store)
   .post('/sessions', SessionController.store)
 
+  .get('/user', authUserMiddlewares, UserController.show)
   .put('/user', authUserMiddlewares, UserController.update)
 
 export default routes
