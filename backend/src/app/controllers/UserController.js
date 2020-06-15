@@ -12,9 +12,9 @@ class UserController {
       if (emailExist) { return response.status(400).json({ error: 'The email already exists!' }) }
       if (cpfExist) { return response.status(400).json({ error: 'The CPF already exists!' }) }
 
-      const newUser = await User.create({ password, name, email, cpf })
+      const { id } = await User.create({ password, name, email, cpf })
 
-      return response.json(newUser)
+      return response.json({ id, name, email, cpf })
     } catch (error) {
       response.json(error)
     }
