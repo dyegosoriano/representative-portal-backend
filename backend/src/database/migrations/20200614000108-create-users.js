@@ -19,7 +19,7 @@ module.exports = {
         unique: true
       },
       cpf: {
-        type: Sequelize.REAL,
+        type: Sequelize.DOUBLE,
         allowNull: false,
         unique: true
       },
