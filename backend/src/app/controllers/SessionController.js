@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken'
 
 import User from '../models/User'
+import Provider from '../models/Provider'
 
 import authConfig from '../../config/auth'
 
 class SessionController {
-  async store (request, response) {
+  async user (request, response) {
     const { email, password } = request.body
 
     const user = await User.findOne({ where: { email } })
@@ -22,7 +23,30 @@ class SessionController {
       user: { id, name, email },
       token: jwt.sign(
         { id },
-        authConfig.secret,
+        authConfig.secretUser,
+        { expiresIn: authConfig.expiresIn }
+      )
+    })
+  }
+
+  async provider (request, response) {
+    const { email, password } = request.body
+
+    const provider = await Provider.findOne({ where: { email } })
+
+    if (!provider) { return response.status(401).json({ error: 'Provider not found' }) }
+
+    if (!(await provider.checkPassword(password))) {
+      return response.status(401).json({ error: 'password does not match' })
+    }
+
+    const { id, name } = provider
+
+    return response.json({
+      provider: { id, name, email },
+      token: jwt.sign(
+        { id },
+        authConfig.secretProvider,
         { expiresIn: authConfig.expiresIn }
       )
     })

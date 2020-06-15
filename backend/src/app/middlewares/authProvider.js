@@ -13,7 +13,7 @@ export default async (request, response, next) => {
   const [, token] = authHeader.split(' ')
 
   try {
-    const decoded = await promisify(jwt.verify)(token, authConfig.secretUser)
+    const decoded = await promisify(jwt.verify)(token, authConfig.secretProvider)
 
     request.userId = decoded.id
 

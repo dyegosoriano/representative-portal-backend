@@ -1,4 +1,5 @@
 export default {
-  secret: 'secret',
+  secretUser: 'userSecret',
+  secretProvider: 'providerSrcret',
   expiresIn: '7d'
 }
