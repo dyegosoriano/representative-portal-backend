@@ -19,7 +19,7 @@ module.exports = {
         unique: true
       },
       cnpj: {
-        type: Sequelize.DOUBLE,
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
