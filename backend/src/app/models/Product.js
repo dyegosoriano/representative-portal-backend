@@ -14,8 +14,8 @@ class Product extends Model {
     return this
   }
 
-  static assossiate (models) {
-    this.belongsTo(models.Provider, { foreignKey: 'name_provider', as: 'owner' })
+  static associate (models) {
+    this.belongsTo(models.Provider, { foreignKey: 'provider_id', as: 'owner' })
   }
 }
 

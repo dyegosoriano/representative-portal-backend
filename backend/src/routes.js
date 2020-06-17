@@ -3,6 +3,7 @@ import { Router } from 'express'
 import UserController from './app/controllers/UserController'
 import SessionController from './app/controllers/SessionController'
 import ProviderController from './app/controllers/ProviderController'
+import ProductController from './app/controllers/ProductController'
 
 import authUserMiddlewares from './app/middlewares/authUser'
 import authProviderMiddlewares from './app/middlewares/authProvider'
@@ -21,5 +22,7 @@ routes
 
   .get('/provider', authProviderMiddlewares, ProviderController.show)
   .put('/provider', authProviderMiddlewares, ProviderController.update)
+
+  .post('/provider/products', authProviderMiddlewares, ProductController.store)
 
 export default routes
