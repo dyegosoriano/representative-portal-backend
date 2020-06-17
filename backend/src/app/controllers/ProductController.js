@@ -19,6 +19,23 @@ class ProductController {
       return response.status(500).json(error)
     }
   }
+
+  async update (request, response) {
+    // Alterar produto
+    const provider_id = request.userId
+    const { product_id } = request.params
+    const { name_product, price, amount } = request.body
+
+    try {
+      const product = await Product.findOne({ where: { id: product_id, provider_id } })
+
+      const updatedProduct = await product.update({ name_product, price, amount })
+
+      return response.json(updatedProduct)
+    } catch (error) {
+      return response.status(500).json(error)
+    }
+  }
 }
 
 export default new ProductController()

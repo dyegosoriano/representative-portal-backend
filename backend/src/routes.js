@@ -24,5 +24,6 @@ routes
   .put('/provider', authProviderMiddlewares, ProviderController.update)
 
   .post('/provider/products', authProviderMiddlewares, ProductController.store)
+  .put('/provider/products/:product_id', authProviderMiddlewares, ProductController.update)
 
 export default routes
