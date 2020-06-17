@@ -50,6 +50,21 @@ class ProductController {
     }
   }
 
+  async show (request, response) {
+    // Exibir um único produto
+    const { id } = request.params
+
+    try {
+      const products = await Product.findOne({ where: { id } })
+
+      if (!products) { return response.status(400).json({ message: 'O produto solicitado não existe!' }) }
+
+      return response.json(products)
+    } catch (error) {
+      return response.status(500).json(error)
+    }
+  }
+
   async delete (request, response) {
     // Remover produto
     const provider_id = request.userId
