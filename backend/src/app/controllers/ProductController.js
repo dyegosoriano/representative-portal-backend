@@ -37,6 +37,19 @@ class ProductController {
     }
   }
 
+  async index (request, response) {
+    // Listagem de produtos
+    const provider_id = request.userId
+
+    try {
+      const products = await Product.findAndCountAll({ where: { provider_id } })
+
+      return response.json(products)
+    } catch (error) {
+      return response.status(500).json(error)
+    }
+  }
+
   async delete (request, response) {
     // Remover produto
     const provider_id = request.userId
