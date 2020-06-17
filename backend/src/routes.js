@@ -25,5 +25,6 @@ routes
 
   .post('/provider/products', authProviderMiddlewares, ProductController.store)
   .put('/provider/products/:product_id', authProviderMiddlewares, ProductController.update)
+  .delete('/provider/products/:product_id', authProviderMiddlewares, ProductController.delete)
 
 export default routes
