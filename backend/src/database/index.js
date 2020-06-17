@@ -2,10 +2,11 @@ import Sequelize from 'sequelize'
 
 import User from '../app/models/User'
 import Provider from '../app/models/Provider'
+import Product from '../app/models/Product'
 
 import databaseConfig from '../config/database'
 
-const models = [User, Provider]
+const models = [User, Provider, Product]
 
 class Database {
   constructor () {
@@ -18,7 +19,7 @@ class Database {
 
     models
     // Conectando models com banco de dados
-      .map((model) => model.init(this.connection))
+      .map(model => model.init(this.connection))
     // Chamando método de associação
       .map(model => { model.associate && model.associate(this.connection.models) })
   }
