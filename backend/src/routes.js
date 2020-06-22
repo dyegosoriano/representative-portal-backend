@@ -24,6 +24,7 @@ routes
   .post('/user/order', authUserMiddlewares, OrderController.store)
   .get('/user/order', authUserMiddlewares, OrderController.index)
   .get('/user/order/:id', authUserMiddlewares, OrderController.show)
+  .delete('/user/order/:id', authUserMiddlewares, OrderController.delete)
 
   .get('/provider', authProviderMiddlewares, ProviderController.show)
   .put('/provider', authProviderMiddlewares, ProviderController.update)
@@ -31,21 +32,9 @@ routes
   .post('/provider/products', authProviderMiddlewares, ProductController.store)
 
   .get('/provider/products', authProviderMiddlewares, ProductController.index)
-  .get(
-    '/provider/products/:id',
-    authProviderMiddlewares,
-    ProductController.show
-  )
+  .get('/provider/products/:id', authProviderMiddlewares, ProductController.show)
 
-  .put(
-    '/provider/products/:product_id',
-    authProviderMiddlewares,
-    ProductController.update
-  )
-  .delete(
-    '/provider/products/:product_id',
-    authProviderMiddlewares,
-    ProductController.delete
-  )
+  .put('/provider/products/:product_id', authProviderMiddlewares, ProductController.update)
+  .delete('/provider/products/:product_id', authProviderMiddlewares, ProductController.delete)
 
 export default routes

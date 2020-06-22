@@ -52,6 +52,28 @@ class OrderController {
         .json({ error: "there's been a mistake on the server" })
     }
   }
+
+  async delete (request, response) {
+    const owner_id = request.userId
+    const { id } = request.params
+
+    try {
+      // Remover dados
+      const order = await Order.findOne({ where: { owner_id, id } })
+
+      order.canceled_at = new Date()
+
+      await order.save()
+
+      return response.json(order)
+    } catch (error) {
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
+    }
+  }
 }
 
 export default new OrderController()
