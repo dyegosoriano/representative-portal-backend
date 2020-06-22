@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize'
 
-class Product extends Model {
+export default class Product extends Model {
   static init (connection) {
     super.init(
       {
@@ -18,5 +18,3 @@ class Product extends Model {
     this.belongsTo(models.Provider, { foreignKey: 'provider_id', as: 'owner' })
   }
 }
-
-export default Product

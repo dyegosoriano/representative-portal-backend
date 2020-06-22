@@ -1,7 +1,7 @@
 import Sequelize, { Model } from 'sequelize'
 import bcrypt from 'bcryptjs'
 
-class Provider extends Model {
+export default class Provider extends Model {
   static init (connection) {
     super.init(
       {
@@ -15,7 +15,7 @@ class Provider extends Model {
     )
 
     // Criptografando senha
-    this.addHook('beforeSave', async provider => {
+    this.addHook('beforeSave', async (provider) => {
       if (provider.password) {
         provider.password_hash = await bcrypt.hash(provider.password, 8)
       }
@@ -29,5 +29,3 @@ class Provider extends Model {
     return bcrypt.compare(password, this.password_hash)
   }
 }
-
-export default Provider
