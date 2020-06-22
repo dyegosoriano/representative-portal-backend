@@ -22,6 +22,7 @@ routes
   .put('/user', authUserMiddlewares, UserController.update)
 
   .post('/user/order', authUserMiddlewares, OrderController.store)
+  .get('/user/order', authUserMiddlewares, OrderController.index)
 
   .get('/provider', authProviderMiddlewares, ProviderController.show)
   .put('/provider', authProviderMiddlewares, ProviderController.update)

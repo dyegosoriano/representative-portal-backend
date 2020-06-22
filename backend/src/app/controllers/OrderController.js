@@ -17,6 +17,23 @@ class OrderController {
         .json({ error: "there's been a mistake on the server" })
     }
   }
+
+  async index (request, response) {
+    const owner_id = request.userId
+
+    try {
+      // Listagem de dados
+      const orders = await Order.findAndCountAll({ owner_id })
+
+      return response.json(orders)
+    } catch (error) {
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: 'there\'s been a mistake on the server' })
+    }
+  }
 }
 
 export default new OrderController()
