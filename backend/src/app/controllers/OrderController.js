@@ -31,7 +31,25 @@ class OrderController {
 
       return response
         .status(500)
-        .json({ error: 'there\'s been a mistake on the server' })
+        .json({ error: "there's been a mistake on the server" })
+    }
+  }
+
+  async show (request, response) {
+    const owner_id = request.userId
+    const { id } = request.params
+
+    try {
+      // Exibir um único dados
+      const order = await Order.findOne({ where: { owner_id, id } })
+
+      return response.json(order)
+    } catch (error) {
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 }
