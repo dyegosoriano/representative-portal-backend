@@ -16,7 +16,11 @@ class ProviderController {
 
       return response.json({ id, name_provider, email, cnpj })
     } catch (error) {
-      return response.status(500).json(error)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 
@@ -58,7 +62,11 @@ class ProviderController {
 
       return response.json({ message: `user ${provider.name_provider} has been updated` })
     } catch (error) {
-      return response.json(error)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 
@@ -73,7 +81,11 @@ class ProviderController {
         cnpj
       })
     } catch (error) {
-      return response.status(500)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 }

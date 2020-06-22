@@ -16,7 +16,11 @@ class ProductController {
 
       return response.json(newProduct)
     } catch (error) {
-      return response.status(500).json(error)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 
@@ -33,7 +37,11 @@ class ProductController {
 
       return response.json(updatedProduct)
     } catch (error) {
-      return response.status(500).json(error)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 
@@ -46,7 +54,11 @@ class ProductController {
 
       return response.json(products)
     } catch (error) {
-      return response.status(500).json(error)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 
@@ -61,7 +73,11 @@ class ProductController {
 
       return response.json(products)
     } catch (error) {
-      return response.status(500).json(error)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 
@@ -79,7 +95,11 @@ class ProductController {
 
       return response.json({ message: `O produto ${product.name_product} foi deletado com sucesso!` })
     } catch (error) {
-      return response.status(500).json(error)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 }

@@ -16,7 +16,11 @@ class UserController {
 
       return response.json({ id, name, email, cpf })
     } catch (error) {
-      response.json(error)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 
@@ -31,22 +35,22 @@ class UserController {
         const emailExist = await User.findOne({ where: { email } })
 
         if (emailExist) {
-          return response.status(401).json(
-            { error: 'The email already exists in the database.' }
-          )
+          return response
+            .status(401)
+            .json({ error: 'The email already exists in the database.' })
         }
       }
 
       if (newPassword !== confirmationPassword) {
-        return response.status(401).json(
-          { error: 'The confirmation password does not match the new password' }
-        )
+        return response
+          .status(401)
+          .json({
+            error: 'The confirmation password does not match the new password'
+          })
       }
 
       if (oldPassword && !(await user.checkPassword(oldPassword))) {
-        return response.status(401).json(
-          { error: 'Password does not match' }
-        )
+        return response.status(401).json({ error: 'Password does not match' })
       }
 
       await user.update({
@@ -58,7 +62,11 @@ class UserController {
 
       return response.json({ message: `user ${user.name} has been updated` })
     } catch (error) {
-      return response.json(error)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 
@@ -73,7 +81,11 @@ class UserController {
         cpf
       })
     } catch (error) {
-      return response.status(500)
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 }
