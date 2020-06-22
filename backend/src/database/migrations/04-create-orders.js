@@ -18,6 +18,10 @@ module.exports = {
         allowNull: false
       },
 
+      confirmed_at: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
       aproved_at: {
         type: Sequelize.DATE,
         allowNull: true
