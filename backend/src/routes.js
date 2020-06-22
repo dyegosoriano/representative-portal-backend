@@ -4,6 +4,7 @@ import UserController from './app/controllers/UserController'
 import SessionController from './app/controllers/SessionController'
 import ProviderController from './app/controllers/ProviderController'
 import ProductController from './app/controllers/ProductController'
+import OrderController from './app/controllers/OrderController'
 
 import authUserMiddlewares from './app/middlewares/authUser'
 import authProviderMiddlewares from './app/middlewares/authProvider'
@@ -19,6 +20,8 @@ routes
 
   .get('/user', authUserMiddlewares, UserController.show)
   .put('/user', authUserMiddlewares, UserController.update)
+
+  .post('/user/order', authUserMiddlewares, OrderController.store)
 
   .get('/provider', authProviderMiddlewares, ProviderController.show)
   .put('/provider', authProviderMiddlewares, ProviderController.update)
