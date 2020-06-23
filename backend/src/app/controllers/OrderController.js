@@ -18,12 +18,41 @@ class OrderController {
     }
   }
 
+  async update (request, response) {
+    const owner_id = request.userId
+    const { id } = request.params
+    const { aproved, canceled, confirm } = request.body
+
+    try {
+      // Alterar dados
+      const order = await Order.findOne({ where: { owner_id, id } })
+
+      if (!order) return response.status(400).json({ message: "That order of service doesn't exist!" })
+
+      if (aproved) order.aproved_at = new Date()
+      if (canceled) order.canceled_at = new Date()
+      if (confirm) order.confirmed_at = new Date()
+
+      await order.save()
+
+      return response.json(order)
+    } catch (error) {
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: "there's been a mistake on the server" })
+    }
+  }
+
   async index (request, response) {
     const owner_id = request.userId
 
     try {
       // Listagem de dados
-      const orders = await Order.findAndCountAll({ owner_id })
+      const orders = await Order.findAndCountAll({ where: { owner_id } })
+
+      if (orders.count === 0) return response.json({ message: "You don't have service orders" })
 
       return response.json(orders)
     } catch (error) {
@@ -43,6 +72,8 @@ class OrderController {
       // Exibir um único dados
       const order = await Order.findOne({ where: { owner_id, id } })
 
+      if (!order) return response.status(400).json({ error: "You're not allowed to access that service order" })
+
       return response.json(order)
     } catch (error) {
       console.log('error.message >>', error.message)
@@ -61,11 +92,11 @@ class OrderController {
       // Remover dados
       const order = await Order.findOne({ where: { owner_id, id } })
 
-      order.canceled_at = new Date()
+      order.destroy()
 
       await order.save()
 
-      return response.json(order)
+      return response.json({ message: 'The service order has been successfully deleted!' })
     } catch (error) {
       console.log('error.message >>', error.message)
 
