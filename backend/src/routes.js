@@ -24,6 +24,7 @@ routes
 
   // Rotas de provedores
   .post('/provider', ProviderController.store)
+  .get('/provider', authProviderMiddlewares, ProviderController.index)
   .get('/provider/:id', authProviderMiddlewares, ProviderController.show)
   .put('/provider', authProviderMiddlewares, ProviderController.update)
 
@@ -35,7 +36,7 @@ routes
   .delete('/orders/:id', authUserMiddlewares, OrderController.delete)
 
   // Rotas de item das rodens de serviços
-  .post('/user/order/:id/item', authUserMiddlewares, ItemController.store)
+  .post('/items', authUserMiddlewares, ItemController.store)
 
   // Rotas de produtos
   .post('/products', authProviderMiddlewares, ProductController.store)

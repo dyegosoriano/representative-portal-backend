@@ -70,6 +70,21 @@ class ProviderController {
     }
   }
 
+  async index (request, response) {
+    try {
+      // Listagem de dados
+      const providers = await Provider.findAndCountAll()
+
+      return response.json(providers)
+    } catch (error) {
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: 'there\'s been a mistake on the server' })
+    }
+  }
+
   async show (request, response) {
     // Exibir um único provedor
     try {
