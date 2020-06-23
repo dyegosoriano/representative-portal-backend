@@ -103,6 +103,25 @@ class ProviderController {
         .json({ error: "there's been a mistake on the server" })
     }
   }
+
+  async delete (request, response) {
+    try {
+      // Remover dados
+      const provider = await Provider.findByPk(request.userId)
+
+      provider.destroy()
+
+      await provider.save()
+
+      return response.json(provider)
+    } catch (error) {
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: 'there\'s been a mistake on the server' })
+    }
+  }
 }
 
 export default new ProviderController()
