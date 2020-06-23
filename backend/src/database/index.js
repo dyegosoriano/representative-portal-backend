@@ -4,10 +4,11 @@ import User from '../app/models/User'
 import Provider from '../app/models/Provider'
 import Product from '../app/models/Product'
 import Order from '../app/models/Order'
+import Item from '../app/models/Item'
 
 import databaseConfig from '../config/database'
 
-const models = [User, Provider, Product, Order]
+const models = [User, Provider, Product, Order, Item]
 
 class Database {
   constructor () {
