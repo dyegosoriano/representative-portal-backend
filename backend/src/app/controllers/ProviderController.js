@@ -87,13 +87,17 @@ class ProviderController {
 
   async show (request, response) {
     // Exibir um único provedor
+    const { id } = request.params
+
     try {
-      const { name_provider, email, cnpj } = await Provider.findByPk(request.userId)
+      const provider = await Provider.findByPk(id)
+
+      if (!provider) return response.status(400).json({ error: "The supplier doesn't exist!" })
 
       return response.json({
-        name_provider,
-        email,
-        cnpj
+        provider: provider.name_provider,
+        email: provider.email,
+        cnpj: provider.cnpj
       })
     } catch (error) {
       console.log('error.message >>', error.message)
