@@ -73,6 +73,42 @@ class ItemController {
         .json({ error: 'there\'s been a mistake on the server' })
     }
   }
+
+  async delete (request, response) {
+    // Remover dados
+    const { id } = request.params
+    const { userId } = request
+
+    try {
+      const item = await Item.findByPk(id,
+        {
+          include:
+          {
+            association: 'order',
+            attributes: ['owner_id']
+          }
+        }
+      )
+
+      if (!item) return response.status(400).json({ error: 'The item requested was not found' })
+
+      if (userId !== item.order.owner_id) {
+        return response.status(400).json({ error: "You're not authorized to delete this item" })
+      }
+
+      item.destroy()
+
+      await item.save()
+
+      return response.json({ message: 'The item has been successfully deleted!' })
+    } catch (error) {
+      console.log('error.message >>', error.message)
+
+      return response
+        .status(500)
+        .json({ error: 'there\'s been a mistake on the server' })
+    }
+  }
 }
 
 export default new ItemController()
