@@ -19,12 +19,12 @@ class OrderController {
   }
 
   async update (request, response) {
+    // Alterar dados
     const owner_id = request.userId
     const { id } = request.params
     const { aproved, canceled, confirm } = request.body
 
     try {
-      // Alterar dados
       const order = await Order.findOne({ where: { owner_id, id } })
 
       if (!order) return response.status(400).json({ message: "That order of service doesn't exist!" })
@@ -46,10 +46,10 @@ class OrderController {
   }
 
   async index (request, response) {
+    // Listagem de dados
     const owner_id = request.userId
 
     try {
-      // Listagem de dados
       const orders = await Order.findAndCountAll({ where: { owner_id } })
 
       if (orders.count === 0) return response.json({ message: "You don't have service orders" })
@@ -65,12 +65,14 @@ class OrderController {
   }
 
   async show (request, response) {
-    const owner_id = request.userId
+    // Exibir um único dados
     const { id } = request.params
 
     try {
-      // Exibir um único dados
-      const order = await Order.findOne({ where: { owner_id, id } })
+      const order = await Order.findByPk(
+        id,
+        { include: { association: 'itens' } }
+      )
 
       if (!order) return response.status(400).json({ error: "You're not allowed to access that service order" })
 
@@ -85,11 +87,11 @@ class OrderController {
   }
 
   async delete (request, response) {
+    // Remover dados
     const owner_id = request.userId
     const { id } = request.params
 
     try {
-      // Remover dados
       const order = await Order.findOne({ where: { owner_id, id } })
 
       order.destroy()
