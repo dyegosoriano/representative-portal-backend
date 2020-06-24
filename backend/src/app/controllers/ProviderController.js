@@ -16,7 +16,7 @@ class ProviderController {
 
       return response.json({ id, name_provider, email, cnpj })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -62,7 +62,7 @@ class ProviderController {
 
       return response.json({ message: `user ${provider.name_provider} has been updated` })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -77,7 +77,7 @@ class ProviderController {
 
       return response.json(providers)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -100,7 +100,7 @@ class ProviderController {
         cnpj: provider.cnpj
       })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -119,7 +119,7 @@ class ProviderController {
 
       return response.json(provider)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)

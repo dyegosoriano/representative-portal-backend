@@ -10,7 +10,7 @@ class OrderController {
 
       return response.json(newOrder)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -37,7 +37,7 @@ class OrderController {
 
       return response.json(order)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -56,7 +56,7 @@ class OrderController {
 
       return response.json(orders)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -78,7 +78,7 @@ class OrderController {
 
       return response.json(order)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -100,7 +100,7 @@ class OrderController {
 
       return response.json({ message: 'The service order has been successfully deleted!' })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)

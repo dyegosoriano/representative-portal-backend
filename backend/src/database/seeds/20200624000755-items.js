@@ -35,7 +35,7 @@ module.exports = {
       },
       {
         id: 4,
-        order_id: 1,
+        order_id: 4,
         provider_id: 2,
         product_id: 6,
         amount: 4,
@@ -45,7 +45,7 @@ module.exports = {
       },
       {
         id: 5,
-        order_id: 1,
+        order_id: 4,
         provider_id: 3,
         product_id: 13,
         amount: 2,

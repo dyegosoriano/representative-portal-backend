@@ -16,7 +16,7 @@ class UserController {
 
       return response.json({ id, name, email, cpf })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -62,7 +62,7 @@ class UserController {
 
       return response.json({ message: `user ${user.name} has been updated` })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -81,7 +81,7 @@ class UserController {
         cpf
       })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)

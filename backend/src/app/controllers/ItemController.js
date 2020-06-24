@@ -24,7 +24,7 @@ class ItemController {
 
       return response.json(newItem)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -55,6 +55,8 @@ class ItemController {
         }
       )
 
+      if (!item) return response.status(400).json({ error: 'The item requested was not found' })
+
       if (owner_id !== item.order.owner_id) {
         return response.status(400).json({ error: 'You\'re not authorized to alter this item' })
       }
@@ -66,7 +68,7 @@ class ItemController {
 
       return response.json(item)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -102,7 +104,7 @@ class ItemController {
 
       return response.json({ message: 'The item has been successfully deleted!' })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)

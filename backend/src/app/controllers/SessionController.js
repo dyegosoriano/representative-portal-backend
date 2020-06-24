@@ -29,7 +29,7 @@ class SessionController {
         )
       })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -60,7 +60,7 @@ class SessionController {
         )
       })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)

@@ -16,7 +16,7 @@ class ProductController {
 
       return response.json(newProduct)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -37,7 +37,7 @@ class ProductController {
 
       return response.json(updatedProduct)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -54,7 +54,7 @@ class ProductController {
 
       return response.json(products)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -73,7 +73,7 @@ class ProductController {
 
       return response.json(products)
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
@@ -95,7 +95,7 @@ class ProductController {
 
       return response.json({ message: `O produto ${product.name_product} foi deletado com sucesso!` })
     } catch (error) {
-      console.log('error.message >>', error.message)
+      console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
