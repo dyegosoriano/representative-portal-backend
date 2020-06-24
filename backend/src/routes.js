@@ -38,6 +38,7 @@ routes
 
   // Rotas de item das rodens de serviços
   .post('/items', authUserMiddlewares, ItemController.store)
+  .put('/items/:id', authUserMiddlewares, ItemController.update)
 
   // Rotas de produtos
   .post('/products', authProviderMiddlewares, ProductController.store)
