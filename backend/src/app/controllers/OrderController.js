@@ -20,14 +20,16 @@ class OrderController {
 
   async update (request, response) {
     // Alterar dados
-    const owner_id = request.userId
+    const { userId } = request
     const { id } = request.params
     const { aproved, canceled, confirm } = request.body
 
     try {
-      const order = await Order.findOne({ where: { owner_id, id } })
+      const order = await Order.findByPk(id)
 
       if (!order) return response.status(400).json({ message: "That order of service doesn't exist!" })
+
+      if (userId !== order.owner_id) return response.status(400).json({ message: "You can't change this item" })
 
       if (aproved) order.aproved_at = new Date()
       if (canceled) order.canceled_at = new Date()
@@ -67,12 +69,17 @@ class OrderController {
   async show (request, response) {
     // Exibir um único dados
     const { id } = request.params
+    const { userId } = request
 
     try {
       const order = await Order.findByPk(
         id,
         { include: { association: 'itens' } }
       )
+
+      if (!order) return response.status(400).json({ erro: "The solicitation service order doesn't exist" })
+
+      if (userId !== order.owner_id) return response.status(400).json({ error: "You're not allowed to access this service order!" })
 
       if (!order) return response.status(400).json({ error: "You're not allowed to access that service order" })
 
@@ -88,11 +95,15 @@ class OrderController {
 
   async delete (request, response) {
     // Remover dados
-    const owner_id = request.userId
+    const { userId } = request
     const { id } = request.params
 
     try {
-      const order = await Order.findOne({ where: { owner_id, id } })
+      const order = await Order.findByPk(id)
+
+      if (!order) return response.status(400).json({ error: "The solicitation service order doesn't exist" })
+
+      if (userId !== order.owner_id) return response.status(400).json({ error: "You're not authorized to delete this service order" })
 
       order.destroy()
 

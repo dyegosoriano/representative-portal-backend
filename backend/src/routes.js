@@ -43,7 +43,7 @@ routes
 
   // Rotas de produtos
   .post('/products', authProviderMiddlewares, ProductController.store)
-  .put('/products/:product_id', authProviderMiddlewares, ProductController.update)
+  .put('/products/:id', authProviderMiddlewares, ProductController.update)
   .get('/products', authProviderMiddlewares, ProductController.index)
   .get('/products/:id', authProviderMiddlewares, ProductController.show)
   .delete('/products/:product_id', authProviderMiddlewares, ProductController.delete)

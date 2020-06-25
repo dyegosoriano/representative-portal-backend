@@ -7,12 +7,14 @@ class ProductController {
     const { name_product, price, amount } = request.body
 
     try {
-      const newProduct = await Product.create({
-        provider_id,
-        name_product,
-        price,
-        amount
-      })
+      const newProduct = await Product.create(
+        {
+          provider_id,
+          name_product,
+          price,
+          amount
+        }
+      )
 
       return response.json(newProduct)
     } catch (error) {
@@ -26,16 +28,24 @@ class ProductController {
 
   async update (request, response) {
     // Alterar produto
-    const provider_id = request.userId
-    const { product_id } = request.params
+    const { userId } = request
+    const { id } = request.params
     const { name_product, price, amount } = request.body
 
     try {
-      const product = await Product.findOne({ where: { id: product_id, provider_id } })
+      const product = await Product.findByPk(id)
 
-      const updatedProduct = await product.update({ name_product, price, amount })
+      if (!product) {
+        return response.status(400).json({ error: 'The product requested was not found!' })
+      }
 
-      return response.json(updatedProduct)
+      if (userId !== product.provider_id) {
+        return response.status(400).json({ error: "You're not allowed to alter this product" })
+      }
+
+      await product.update({ name_product, price, amount })
+
+      return response.json(product)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
@@ -47,10 +57,8 @@ class ProductController {
 
   async index (request, response) {
     // Listagem de produtos
-    const provider_id = request.userId
-
     try {
-      const products = await Product.findAndCountAll({ where: { provider_id } })
+      const products = await Product.findAndCountAll()
 
       return response.json(products)
     } catch (error) {
