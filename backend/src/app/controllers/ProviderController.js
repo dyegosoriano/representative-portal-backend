@@ -90,15 +90,18 @@ class ProviderController {
     const { id } = request.params
 
     try {
-      const provider = await Provider.findByPk(id)
+      const provider = await Provider.findByPk(id,
+        {
+          attributes: ['id', 'name_provider', 'email'],
+          include: {
+            association: 'products'
+          }
+        }
+      )
 
       if (!provider) return response.status(400).json({ error: "The supplier doesn't exist!" })
 
-      return response.json({
-        provider: provider.name_provider,
-        email: provider.email,
-        cnpj: provider.cnpj
-      })
+      return response.json(provider)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
@@ -117,7 +120,7 @@ class ProviderController {
 
       await provider.save()
 
-      return response.json(provider)
+      return response.json({ message: `The ${provider.name_provider} supplier has been successfully excluded!` })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 

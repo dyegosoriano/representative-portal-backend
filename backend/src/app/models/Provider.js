@@ -24,6 +24,10 @@ export default class Provider extends Model {
     return this
   }
 
+  static associate (models) {
+    this.hasMany(models.Product, { foreignKey: 'provider_id', as: 'products' })
+  }
+
   // Método de verificação de senha
   checkPassword (password) {
     return bcrypt.compare(password, this.password_hash)
