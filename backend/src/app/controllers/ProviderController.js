@@ -35,22 +35,32 @@ class ProviderController {
         const emailExist = await Provider.findOne({ where: { email } })
 
         if (emailExist) {
-          return response.status(401).json(
-            { error: 'The email already exists in the database.' }
-          )
+          return response
+            .status(401)
+            .json({ error: 'The email already exists in the database.' })
+        }
+      }
+
+      if (cnpj !== provider.cnpj) {
+        const cnpjExist = await Provider.findOne({ where: { cnpj } })
+
+        if (cnpjExist) {
+          return response
+            .status(400)
+            .json({ error: 'The CNPJ already exists in the database.' })
         }
       }
 
       if (newPassword !== confirmationPassword) {
-        return response.status(401).json(
-          { error: 'The confirmation password does not match the new password' }
-        )
+        return response
+          .status(401)
+          .json({ error: 'The confirmation password does not match the new password' })
       }
 
       if (oldPassword && !(await provider.checkPassword(oldPassword))) {
-        return response.status(401).json(
-          { error: 'Password does not match' }
-        )
+        return response
+          .status(401)
+          .json({ error: 'Password does not match' })
       }
 
       await provider.update({
@@ -73,7 +83,11 @@ class ProviderController {
   async index (request, response) {
     try {
       // Listagem de dados
-      const providers = await Provider.findAndCountAll()
+      const providers = await Provider.findAndCountAll(
+        {
+          attributes: ['id', 'name_provider', 'email', 'cnpj']
+        }
+      )
 
       return response.json(providers)
     } catch (error) {
