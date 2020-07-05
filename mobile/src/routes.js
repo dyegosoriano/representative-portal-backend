@@ -6,7 +6,7 @@ import Login from './pages/Login';
 
 const Stack = createStackNavigator();
 
-function Routes() {
+export default function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -15,5 +15,3 @@ function Routes() {
     </NavigationContainer>
   );
 }
-
-export default Routes;
