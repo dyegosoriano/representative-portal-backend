@@ -1,4 +1,5 @@
 import React from 'react';
+import { Feather as Icon } from '@expo/vector-icons';
 
 import {
   Container,
@@ -8,6 +9,7 @@ import {
   PasswordInput,
   Button,
   ButtonText,
+  ButtonIcon,
 } from './styles';
 
 const Login = () => {
@@ -31,6 +33,9 @@ const Login = () => {
 
       <Button>
         <ButtonText>Enviar</ButtonText>
+        <ButtonIcon>
+          <Icon name="arrow-right" size={24} color="#FFF" />
+        </ButtonIcon>
       </Button>
     </Container>
   );
