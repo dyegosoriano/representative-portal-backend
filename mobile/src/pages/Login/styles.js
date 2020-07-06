@@ -9,6 +9,16 @@ export const Container = styled.View`
   justify-content: center;
 `;
 
+export const Welcome = styled.Text`
+  font-size: 30;
+`;
+
+export const Title = styled.Text`
+  font-size: 40px;
+  color: #34cb79;
+  margin-bottom: 30px;
+`;
+
 export const UserInput = styled.TextInput`
   height: 60px;
   background: #fff;
