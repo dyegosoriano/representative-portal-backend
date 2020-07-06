@@ -1,13 +1,23 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 
-// import { Container } from './styles';
+import { Container, UserInput, PasswordInput } from './styles';
 
 const Login = () => {
   return (
-    <View>
-      <Text>Login</Text>
-    </View>
+    <Container>
+      <UserInput
+        placeholder="Informe seu CPF"
+        keyboardType="number-pad"
+        maxLength={11}
+      />
+
+      <PasswordInput
+        placeholder="Informe sua password"
+        keyboardType="visible-password"
+        secureTextEntry
+        autoCorrect={false}
+      />
+    </Container>
   );
 };
 
