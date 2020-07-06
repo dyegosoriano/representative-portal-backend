@@ -1,4 +1,5 @@
 import React from 'react';
+import { KeyboardAvoidingView } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 
 import {
@@ -14,30 +15,35 @@ import {
 
 const Login = () => {
   return (
-    <Container>
-      <Welcome>Seja bem vindo ao</Welcome>
-      <Title>Portal do representante</Title>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <Container>
+        <Welcome>Seja bem vindo ao</Welcome>
+        <Title>Portal do representante</Title>
 
-      <UserInput
-        placeholder="Informe seu CPF"
-        keyboardType="number-pad"
-        maxLength={11}
-      />
+        <UserInput
+          placeholder="Informe seu CPF"
+          keyboardType="number-pad"
+          maxLength={11}
+        />
 
-      <PasswordInput
-        placeholder="Informe sua password"
-        keyboardType="visible-password"
-        secureTextEntry
-        autoCorrect={false}
-      />
+        <PasswordInput
+          placeholder="Informe sua senha"
+          keyboardType="visible-password"
+          secureTextEntry
+          autoCorrect={false}
+        />
 
-      <Button>
-        <ButtonText>Enviar</ButtonText>
-        <ButtonIcon>
-          <Icon name="arrow-right" size={24} color="#FFF" />
-        </ButtonIcon>
-      </Button>
-    </Container>
+        <Button>
+          <ButtonText>Enviar</ButtonText>
+          <ButtonIcon>
+            <Icon name="arrow-right" size={24} color="#FFF" />
+          </ButtonIcon>
+        </Button>
+      </Container>
+    </KeyboardAvoidingView>
   );
 };
 
