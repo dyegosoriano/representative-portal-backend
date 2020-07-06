@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Container, Welcome, Title, UserInput, PasswordInput } from './styles';
+import {
+  Container,
+  Welcome,
+  Title,
+  UserInput,
+  PasswordInput,
+  Button,
+  ButtonText,
+} from './styles';
 
 const Login = () => {
   return (
@@ -20,6 +28,10 @@ const Login = () => {
         secureTextEntry
         autoCorrect={false}
       />
+
+      <Button>
+        <ButtonText>Enviar</ButtonText>
+      </Button>
     </Container>
   );
 };

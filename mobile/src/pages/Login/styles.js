@@ -38,3 +38,16 @@ export const PasswordInput = styled.TextInput`
   padding-right: 24px;
   font-size: 16px;
 `;
+
+export const Button = styled.TouchableOpacity`
+  background: #34cb79;
+  height: 60px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ButtonText = styled.Text`
+  color: #fff;
+  font-size: 24px;
+`;
