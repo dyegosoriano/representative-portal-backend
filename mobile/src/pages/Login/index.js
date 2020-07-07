@@ -1,5 +1,6 @@
 import React from 'react';
 import { KeyboardAvoidingView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Feather as Icon } from '@expo/vector-icons';
 
 import {
@@ -14,6 +15,12 @@ import {
 } from './styles';
 
 const Login = () => {
+  const navigation = useNavigation();
+
+  function handleNavigate() {
+    navigation.navigate('Home');
+  }
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -36,7 +43,7 @@ const Login = () => {
           autoCorrect={false}
         />
 
-        <Button>
+        <Button onPress={handleNavigate}>
           <ButtonText>Enviar</ButtonText>
           <ButtonIcon>
             <Icon name="arrow-right" size={24} color="#FFF" />
