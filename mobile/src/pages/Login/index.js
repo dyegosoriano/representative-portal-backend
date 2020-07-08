@@ -44,9 +44,9 @@ const Login = () => {
         />
 
         <Button onPress={handleNavigate}>
-          <ButtonText>Enviar</ButtonText>
+          <ButtonText>Login</ButtonText>
           <ButtonIcon>
-            <Icon name="arrow-right" size={24} color="#FFF" />
+            <Icon name="log-in" size={24} color="#FFF" />
           </ButtonIcon>
         </Button>
       </Container>

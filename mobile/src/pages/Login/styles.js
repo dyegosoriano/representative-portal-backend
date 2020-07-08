@@ -12,7 +12,7 @@ export const Welcome = styled.Text`
 
 export const Title = styled.Text`
   font-size: 40px;
-  color: #34cb79;
+  color: #00bfa5;
   margin-bottom: 50px;
 `;
 
@@ -37,7 +37,7 @@ export const PasswordInput = styled.TextInput`
 `;
 
 export const Button = styled.TouchableOpacity`
-  background: #34cb79;
+  background: #00bfa5;
   height: 60px;
   border-radius: 10px;
 
