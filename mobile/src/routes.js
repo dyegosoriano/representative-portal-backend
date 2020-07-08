@@ -4,19 +4,23 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Orders from './pages/Orders';
+import Profile from './pages/Profile';
 
-const Stack = createStackNavigator();
+const { Navigator, Screen } = createStackNavigator();
 
 export default function Routes() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
+      <Navigator
         headerMode="none"
         screenOptions={{ cardStyle: { backgroundColor: '#f0f0f5' } }}
       >
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
+        <Screen name="Login" component={Login} />
+        <Screen name="Home" component={Home} />
+        <Screen name="Orders" component={Orders} />
+        <Screen name="Profile" component={Profile} />
+      </Navigator>
     </NavigationContainer>
   );
 }
