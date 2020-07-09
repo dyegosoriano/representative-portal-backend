@@ -1,11 +1,18 @@
 import React from 'react';
+import { Feather as Icon } from '@expo/vector-icons';
 
-import { Container, Title } from './styles';
+import { Container, Header, ExitButton, Title } from './styles';
 
 const Orders = () => {
   return (
     <Container>
-      <Title>Novo Pedido</Title>
+      <Header>
+        <ExitButton>
+          <Icon name="arrow-left" color="#00bfa5" size={24} />
+        </ExitButton>
+
+        <Title>Novo Pedido</Title>
+      </Header>
     </Container>
   );
 };
