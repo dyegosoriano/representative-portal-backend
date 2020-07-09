@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Orders from './pages/Orders';
 import Profile from './pages/Profile';
+import NewOrders from './pages/NewOrders';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -19,6 +20,7 @@ export default function Routes() {
         <Screen name="Login" component={Login} />
         <Screen name="Home" component={Home} />
         <Screen name="Orders" component={Orders} />
+        <Screen name="NewOrders" component={NewOrders} />
         <Screen name="Profile" component={Profile} />
       </Navigator>
     </NavigationContainer>
