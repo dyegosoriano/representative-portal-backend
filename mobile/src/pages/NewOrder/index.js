@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Container, Header, ExitButton, Title } from './styles';
 
-const Orders = () => {
+const NewOrder = () => {
   const navigation = useNavigation();
 
   function handleNavigateBack() {
@@ -24,4 +24,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default NewOrder;
