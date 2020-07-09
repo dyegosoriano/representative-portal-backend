@@ -35,7 +35,7 @@ const Home = () => {
           </ButtonIcon>
         </Button>
 
-        <Button onPress={() => handleNavigate('Orders')}>
+        <Button onPress={() => handleNavigate('MyOrders')}>
           <ButtonText>Meus pedidos</ButtonText>
           <ButtonIcon>
             <Icon name="shopping-cart" color="#fff" size={24} />

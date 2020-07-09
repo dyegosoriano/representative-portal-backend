@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Container, Header, ExitButton, Title } from './styles';
 
-const Profile = () => {
+const Order = () => {
   const navigation = useNavigation();
 
   function handleNavigateBack() {
@@ -18,10 +18,10 @@ const Profile = () => {
           <Icon name="arrow-left" color="#00bfa5" size={24} />
         </ExitButton>
 
-        <Title>Meu perfil</Title>
+        <Title>Novo Pedido</Title>
       </Header>
     </Container>
   );
 };
 
-export default Profile;
+export default Order;

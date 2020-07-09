@@ -4,7 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './pages/Login';
 import Home from './pages/Home';
-import Orders from './pages/Orders';
+import Order from './pages/Order';
+import MyOrders from './pages/MyOrders';
 import NewOrder from './pages/NewOrder';
 import Profile from './pages/Profile';
 
@@ -19,7 +20,8 @@ export default function Routes() {
       >
         <Screen name="Login" component={Login} />
         <Screen name="Home" component={Home} />
-        <Screen name="Orders" component={Orders} />
+        <Screen name="MyOrders" component={MyOrders} />
+        <Screen name="Order" component={Order} />
         <Screen name="NewOrders" component={NewOrder} />
         <Screen name="Profile" component={Profile} />
       </Navigator>
