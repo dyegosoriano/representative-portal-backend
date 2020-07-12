@@ -18,10 +18,10 @@ class SessionController {
         return response.status(401).json({ error: 'password does not match' })
       }
 
-      const { id, name } = user
+      const { id, name, cnpj } = user
 
       return response.json({
-        user: { id, name, email },
+        user: { name, email, cnpj },
         token: jwt.sign(
           { id },
           authConfig.secretUser,
@@ -49,10 +49,10 @@ class SessionController {
         return response.status(401).json({ error: 'password does not match' })
       }
 
-      const { id, name } = provider
+      const { id, name_provider, cnpj } = provider
 
       return response.json({
-        provider: { id, name, email },
+        provider: { name_provider, email, cnpj },
         token: jwt.sign(
           { id },
           authConfig.secretProvider,

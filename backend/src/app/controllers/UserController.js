@@ -3,18 +3,18 @@ import User from '../models/User'
 class UserController {
   async store (request, response) {
     // Cadastrar usuário
-    const { name, email, cpf, password } = request.body
+    const { name, email, cnpj, password } = request.body
 
     try {
       const emailExist = await User.findOne({ where: { email } })
-      const cpfExist = await User.findOne({ where: { cpf } })
+      const cpfExist = await User.findOne({ where: { cnpj } })
 
       if (emailExist) { return response.status(400).json({ error: 'The email already exists!' }) }
       if (cpfExist) { return response.status(400).json({ error: 'The CPF already exists!' }) }
 
-      const { id } = await User.create({ password, name, email, cpf })
+      const { id } = await User.create({ password, name, email, cnpj })
 
-      return response.json({ id, name, email, cpf })
+      return response.json({ id, name, email, cnpj })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
@@ -26,7 +26,7 @@ class UserController {
 
   async update (request, response) {
     // Alterar usuário
-    const { name, email, cpf, oldPassword, newPassword, confirmationPassword } = request.body
+    const { name, email, cnpj, oldPassword, newPassword, confirmationPassword } = request.body
 
     try {
       const user = await User.findByPk(request.userId)
@@ -57,7 +57,7 @@ class UserController {
         password: newPassword,
         name,
         email,
-        cpf
+        cnpj
       })
 
       return response.json({ message: `user ${user.name} has been updated` })
@@ -73,12 +73,12 @@ class UserController {
   async show (request, response) {
     // Exibir um único usuário
     try {
-      const { name, email, cpf } = await User.findByPk(request.userId)
+      const { name, email, cnpj } = await User.findByPk(request.userId)
 
       return response.json({
         name,
         email,
-        cpf
+        cnpj
       })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
