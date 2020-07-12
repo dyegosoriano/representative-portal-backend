@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather as Icon } from '@expo/vector-icons';
+
+import api from '../../services/api';
 
 import {
   Container,
@@ -15,10 +17,24 @@ import {
 } from './styles';
 
 const Login = () => {
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
+
   const navigation = useNavigation();
 
-  function handleNavigate() {
-    navigation.navigate('Home');
+  async function handleSubmit() {
+    try {
+      const response = await api.post('/sessions/user', {
+        email: user,
+        password,
+      });
+
+      // navigation.navigate('Home');
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   return (
@@ -31,9 +47,11 @@ const Login = () => {
         <Title>Portal do representante</Title>
 
         <UserInput
-          placeholder="Informe seu CPF"
-          keyboardType="number-pad"
-          maxLength={11}
+          placeholder="Informe seu email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={user}
+          onChangeText={(text) => setUser(text)}
         />
 
         <PasswordInput
@@ -41,9 +59,11 @@ const Login = () => {
           keyboardType="visible-password"
           secureTextEntry
           autoCorrect={false}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
         />
 
-        <Button onPress={handleNavigate}>
+        <Button onPress={handleSubmit}>
           <ButtonText>Login</ButtonText>
           <ButtonIcon>
             <Icon name="log-in" size={24} color="#FFF" />
