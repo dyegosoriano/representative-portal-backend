@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather as Icon } from '@expo/vector-icons';
 
@@ -33,6 +33,8 @@ const Login = () => {
 
       console.log(response.data);
     } catch (error) {
+      Alert.alert('Ops!!!', 'Você deve ter digitado a senha ou email errado!');
+
       console.log(error.message);
     }
   }
