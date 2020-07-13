@@ -9,15 +9,14 @@ import {
   Container,
   Welcome,
   Title,
-  UserInput,
-  PasswordInput,
+  LoginInput,
   Button,
   ButtonText,
   ButtonIcon,
 } from './styles';
 
 const Login = () => {
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
@@ -26,11 +25,13 @@ const Login = () => {
   async function handleSubmit() {
     try {
       const response = await api.post('/sessions/user', {
-        email: user,
+        email,
         password,
       });
 
-      navigation.navigate('Home', { user: response.data.user });
+      const { user } = response.data;
+
+      navigation.navigate('Home', { user });
     } catch (error) {
       Alert.alert('Ops!!!', 'Você deve ter digitado a senha ou email errado!');
     }
@@ -46,19 +47,19 @@ const Login = () => {
 
         <Title>Portal do representante</Title>
 
-        <UserInput
+        <LoginInput
           onSubmitEditing={() => refPass.current.focus()}
-          onChangeText={(text) => setUser(text)}
+          onChangeText={(text) => setEmail(text)}
           placeholder="Informe seu email"
           keyboardType="email-address"
           autoCapitalize="none"
           blurOnSubmit={false}
           returnKeyType="next"
-          value={user}
+          value={email}
           autoFocus
         />
 
-        <PasswordInput
+        <LoginInput
           onChangeText={(text) => setPassword(text)}
           keyboardType="visible-password"
           placeholder="Informe sua senha"

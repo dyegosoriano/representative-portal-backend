@@ -16,17 +16,7 @@ export const Title = styled.Text`
   margin-bottom: 50px;
 `;
 
-export const UserInput = styled.TextInput`
-  height: 60px;
-  font-size: 16px;
-  background: #fff;
-  border-radius: 10px;
-
-  margin-bottom: 25px;
-  padding: 0 20px;
-`;
-
-export const PasswordInput = styled.TextInput`
+export const LoginInput = styled.TextInput`
   height: 60px;
   font-size: 16px;
   background: #fff;
