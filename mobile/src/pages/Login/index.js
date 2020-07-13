@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { KeyboardAvoidingView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Feather as Icon } from '@expo/vector-icons';
 
 import api from '../../services/api';
@@ -29,7 +30,9 @@ const Login = () => {
         password,
       });
 
-      const { user } = response.data;
+      const { user, token } = response.data;
+
+      AsyncStorage.setItem('user', JSON.stringify({ token, user }));
 
       navigation.navigate('Home', { user });
     } catch (error) {
