@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Feather as Icon } from '@expo/vector-icons';
 
 import {
@@ -15,16 +15,19 @@ import {
 
 const Home = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const { user, token } = route.params;
 
   function handleNavigate(destiny) {
-    navigation.navigate(destiny);
+    navigation.navigate(destiny, { user, token });
   }
 
   return (
     <Container>
       <Header>
-        <UserName>Dyego Soriano</UserName>
-        <UserCnpj>CNPJ: 1232131241343</UserCnpj>
+        <UserName>{user.name}</UserName>
+        <UserCnpj>CNPJ: {user.cnpj}</UserCnpj>
       </Header>
 
       <Footer>
