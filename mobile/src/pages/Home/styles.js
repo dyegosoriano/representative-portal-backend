@@ -28,8 +28,8 @@ export const Footer = styled.View`
   margin: 0 30px;
 `;
 
-export const Button = styled.TouchableOpacity`
-  background: #00bfa5;
+export const ExitButton = styled.TouchableOpacity`
+  background: #ff1744;
   height: 50px;
   border-radius: 10px;
   flex-direction: row;
@@ -51,14 +51,4 @@ export const ButtonIcon = styled.View`
   height: 60px;
   align-items: center;
   justify-content: center;
-`;
-
-export const ExitButton = styled.TouchableOpacity`
-  background: #ff1744;
-  height: 50px;
-  border-radius: 10px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
 `;

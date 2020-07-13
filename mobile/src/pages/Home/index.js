@@ -3,13 +3,14 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Feather as Icon } from '@expo/vector-icons';
 
+import Button from '../../components/Button';
+
 import {
   Container,
   Header,
   UserCnpj,
   UserName,
   Footer,
-  Button,
   ButtonText,
   ButtonIcon,
   ExitButton,
@@ -20,10 +21,6 @@ const Home = () => {
   const route = useRoute();
 
   const { user, token } = route.params;
-
-  function handleNavigate(destiny) {
-    navigation.navigate(destiny, { user, token });
-  }
 
   async function handleExit() {
     await AsyncStorage.removeItem('user');
@@ -38,26 +35,9 @@ const Home = () => {
       </Header>
 
       <Footer>
-        <Button onPress={() => handleNavigate('NewOrders')}>
-          <ButtonText>Novo pedido</ButtonText>
-          <ButtonIcon>
-            <Icon name="plus-square" color="#fff" size={24} />
-          </ButtonIcon>
-        </Button>
-
-        <Button onPress={() => handleNavigate('MyOrders')}>
-          <ButtonText>Meus pedidos</ButtonText>
-          <ButtonIcon>
-            <Icon name="shopping-cart" color="#fff" size={24} />
-          </ButtonIcon>
-        </Button>
-
-        <Button onPress={() => handleNavigate('Profile')}>
-          <ButtonText>Meu perfil</ButtonText>
-          <ButtonIcon>
-            <Icon name="user" color="#fff" size={24} />
-          </ButtonIcon>
-        </Button>
+        <Button title="Novo pedido" destiny="NewOrders" icon="plus-square" />
+        <Button title="Meus pedidos" destiny="MyOrders" icon="shopping-cart" />
+        <Button title="Meu perfil" destiny="Profile" icon="user" />
 
         <ExitButton onPress={handleExit}>
           <ButtonText>Sair</ButtonText>
