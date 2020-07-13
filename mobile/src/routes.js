@@ -18,7 +18,8 @@ export default function Routes() {
         headerMode="none"
         screenOptions={{ cardStyle: { backgroundColor: '#f0f0f5' } }}
       >
-        <Screen name="Login" component={Login} />
+        <Screen headerMode="none" name="Login" component={Login} />
+
         <Screen name="Home" component={Home} />
         <Screen name="MyOrders" component={MyOrders} />
         <Screen name="Order" component={Order} />

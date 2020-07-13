@@ -27,7 +27,7 @@ export const LoginInput = styled.TextInput`
 `;
 
 export const Button = styled.TouchableOpacity`
-  background: #00bfa5;
+  background: #263238;
   height: 60px;
   border-radius: 10px;
 

@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const ContainerButton = styled.TouchableOpacity`
   background: #263238;
-  height: 50px;
+  height: 60px;
   border-radius: 10px;
   flex-direction: row;
   align-items: center;

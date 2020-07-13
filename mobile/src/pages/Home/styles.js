@@ -11,7 +11,7 @@ export const Header = styled.View`
 `;
 
 export const UserName = styled.Text`
-  margin-top: 20px;
+  margin-top: 60px;
   font-size: 36px;
   color: #222;
 `;
@@ -30,7 +30,7 @@ export const Footer = styled.View`
 
 export const ExitButton = styled.TouchableOpacity`
   background: #ff1744;
-  height: 50px;
+  height: 60px;
   border-radius: 10px;
   flex-direction: row;
   align-items: center;

@@ -34,7 +34,7 @@ const Login = () => {
 
       AsyncStorage.setItem('user', JSON.stringify({ token, user }));
 
-      navigation.navigate('Home', { user });
+      navigation.navigate('Home', { token, user });
     } catch (error) {
       Alert.alert('Ops!!!', 'Você deve ter digitado a senha ou email errado!');
     }
@@ -59,7 +59,6 @@ const Login = () => {
           blurOnSubmit={false}
           returnKeyType="next"
           value={email}
-          autoFocus
         />
 
         <LoginInput
