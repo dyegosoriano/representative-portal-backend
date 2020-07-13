@@ -6,27 +6,25 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
-  height: 100px;
-  padding: 0 30px;
-  background: #fff;
   justify-content: center;
+  align-items: center;
 `;
 
 export const UserName = styled.Text`
   margin-top: 20px;
   font-size: 36px;
-  text-align: right;
   color: #222;
 `;
 
 export const UserCnpj = styled.Text`
-  text-align: right;
   font-style: italic;
   font-size: 14px;
   color: #222;
 `;
 
 export const Footer = styled.View`
+  flex: 1;
+  justify-content: center;
   margin: 0 30px;
 `;
 
@@ -53,4 +51,14 @@ export const ButtonIcon = styled.View`
   height: 60px;
   align-items: center;
   justify-content: center;
+`;
+
+export const ExitButton = styled.TouchableOpacity`
+  background: #ff1744;
+  height: 50px;
+  border-radius: 10px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 `;

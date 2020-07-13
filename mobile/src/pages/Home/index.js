@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Feather as Icon } from '@expo/vector-icons';
 
 import {
@@ -11,6 +12,7 @@ import {
   Button,
   ButtonText,
   ButtonIcon,
+  ExitButton,
 } from './styles';
 
 const Home = () => {
@@ -21,6 +23,11 @@ const Home = () => {
 
   function handleNavigate(destiny) {
     navigation.navigate(destiny, { user, token });
+  }
+
+  async function handleExit() {
+    await AsyncStorage.removeItem('user');
+    navigation.goBack();
   }
 
   return (
@@ -51,6 +58,13 @@ const Home = () => {
             <Icon name="user" color="#fff" size={24} />
           </ButtonIcon>
         </Button>
+
+        <ExitButton onPress={handleExit}>
+          <ButtonText>Sair</ButtonText>
+          <ButtonIcon>
+            <Icon name="log-out" color="#fff" size={24} />
+          </ButtonIcon>
+        </ExitButton>
       </Footer>
     </Container>
   );
