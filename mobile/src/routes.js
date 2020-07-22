@@ -8,6 +8,7 @@ import Order from './pages/Order';
 import MyOrders from './pages/MyOrders';
 import NewOrder from './pages/NewOrder';
 import Profile from './pages/Profile';
+import AuthLoadingScreen from './pages/AuthLoadingScreen';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -18,7 +19,8 @@ export default function Routes() {
         headerMode="none"
         screenOptions={{ cardStyle: { backgroundColor: '#f0f0f5' } }}
       >
-        <Screen headerMode="none" name="Login" component={Login} />
+        <Screen name="AuthLoadingScreen" component={AuthLoadingScreen} />
+        <Screen name="Login" component={Login} />
 
         <Screen name="Home" component={Home} />
         <Screen name="MyOrders" component={MyOrders} />
