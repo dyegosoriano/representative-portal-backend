@@ -1,6 +1,7 @@
 import React from 'react';
-import { Feather as Icon } from '@expo/vector-icons';
+
 import { useNavigation } from '@react-navigation/native';
+import { Feather as Icon } from '@expo/vector-icons';
 
 import { Container, Header, ExitButton, Title } from './styles';
 

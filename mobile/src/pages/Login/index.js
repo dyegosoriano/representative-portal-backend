@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { KeyboardAvoidingView, Alert } from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
+import { KeyboardAvoidingView, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Feather as Icon } from '@expo/vector-icons';
 
@@ -24,18 +25,22 @@ const Login = () => {
   const refPass = useRef();
 
   async function handleSubmit() {
+    if (email.length === 0) return;
+
     try {
       const response = await api.post('/sessions/user', {
         email,
         password,
       });
 
-      const { user, token } = response.data;
+      const { token } = response.data;
 
-      AsyncStorage.setItem('user', JSON.stringify({ token, user }));
+      await AsyncStorage.setItem('@ListApp:userToken', JSON.stringify(token));
 
-      navigation.navigate('Home', { token, user });
+      navigation.navigate('Home');
     } catch (error) {
+      console.log(`error.message >>> ${error.message} <<<`);
+
       Alert.alert('Ops!!!', 'Você deve ter digitado a senha ou email errado!');
     }
   }
