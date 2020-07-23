@@ -22,9 +22,3 @@ export default function AuthLoadingScreen() {
     </View>
   );
 }
-
-AuthLoadingScreen.navigationOptions = () => {
-  return {
-    header: null,
-  };
-};
