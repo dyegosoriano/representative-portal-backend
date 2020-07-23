@@ -1,7 +1,10 @@
-import React from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Feather as Icon } from '@expo/vector-icons';
+
+import api from '../../services/api';
 
 import Button from '../../components/Button';
 
@@ -17,15 +20,36 @@ import {
 } from './styles';
 
 const Home = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
+  const [user, setUser] = useState({});
 
-  const { user, token } = route.params;
+  const navigation = useNavigation();
 
   async function handleExit() {
-    await AsyncStorage.removeItem('user');
-    navigation.goBack();
+    await AsyncStorage.removeItem('@ListApp:userToken');
+    navigation.navigate('Login');
   }
+
+  useEffect(() => {
+    async function loadingUser() {
+      try {
+        const token = JSON.parse(
+          await AsyncStorage.getItem('@ListApp:userToken')
+        );
+
+        const response = await api.get('/user', {
+          headers: {
+            authorization: token,
+          },
+        });
+
+        setUser(response.data);
+      } catch (error) {
+        console.log(`error.message >>> ${error.message} <<<`);
+      }
+    }
+
+    loadingUser();
+  }, []);
 
   return (
     <Container>
