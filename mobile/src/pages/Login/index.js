@@ -35,7 +35,10 @@ const Login = () => {
 
       const { token } = response.data;
 
-      await AsyncStorage.setItem('@ListApp:userToken', JSON.stringify(token));
+      await AsyncStorage.setItem(
+        '@ListApp:userToken',
+        JSON.stringify(`Bearer ${token}`)
+      );
 
       navigation.navigate('Home');
     } catch (error) {
