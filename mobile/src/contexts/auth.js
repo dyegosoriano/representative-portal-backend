@@ -13,6 +13,10 @@ export const AuthProvider = ({ children }) => {
     setUser(response.user);
   }
 
+  function handleSignOut() {
+    setUser(null);
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -20,6 +24,7 @@ export const AuthProvider = ({ children }) => {
         token: '',
         user,
         handleSignIn,
+        handleSignOut,
       }}
     >
       {children}
