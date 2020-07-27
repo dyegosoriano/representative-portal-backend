@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView, Alert } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
 import { Feather as Icon } from '@expo/vector-icons';
 
-import api from '../../services/api';
+import AuthContext from '../../contexts/auth';
 
 import {
   Container,
@@ -17,30 +17,29 @@ import {
   ButtonIcon,
 } from './styles';
 
-const Login = () => {
+const SignIn = () => {
+  const { user, signed, handleSignIn } = useContext(AuthContext);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const refPass = useRef();
 
   async function handleSubmit() {
     if (email.length === 0) return;
 
     try {
-      const response = await api.post('/sessions/user', {
-        email,
-        password,
-      });
+      await handleSignIn(email, password);
 
-      const { token } = response.data;
+      console.log(signed);
+      console.log(user);
+      // await AsyncStorage.setItem(
+      //   '@ListApp:userToken',
+      //   JSON.stringify(`Bearer ${token}`)
+      // );
 
-      await AsyncStorage.setItem(
-        '@ListApp:userToken',
-        JSON.stringify(`Bearer ${token}`)
-      );
-
-      navigation.navigate('Home');
+      // navigation.navigate('Home');
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`);
 
@@ -93,4 +92,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;
