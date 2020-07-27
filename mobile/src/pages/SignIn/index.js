@@ -1,8 +1,6 @@
 import React, { useState, useRef, useContext } from 'react';
 
-// import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView, Alert } from 'react-native';
-// import AsyncStorage from '@react-native-community/async-storage';
 import { Feather as Icon } from '@expo/vector-icons';
 
 import AuthContext from '../../contexts/auth';
@@ -18,12 +16,11 @@ import {
 } from './styles';
 
 const SignIn = () => {
-  const { user, signed, handleSignIn } = useContext(AuthContext);
+  const { handleSignIn } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // const navigation = useNavigation();
   const refPass = useRef();
 
   async function handleSubmit() {
@@ -31,15 +28,6 @@ const SignIn = () => {
 
     try {
       await handleSignIn(email, password);
-
-      console.log(signed);
-      console.log(user);
-      // await AsyncStorage.setItem(
-      //   '@ListApp:userToken',
-      //   JSON.stringify(`Bearer ${token}`)
-      // );
-
-      // navigation.navigate('Home');
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`);
 
