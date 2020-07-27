@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -25,11 +25,26 @@ export const AuthProvider = ({ children }) => {
     );
   }
 
-  async function handleSignOut() {
-    setUser(null);
+  useEffect(() => {
+    async function loadStorageData() {
+      const storageUser = await AsyncStorage.getItem(
+        '@RepresentativePortal:user'
+      );
+      const storageToken = await AsyncStorage.getItem(
+        '@RepresentativePortal:token'
+      );
 
-    await AsyncStorage.removeItem('@RepresentativePortal:user');
-    await AsyncStorage.removeItem('@RepresentativePortal:token');
+      if (storageUser && storageToken) {
+        setUser(JSON.parse(storageUser));
+      }
+    }
+
+    loadStorageData();
+  }, []);
+
+  async function handleSignOut() {
+    await AsyncStorage.clear();
+    setUser(null);
   }
 
   return (
