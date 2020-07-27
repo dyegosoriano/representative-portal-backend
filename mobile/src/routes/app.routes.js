@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Home from '../pages/Home';
+import Dashboard from '../pages/Dashboard';
 import Order from '../pages/Order';
 import MyOrders from '../pages/MyOrders';
 import NewOrder from '../pages/NewOrder';
@@ -15,7 +15,7 @@ export default function Routes() {
     <Stack.Navigator
       screenOptions={{ cardStyle: { backgroundColor: '#f0f0f5' } }}
     >
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Dashboard" component={Dashboard} />
       <Stack.Screen name="MyOrders" component={MyOrders} />
       <Stack.Screen name="Order" component={Order} />
       <Stack.Screen name="NewOrders" component={NewOrder} />
