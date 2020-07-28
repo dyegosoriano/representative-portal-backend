@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
       if (storageUser && storageToken) {
         setUser(JSON.parse(storageUser));
 
-        api.defaults.headers.Authorization = storageToken;
+        api.defaults.headers.Authorization = JSON.parse(storageToken);
       }
 
       setLoading(false);
