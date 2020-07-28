@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
+import api from '../services/api';
 import * as auth from '../services/auth';
 
 const AuthContext = createContext();
@@ -14,6 +15,8 @@ export const AuthProvider = ({ children }) => {
     const response = await auth.signIn(email, password);
 
     setUser(response.user);
+
+    api.defaults.headers.Authorization = response.token;
 
     await AsyncStorage.setItem(
       '@RepresentativePortal:user',
@@ -37,6 +40,8 @@ export const AuthProvider = ({ children }) => {
 
       if (storageUser && storageToken) {
         setUser(JSON.parse(storageUser));
+
+        api.defaults.headers.Authorization = storageToken;
       }
 
       setLoading(false);
