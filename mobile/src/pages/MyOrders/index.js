@@ -1,31 +1,24 @@
 import React, { useState, useEffect } from 'react';
 
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
-import { Feather as Icon } from '@expo/vector-icons';
-
 import api from '../../services/api';
 
-import { Container, Header, ExitButton, Title } from './styles';
+import {
+  TotalOrders,
+  ContainerOrders,
+  Order,
+  OrderId,
+  OrderDate,
+  Canceled,
+} from './styles';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState(0);
 
-  const navigation = useNavigation();
-
   useEffect(() => {
     async function getOrders() {
       try {
-        const token = JSON.parse(
-          await AsyncStorage.getItem('@ListApp:userToken')
-        );
-
-        const response = await api.get('/orders', {
-          headers: {
-            authorization: token,
-          },
-        });
+        const response = await api.get('/orders');
 
         const { count, rows } = response.data;
 
@@ -39,20 +32,32 @@ const Orders = () => {
     getOrders();
   }, []);
 
-  function handleNavigateBack() {
-    navigation.goBack();
+  function formateDate(date) {
+    const dateTime = Date.parse(date);
+
+    return dateTime;
   }
 
   return (
-    <Container>
-      <Header>
-        <ExitButton onPress={handleNavigateBack}>
-          <Icon name="arrow-left" color="#00bfa5" size={24} />
-        </ExitButton>
+    <>
+      <TotalOrders>Total de pedidos: {total}</TotalOrders>
 
-        <Title>Meus Pedidos</Title>
-      </Header>
-    </Container>
+      <ContainerOrders>
+        {orders.map((order) => (
+          <Order key={order.id}>
+            <OrderId>Ordem de serviço {order.id}</OrderId>
+
+            {order.canceled_at && (
+              <Canceled>
+                Cancelamento: {formateDate(order.canceled_at)}
+              </Canceled>
+            )}
+
+            <OrderDate>Criado: {formateDate(order.createdAt)}</OrderDate>
+          </Order>
+        ))}
+      </ContainerOrders>
+    </>
   );
 };
 

@@ -1,27 +1,35 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const TotalOrders = styled.Text`
+  font-size: 24px;
+  text-align: center;
+  padding: 20px 0px;
+`;
+
+export const ContainerOrders = styled.ScrollView`
   flex: 1;
 `;
 
-export const Header = styled.View`
-  height: 100px;
-  padding-right: 30px;
-  padding-top: 20px;
-  background: #fff;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+export const Order = styled.TouchableOpacity`
+  height: 200px;
+  margin: 10px 20px;
+  padding: 10px;
+  background: #651fff;
+  border-radius: 5px;
 `;
 
-export const Title = styled.Text`
-  color: #00bfa5;
-  font-size: 32px;
+export const OrderId = styled.Text`
+  color: #fff;
+  text-align: right;
+  font-size: 24px;
 `;
 
-export const ExitButton = styled.TouchableOpacity`
-  width: 60px;
-  height: 60px;
-  justify-content: center;
-  align-items: center;
+export const OrderDate = styled.Text`
+  color: #fff;
+  font-size: 18px;
+`;
+
+export const Canceled = styled.Text`
+  color: #fff;
+  font-size: 18px;
 `;
