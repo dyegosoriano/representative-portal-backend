@@ -9,11 +9,11 @@ import {
   ContainerOrders,
   Order,
   OrderId,
-  OrderDate,
-  Canceled,
+  Tag,
+  StatusText,
 } from './styles';
 
-const Orders = () => {
+const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState(0);
 
@@ -36,37 +36,35 @@ const Orders = () => {
     getOrders();
   }, []);
 
-  function formateDate(date) {
-    const dateTime = Date.parse(date);
-
-    return dateTime;
-  }
-
   function getOrder(order) {
     navigation.navigate('Order', { order });
   }
 
   return (
     <>
-      <TotalOrders>Total de pedidos: {total}</TotalOrders>
-
       <ContainerOrders>
         {orders.map((order) => (
           <Order key={order.id} onPress={() => getOrder(order)}>
-            <OrderId>Ordem de serviço {order.id}</OrderId>
+            <OrderId>Pedido n˚ {order.id}</OrderId>
 
             {order.canceled_at && (
-              <Canceled>
-                Cancelamento: {formateDate(order.canceled_at)}
-              </Canceled>
+              <Tag color="#ff1744">
+                <StatusText>Cancelado</StatusText>
+              </Tag>
             )}
 
-            <OrderDate>Criado: {formateDate(order.createdAt)}</OrderDate>
+            {order.confirmed_at && (
+              <Tag color="#00e676">
+                <StatusText>Aprovado</StatusText>
+              </Tag>
+            )}
           </Order>
         ))}
       </ContainerOrders>
+
+      <TotalOrders>Total de pedidos: {total}</TotalOrders>
     </>
   );
 };
 
-export default Orders;
+export default MyOrders;
