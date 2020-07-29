@@ -1,27 +1,70 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { useNavigation } from '@react-navigation/native';
+import { View } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import { Feather as Icon } from '@expo/vector-icons';
 
-import { Container, Header, ExitButton, Title } from './styles';
+import {
+  ProductsList,
+  Product,
+  ProductName,
+  ProductText,
+  ProductButtons,
+  Footer,
+  ButtonText,
+  Button,
+} from './styles';
+
+import api from '../../services/api';
 
 const Order = () => {
-  const navigation = useNavigation();
+  const [products, setProducts] = useState([]);
 
-  function handleNavigateBack() {
-    navigation.goBack();
-  }
+  const route = useRoute();
+
+  const { order } = route.params;
+
+  useEffect(() => {
+    async function getItens() {
+      const response = await api.get(`/orders/${order.id}`);
+
+      setProducts(response.data.itens);
+    }
+
+    getItens();
+  }, []);
 
   return (
-    <Container>
-      <Header>
-        <ExitButton onPress={handleNavigateBack}>
-          <Icon name="arrow-left" color="#00bfa5" size={24} />
-        </ExitButton>
+    <>
+      <ProductsList>
+        {products.map((product) => (
+          <Product key={product.id}>
+            <View>
+              <ProductName>Nome do produto</ProductName>
+              <ProductText>Quantidade: {product.amount}</ProductText>
+              <ProductText>R$: {product.total_price}</ProductText>
+            </View>
 
-        <Title>Novo Pedido</Title>
-      </Header>
-    </Container>
+            <ProductButtons>
+              <Icon name="edit" size={24} color="#fff" />
+              <Icon name="trash-2" size={24} color="#fff" />
+            </ProductButtons>
+          </Product>
+        ))}
+      </ProductsList>
+
+      <Footer>
+        <Button>
+          <ButtonText>Concluir </ButtonText>
+          <Icon name="check" size={24} color="#fff" />
+        </Button>
+
+        <Button color="#ff1744">
+          <ButtonText>Cancelar </ButtonText>
+          <Icon name="trash-2" size={24} color="#fff" />
+        </Button>
+      </Footer>
+    </>
   );
 };
 
