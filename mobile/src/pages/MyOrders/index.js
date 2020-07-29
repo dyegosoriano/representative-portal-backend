@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { useNavigation } from '@react-navigation/native';
+
 import api from '../../services/api';
 
 import {
@@ -14,6 +16,8 @@ import {
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState(0);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function getOrders() {
@@ -38,13 +42,17 @@ const Orders = () => {
     return dateTime;
   }
 
+  function getOrder(order) {
+    navigation.navigate('Order', { order });
+  }
+
   return (
     <>
       <TotalOrders>Total de pedidos: {total}</TotalOrders>
 
       <ContainerOrders>
         {orders.map((order) => (
-          <Order key={order.id}>
+          <Order key={order.id} onPress={() => getOrder(order)}>
             <OrderId>Ordem de serviço {order.id}</OrderId>
 
             {order.canceled_at && (
