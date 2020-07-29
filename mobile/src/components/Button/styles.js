@@ -1,16 +1,14 @@
 import styled from 'styled-components/native';
 
-export const ContainerButton = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity`
   background: #263238;
-  height: 60px;
   border-radius: 10px;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
   margin-bottom: 20px;
 `;
 
-export const TextButton = styled.Text`
+export const Text = styled.Text`
   flex: 1;
   color: #fff;
   font-size: 24px;

@@ -2,9 +2,9 @@ import React from 'react';
 import { Feather as Icon } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-import { ContainerButton, TextButton, IconButton } from './styles';
+import { Button, Text, IconButton } from './styles';
 
-export default function Button({ title, icon, destiny }) {
+export default function ButtonComponent({ title, icon, destiny }) {
   const navigation = useNavigation();
 
   function handleNavigate(direction) {
@@ -12,12 +12,12 @@ export default function Button({ title, icon, destiny }) {
   }
 
   return (
-    <ContainerButton onPress={() => handleNavigate(destiny)}>
-      <TextButton>{title}</TextButton>
+    <Button onPress={() => handleNavigate(destiny)}>
+      <Text>{title}</Text>
 
       <IconButton>
         <Icon name={icon} color="#fff" size={25} />
       </IconButton>
-    </ContainerButton>
+    </Button>
   );
 }
