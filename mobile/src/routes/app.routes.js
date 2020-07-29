@@ -16,10 +16,30 @@ export default function Routes() {
       screenOptions={{ cardStyle: { backgroundColor: '#f0f0f5' } }}
     >
       <Stack.Screen name="Dashboard" component={Dashboard} />
-      <Stack.Screen name="MyOrders" component={MyOrders} />
-      <Stack.Screen name="Order" component={Order} />
-      <Stack.Screen name="NewOrders" component={NewOrder} />
-      <Stack.Screen name="Profile" component={Profile} />
+
+      <Stack.Screen
+        name="MyOrders"
+        component={MyOrders}
+        options={{ title: 'Meus pedidos' }}
+      />
+
+      <Stack.Screen
+        name="Order"
+        component={Order}
+        options={{ title: 'Pedido' }}
+      />
+
+      <Stack.Screen
+        name="NewOrders"
+        component={NewOrder}
+        options={{ title: 'Novo pedido' }}
+      />
+
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{ title: 'Perfil' }}
+      />
     </Stack.Navigator>
   );
 }
