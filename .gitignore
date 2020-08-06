@@ -1,7 +1,8 @@
 backend/node_modules/*
-mobile/node_modules/*
-
 backend/yarn.lock
+backend/.env
+
+mobile/node_modules/*
 mobile/yarn.lock
 
 .DS_Store

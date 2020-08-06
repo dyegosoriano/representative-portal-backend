@@ -36,7 +36,7 @@ routes
   .get('/orders/:id', authUserMiddlewares, OrderController.show)
   .delete('/orders/:id', authUserMiddlewares, OrderController.delete)
 
-  // Rotas de item das rodens de serviços
+  // Rotas de item das ordens de serviços
   .post('/items', authUserMiddlewares, ItemController.store)
   .put('/items/:id', authUserMiddlewares, ItemController.update)
   .delete('/items/:id', authUserMiddlewares, ItemController.delete)
