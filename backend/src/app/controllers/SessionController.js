@@ -12,7 +12,7 @@ class SessionController {
     try {
       const user = await User.findOne({ where: { email } })
 
-      if (!user) { return response.status(401).json({ error: 'User not found' }) }
+      if (!user) return response.status(401).json({ error: 'User not found' })
 
       if (!(await user.checkPassword(password))) {
         return response.status(401).json({ error: 'password does not match' })
@@ -43,7 +43,7 @@ class SessionController {
     try {
       const provider = await Provider.findOne({ where: { email } })
 
-      if (!provider) { return response.status(401).json({ error: 'Provider not found' }) }
+      if (!provider) return response.status(401).json({ error: 'Provider not found' })
 
       if (!(await provider.checkPassword(password))) {
         return response.status(401).json({ error: 'password does not match' })

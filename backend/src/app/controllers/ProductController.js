@@ -7,14 +7,12 @@ class ProductController {
     const { name_product, price, amount } = request.body
 
     try {
-      const newProduct = await Product.create(
-        {
-          provider_id,
-          name_product,
-          price,
-          amount
-        }
-      )
+      const newProduct = await Product.create({
+        provider_id,
+        name_product,
+        price,
+        amount
+      })
 
       return response.json(newProduct)
     } catch (error) {
@@ -35,13 +33,8 @@ class ProductController {
     try {
       const product = await Product.findByPk(id)
 
-      if (!product) {
-        return response.status(400).json({ error: 'The product requested was not found!' })
-      }
-
-      if (userId !== product.provider_id) {
-        return response.status(400).json({ error: "You're not allowed to alter this product" })
-      }
+      if (!product) return response.status(400).json({ error: 'The product requested was not found!' })
+      if (userId !== product.provider_id) return response.status(400).json({ error: "You're not allowed to alter this product" })
 
       await product.update({ name_product, price, amount })
 
@@ -57,8 +50,14 @@ class ProductController {
 
   async index (request, response) {
     // Listagem de produtos
+    const page = Number(request.query.page) || 1
+
     try {
-      const products = await Product.findAndCountAll()
+      const products = await Product.findAll({
+        attributes: ['id', 'name_product', 'price', 'amount'],
+        limit: 10,
+        offset: (page - 1) * 10
+      })
 
       return response.json(products)
     } catch (error) {
@@ -77,7 +76,7 @@ class ProductController {
     try {
       const products = await Product.findOne({ where: { id } })
 
-      if (!products) { return response.status(400).json({ message: 'O produto solicitado não existe!' }) }
+      if (!products) return response.status(400).json({ message: 'O produto solicitado não existe!' })
 
       return response.json(products)
     } catch (error) {
@@ -97,7 +96,7 @@ class ProductController {
     try {
       const product = await Product.findOne({ where: { id: product_id, provider_id } })
 
-      if (!product) { return response.status(400).json({ message: 'Você não tem permissão para deletar esse produto' }) }
+      if (!product) return response.status(400).json({ message: 'Você não tem permissão para deletar esse produto' })
 
       await product.destroy()
 

@@ -9,8 +9,8 @@ class ProviderController {
       const emailExist = await Provider.findOne({ where: { email } })
       const cnpjExist = await Provider.findOne({ where: { cnpj } })
 
-      if (emailExist) { return response.status(400).json({ error: 'The email has already been registered previously' }) }
-      if (cnpjExist) { return response.status(400).json({ error: 'CNPJ has been previously registered' }) }
+      if (emailExist) return response.status(400).json({ error: 'The email has already been registered previously' })
+      if (cnpjExist) return response.status(400).json({ error: 'CNPJ has been previously registered' })
 
       const { id } = await Provider.create({ name_provider, password, email, cnpj })
 
@@ -81,13 +81,14 @@ class ProviderController {
   }
 
   async index (request, response) {
+    const page = Number(request.query.page) || 1
     try {
       // Listagem de dados
-      const providers = await Provider.findAndCountAll(
-        {
-          attributes: ['id', 'name_provider', 'email', 'cnpj']
-        }
-      )
+      const providers = await Provider.findAll({
+        attributes: ['id', 'name_provider', 'email', 'cnpj'],
+        limit: 10,
+        offset: (page - 1) * 10
+      })
 
       return response.json(providers)
     } catch (error) {
@@ -104,14 +105,10 @@ class ProviderController {
     const { id } = request.params
 
     try {
-      const provider = await Provider.findByPk(id,
-        {
-          attributes: ['id', 'name_provider', 'email'],
-          include: {
-            association: 'products'
-          }
-        }
-      )
+      const provider = await Provider.findByPk(id, {
+        attributes: ['id', 'name_provider', 'email'],
+        include: { association: 'products' }
+      })
 
       if (!provider) return response.status(400).json({ error: "The supplier doesn't exist!" })
 

@@ -9,8 +9,8 @@ class UserController {
       const emailExist = await User.findOne({ where: { email } })
       const cpfExist = await User.findOne({ where: { cnpj } })
 
-      if (emailExist) { return response.status(400).json({ error: 'The email already exists!' }) }
-      if (cpfExist) { return response.status(400).json({ error: 'The CPF already exists!' }) }
+      if (emailExist) return response.status(400).json({ error: 'The email already exists!' })
+      if (cpfExist) return response.status(400).json({ error: 'The CPF already exists!' })
 
       const { id } = await User.create({ password, name, email, cnpj })
 
@@ -44,13 +44,13 @@ class UserController {
       if (newPassword !== confirmationPassword) {
         return response
           .status(401)
-          .json({
-            error: 'The confirmation password does not match the new password'
-          })
+          .json({ error: 'The confirmation password does not match the new password' })
       }
 
       if (oldPassword && !(await user.checkPassword(oldPassword))) {
-        return response.status(401).json({ error: 'Password does not match' })
+        return response
+          .status(401)
+          .json({ error: 'Password does not match' })
       }
 
       await user.update({

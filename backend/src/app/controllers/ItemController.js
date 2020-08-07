@@ -39,27 +39,23 @@ class ItemController {
     const owner_id = request.userId
 
     try {
-      const item = await Item.findByPk(id,
-        {
-          attributes: ['id', 'amount', 'total_price'],
-          include: [
-            {
-              association: 'product',
-              attributes: ['name_product', 'price']
-            },
-            {
-              association: 'order',
-              attributes: ['owner_id']
-            }
-          ]
-        }
+      const item = await Item.findByPk(id, {
+        attributes: ['id', 'amount', 'total_price'],
+        include: [
+          {
+            association: 'product',
+            attributes: ['name_product', 'price']
+          },
+          {
+            association: 'order',
+            attributes: ['owner_id']
+          }
+        ]
+      }
       )
 
       if (!item) return response.status(400).json({ error: 'The item requested was not found' })
-
-      if (owner_id !== item.order.owner_id) {
-        return response.status(400).json({ error: 'You\'re not authorized to alter this item' })
-      }
+      if (owner_id !== item.order.owner_id) return response.status(400).json({ error: 'You\'re not authorized to alter this item' })
 
       item.amount = amount
       item.total_price = (item.product.price * amount)
@@ -82,21 +78,15 @@ class ItemController {
     const { userId } = request
 
     try {
-      const item = await Item.findByPk(id,
-        {
-          include:
-          {
-            association: 'order',
-            attributes: ['owner_id']
-          }
+      const item = await Item.findByPk(id, {
+        include: {
+          association: 'order',
+          attributes: ['owner_id']
         }
-      )
+      })
 
       if (!item) return response.status(400).json({ error: 'The item requested was not found' })
-
-      if (userId !== item.order.owner_id) {
-        return response.status(400).json({ error: "You're not authorized to delete this item" })
-      }
+      if (userId !== item.order.owner_id) return response.status(400).json({ error: "You're not authorized to delete this item" })
 
       item.destroy()
 

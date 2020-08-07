@@ -50,9 +50,15 @@ class OrderController {
   async index (request, response) {
     // Listagem de dados
     const owner_id = request.userId
+    const page = Number(request.query.page) || 1
 
     try {
-      const orders = await Order.findAndCountAll({ where: { owner_id } })
+      const orders = await Order.findAll({
+        where: { owner_id },
+        attributes: ['id', 'approved_at', 'canceled_at', 'confirmed_at'],
+        limit: 10,
+        offset: (page - 1) * 10
+      })
 
       if (orders.count === 0) return response.json({ message: "You don't have service orders" })
 
@@ -88,9 +94,7 @@ class OrderController {
       )
 
       if (!order) return response.status(400).json({ erro: "The solicitation service order doesn't exist" })
-
       if (userId !== order.owner_id) return response.status(400).json({ error: "You're not allowed to access this service order!" })
-
       if (!order) return response.status(400).json({ error: "You're not allowed to access that service order" })
 
       return response.json(order)
@@ -112,7 +116,6 @@ class OrderController {
       const order = await Order.findByPk(id)
 
       if (!order) return response.status(400).json({ error: "The solicitation service order doesn't exist" })
-
       if (userId !== order.owner_id) return response.status(400).json({ error: "You're not authorized to delete this service order" })
 
       order.destroy()
