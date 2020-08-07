@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true
       },
-      aproved_at: {
+      approved_at: {
         type: Sequelize.DATE,
         allowNull: true
       },

@@ -22,7 +22,7 @@ class OrderController {
     // Alterar dados
     const { userId } = request
     const { id } = request.params
-    const { aproved, canceled, confirm } = request.body
+    const { approved, canceled, confirm } = request.body
 
     try {
       const order = await Order.findByPk(id)
@@ -31,7 +31,7 @@ class OrderController {
 
       if (userId !== order.owner_id) return response.status(400).json({ message: "You can't change this item" })
 
-      if (aproved) order.aproved_at = new Date()
+      if (approved) order.approved_at = new Date()
       if (canceled) order.canceled_at = new Date()
       if (confirm) order.confirmed_at = new Date()
 
@@ -73,8 +73,18 @@ class OrderController {
 
     try {
       const order = await Order.findByPk(
-        id,
-        { include: { association: 'itens' } }
+        id, {
+          include: {
+            association: 'itens',
+            attributes: [
+              'id',
+              'amount',
+              'total_price',
+              'provider_id',
+              'product_id'
+            ]
+          }
+        }
       )
 
       if (!order) return response.status(400).json({ erro: "The solicitation service order doesn't exist" })
