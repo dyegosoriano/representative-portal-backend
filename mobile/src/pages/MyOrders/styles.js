@@ -1,13 +1,5 @@
 import styled from 'styled-components/native';
 
-export const TotalOrders = styled.Text`
-  background: #fff;
-  font-size: 24px;
-  text-align: center;
-
-  padding: 20px 0px;
-`;
-
 export const ContainerOrders = styled.ScrollView`
   margin: 0px 20px;
 `;

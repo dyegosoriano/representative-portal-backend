@@ -4,18 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 
 import api from '../../services/api';
 
-import {
-  TotalOrders,
-  ContainerOrders,
-  Order,
-  OrderId,
-  Tag,
-  StatusText,
-} from './styles';
+import { ContainerOrders, Order, OrderId, Tag, StatusText } from './styles';
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
-  const [total, setTotal] = useState(0);
 
   const navigation = useNavigation();
 
@@ -24,10 +16,7 @@ const MyOrders = () => {
       try {
         const response = await api.get('/orders');
 
-        const { count, rows } = response.data;
-
-        setOrders(rows);
-        setTotal(count);
+        setOrders(response.data);
       } catch (error) {
         console.log(`error.message >>> ${error.message} <<<`);
       }
@@ -61,8 +50,6 @@ const MyOrders = () => {
           </Order>
         ))}
       </ContainerOrders>
-
-      <TotalOrders>Total de pedidos: {total}</TotalOrders>
     </>
   );
 };
