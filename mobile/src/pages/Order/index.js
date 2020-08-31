@@ -32,13 +32,12 @@ const Order = () => {
 
   async function confirmOrder() {
     await api.put(`/orders/${order.id}`, { closed: true });
-
-    navigation.navigate('MyOrders');
+    navigation.goBack();
   }
 
   async function deleteOrder() {
     await api.delete(`/orders/${order.id}`);
-    navigation.navigate('MyOrders');
+    navigation.goBack();
   }
 
   async function deleteItem(id) {
