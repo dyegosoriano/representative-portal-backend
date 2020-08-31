@@ -3,10 +3,8 @@ import Order from '../models/Order'
 class OrderController {
   async store (request, response) {
     // Cadastrar ordem de serviço
-    const owner_id = Number(request.userId)
-
     try {
-      const newOrder = await Order.create({ owner_id })
+      const newOrder = await Order.create({ owner_id: request.userId })
 
       return response.json(newOrder)
     } catch (error) {
@@ -21,7 +19,7 @@ class OrderController {
     // Alterar dados
     const { userId } = request
     const { id } = request.params
-    const { approved, canceled, confirm } = request.body
+    const { closed, canceled, confirm } = request.body
 
     try {
       const order = await Order.findByPk(id)
@@ -30,7 +28,7 @@ class OrderController {
 
       if (userId !== order.owner_id) return response.status(400).json({ message: "You can't change this item" })
 
-      if (approved) order.approved_at = new Date()
+      if (closed) order.closed_at = new Date()
       if (canceled) order.canceled_at = new Date()
       if (confirm) order.confirmed_at = new Date()
 
@@ -54,7 +52,7 @@ class OrderController {
     try {
       const orders = await Order.findAll({
         where: { owner_id },
-        attributes: ['id', 'approved_at', 'canceled_at', 'confirmed_at'],
+        attributes: ['id', 'closed_at', 'canceled_at', 'confirmed_at'],
         limit: 10,
         offset: (page - 1) * 10
       })

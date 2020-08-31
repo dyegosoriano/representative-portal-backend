@@ -5,9 +5,7 @@ import Order from '../models/Order'
 class ItemController {
   async store (request, response) {
     // Cadastrar dados
-    const amount = Number(request.body.amount)
-    const order_id = Number(request.body.order_id)
-    const product_id = Number(request.body.product_id)
+    const { amount, order_id, product_id } = request.body
 
     try {
       const product = await Product.findByPk(product_id)

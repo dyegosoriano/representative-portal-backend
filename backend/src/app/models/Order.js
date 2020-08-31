@@ -4,7 +4,7 @@ export default class Order extends Model {
   static init (connection) {
     super.init(
       {
-        approved_at: Sequelize.DATE,
+        closed_at: Sequelize.DATE,
         canceled_at: Sequelize.DATE,
         confirmed_at: Sequelize.DATE
       },
