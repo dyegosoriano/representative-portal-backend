@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { View } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { View, TouchableOpacity } from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { Feather as Icon } from '@expo/vector-icons';
 
 import {
@@ -23,14 +23,30 @@ const Order = () => {
   const route = useRoute();
 
   const { order } = route.params;
+  const navigation = useNavigation();
+
+  async function getItens() {
+    const response = await api.get(`/orders/${order.id}`);
+    setProducts(response.data.itens);
+  }
+
+  async function confirmOrder() {
+    await api.put(`/orders/${order.id}`, { closed: true });
+
+    navigation.navigate('MyOrders');
+  }
+
+  async function deleteOrder() {
+    await api.delete(`/orders/${order.id}`);
+    navigation.navigate('MyOrders');
+  }
+
+  async function deleteItem(id) {
+    await api.delete(`/items/${id}`);
+    getItens();
+  }
 
   useEffect(() => {
-    async function getItens() {
-      const response = await api.get(`/orders/${order.id}`);
-
-      setProducts(response.data.itens);
-    }
-
     getItens();
   }, []);
 
@@ -47,20 +63,23 @@ const Order = () => {
 
             <ProductButtons>
               <Icon name="edit" size={24} color="#fff" />
-              <Icon name="trash-2" size={24} color="#fff" />
+
+              <TouchableOpacity onPress={() => deleteItem(product.id)}>
+                <Icon name="trash-2" size={24} color="#fff" />
+              </TouchableOpacity>
             </ProductButtons>
           </Product>
         ))}
       </ProductsList>
 
       <Footer>
-        <Button>
+        <Button onPress={() => confirmOrder()}>
           <ButtonText>Concluir </ButtonText>
           <Icon name="check" size={24} color="#fff" />
         </Button>
 
-        <Button color="#ff1744">
-          <ButtonText>Cancelar </ButtonText>
+        <Button onPress={() => deleteOrder()} color="#ff1744">
+          <ButtonText>Excluir </ButtonText>
           <Icon name="trash-2" size={24} color="#fff" />
         </Button>
       </Footer>

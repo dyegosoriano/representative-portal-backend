@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const ProductsList = styled.ScrollView`
-  margin: 0px 20px;
+  padding: 0px 20px;
 `;
 
 export const Product = styled.View`
