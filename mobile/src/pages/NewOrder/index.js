@@ -22,7 +22,7 @@ const NewOrder = () => {
 
   async function confirmOrder() {
     Alert.alert('Aviso', 'Deseja concluir o pedido?', [
-      { text: 'OK', onPress: () => console.log('OK Pressed') },
+      { text: 'OK', onPress: () => navigation.goBack() },
       { text: 'Cancelar' },
     ]);
   }
