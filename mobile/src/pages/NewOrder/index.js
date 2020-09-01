@@ -1,26 +1,18 @@
 import React from 'react';
+import { Button } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
-import { Feather as Icon } from '@expo/vector-icons';
-
-import { Container, Header, ExitButton, Title } from './styles';
+import { Container, OptionsBox, Title } from './styles';
 
 const NewOrder = () => {
-  const navigation = useNavigation();
-
-  function handleNavigateBack() {
-    navigation.goBack();
-  }
-
   return (
     <Container>
-      <Header>
-        <ExitButton onPress={handleNavigateBack}>
-          <Icon name="arrow-left" color="#00bfa5" size={24} />
-        </ExitButton>
+      <Title>Pedido numero: 231</Title>
 
-        <Title>Novo Pedido</Title>
-      </Header>
+      <OptionsBox>
+        <Button title="Confirmar" />
+        <Button title="Novo item" />
+        <Button title="Cancelar" />
+      </OptionsBox>
     </Container>
   );
 };
