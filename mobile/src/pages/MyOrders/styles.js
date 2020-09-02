@@ -1,35 +1,29 @@
-import styled from 'styled-components/native';
+import styled from 'styled-components/native'
 
-export const ContainerOrders = styled.ScrollView`
-  margin: 0px 20px;
-`;
+export const ScrollOrders = styled.ScrollView`
+  padding: 16px;
+`
 
-export const Order = styled.TouchableOpacity`
-  background: #607d8b;
-  border-radius: 5px;
-  margin-top: 20px;
-  padding: 30px;
-
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
+export const OrderBox = styled.View`
+  justify-content: flex-start;
+  height: 65px;
+`
 
 export const OrderId = styled.Text`
-  color: #fff;
-  font-size: 28px;
-`;
-
-export const Tag = styled.View`
-  background: ${(props) => props.color};
-  border-radius: 5px;
-  padding: 5px;
-  width: 70px;
-  align-items: center;
-`;
-
-export const StatusText = styled.Text`
-  color: #fff;
-  font-size: 12px;
+  margin-bottom: 8px;
   font-weight: bold;
-`;
+  font-size: 16px;
+  color: #000;
+`
+
+export const OrderDate = styled.Text`
+  font-size: 16px;
+  margin-bottom: 4px;
+  color: #000;
+`
+
+export const OrderStatus = styled.Text`
+  color: ${props => props.color};
+  font-size: 16px;
+  font-weight: bold;
+`

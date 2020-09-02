@@ -1,57 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+import { Button } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
-import { useNavigation } from '@react-navigation/native';
+import api from '../../services/api'
 
-import api from '../../services/api';
+import ProductBox from '../../components/ProductBox'
 
-import { ContainerOrders, Order, OrderId, Tag, StatusText } from './styles';
+import {
+  OrderBox,
+  OrderDate,
+  OrderId,
+  OrderStatus,
+  ScrollOrders,
+} from './styles'
 
 const MyOrders = () => {
-  const [orders, setOrders] = useState([]);
+  const navigation = useNavigation()
 
-  const navigation = useNavigation();
+  const [orders, setOrders] = useState([])
 
-  useEffect(() => {
-    async function getOrders() {
-      try {
-        const response = await api.get('/orders');
+  async function getOrders() {
+    try {
+      const response = await api.get('/orders')
 
-        setOrders(response.data);
-      } catch (error) {
-        console.log(`error.message >>> ${error.message} <<<`);
-      }
+      setOrders(response.data)
+    } catch (error) {
+      console.log(`error.message >>> ${error.message} <<<`)
     }
-
-    getOrders();
-  }, []);
+  }
 
   function getOrder(order) {
-    navigation.navigate('Order', { order });
+    navigation.navigate('Order', { order })
   }
+
+  useEffect(() => {
+    getOrders()
+  }, [])
 
   return (
     <>
-      <ContainerOrders>
-        {orders.map((order) => (
-          <Order key={order.id} onPress={() => getOrder(order)}>
-            <OrderId>Pedido n˚ {order.id}</OrderId>
+      <ScrollOrders>
+        {orders.map(order => (
+          <ProductBox key={order.id}>
+            <OrderBox>
+              <OrderId>Pedido n˚ {order.id}</OrderId>
+              <OrderDate>27/09/1988</OrderDate>
 
-            {order.canceled_at && (
-              <Tag color="#ff1744">
-                <StatusText>Cancelado</StatusText>
-              </Tag>
-            )}
+              {order.canceled_at && (
+                <OrderStatus color="#f00">Cancelado</OrderStatus>
+              )}
 
-            {order.confirmed_at && (
-              <Tag color="#00e676">
-                <StatusText>Aprovado</StatusText>
-              </Tag>
-            )}
-          </Order>
+              {order.confirmed_at && (
+                <OrderStatus color="#0A0">Aprovado</OrderStatus>
+              )}
+            </OrderBox>
+
+            <Button title="Acessar" onPress={() => getOrder(order)} />
+          </ProductBox>
         ))}
-      </ContainerOrders>
+      </ScrollOrders>
     </>
-  );
-};
+  )
+}
 
-export default MyOrders;
+export default MyOrders
