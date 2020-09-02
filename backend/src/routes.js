@@ -42,10 +42,11 @@ routes
   .delete('/items/:id', authUserMiddlewares, ItemController.delete)
 
   // Rotas de produtos
+  .get('/products', ProductController.index)
+  .get('/products/:id', ProductController.show)
+
   .post('/products', authProviderMiddlewares, ProductController.store)
   .put('/products/:id', authProviderMiddlewares, ProductController.update)
-  .get('/products', authProviderMiddlewares, ProductController.index)
-  .get('/products/:id', authProviderMiddlewares, ProductController.show)
   .delete('/products/:product_id', authProviderMiddlewares, ProductController.delete)
 
 export default routes
