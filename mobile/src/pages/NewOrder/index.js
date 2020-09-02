@@ -10,6 +10,8 @@ import {
   BoxModalText,
   OptionsBox,
   Picker,
+  Product,
+  ScrollProducts,
   Strong,
   Title,
 } from './styles';
@@ -39,6 +41,22 @@ const NewOrder = () => {
       <Title>
         Pedido: <Strong>231</Strong>
       </Title>
+
+      <ScrollProducts>
+        <Product>
+          <View>
+            <Strong>Chocolate</Strong>
+            <Text>
+              Quantidade: <Strong>1</Strong>
+            </Text>
+            <Text>
+              valor total: <Strong>R$15</Strong>
+            </Text>
+          </View>
+
+          <Button title="Excluir" color="#f00" />
+        </Product>
+      </ScrollProducts>
 
       <Modal animationType="slide" transparent visible={modalVisible}>
         <BoxModal>
@@ -91,7 +109,11 @@ const NewOrder = () => {
 
           <View>
             <Button title="Adicionar" onPress={() => setModalVisible(false)} />
-            <Button title="Cancelar" onPress={() => setModalVisible(false)} />
+            <Button
+              title="Cancelar"
+              color="#f00"
+              onPress={() => setModalVisible(false)}
+            />
           </View>
         </BoxModal>
       </Modal>
@@ -99,7 +121,7 @@ const NewOrder = () => {
       <OptionsBox>
         <Button title="Confirmar" onPress={() => confirmOrder()} />
         <Button title="Novo item" onPress={() => setModalVisible(true)} />
-        <Button title="Cancelar" onPress={() => cancelOrder()} />
+        <Button title="Cancelar" color="#f00" onPress={() => cancelOrder()} />
       </OptionsBox>
     </Container>
   );

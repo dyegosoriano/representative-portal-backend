@@ -7,7 +7,23 @@ export const Container = styled.View`
 `;
 
 export const Title = styled.Text`
-  margin-top: 20px;
+  padding: 32px 0px;
+`;
+
+export const ScrollProducts = styled.ScrollView`
+  flex: 1;
+  width: 100%;
+  padding: 0 16px;
+`;
+
+export const Product = styled.View`
+  padding: 16px;
+  margin-bottom: 16px;
+  background: #fff;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const Strong = styled.Text`
@@ -16,7 +32,7 @@ export const Strong = styled.Text`
 
 export const BoxModal = styled.View`
   background: white;
-  padding: 100px 20px 20px 20px;
+  padding: 100px 16px 16px 16px;
 
   flex: 1;
   align-items: center;
@@ -39,7 +55,7 @@ export const Picker = styled.Picker`
 
 export const OptionsBox = styled.View`
   width: 100%;
-  padding: 20px 0px;
+  padding: 16px 0px;
 
   flex-direction: row;
   align-items: center;
