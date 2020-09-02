@@ -3,14 +3,17 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Alert, Button, Modal, Text, TextInput, View } from 'react-native';
 
+import ProductBox from '../../components/ProductBox';
+
 import {
   Container,
   BoxModal,
   BoxAmount,
   BoxModalText,
-  OptionsBox,
+  Footer,
   Picker,
-  Product,
+  ProductName,
+  ProductText,
   ScrollProducts,
   Strong,
   Title,
@@ -43,19 +46,19 @@ const NewOrder = () => {
       </Title>
 
       <ScrollProducts>
-        <Product>
+        <ProductBox>
           <View>
-            <Strong>Chocolate</Strong>
-            <Text>
+            <ProductName>Chocolate</ProductName>
+            <ProductText>
               Quantidade: <Strong>1</Strong>
-            </Text>
-            <Text>
+            </ProductText>
+            <ProductText>
               valor total: <Strong>R$15</Strong>
-            </Text>
+            </ProductText>
           </View>
 
           <Button title="Excluir" color="#f00" />
-        </Product>
+        </ProductBox>
       </ScrollProducts>
 
       <Modal animationType="slide" transparent visible={modalVisible}>
@@ -118,11 +121,11 @@ const NewOrder = () => {
         </BoxModal>
       </Modal>
 
-      <OptionsBox>
+      <Footer>
         <Button title="Confirmar" onPress={() => confirmOrder()} />
         <Button title="Novo item" onPress={() => setModalVisible(true)} />
         <Button title="Cancelar" color="#f00" onPress={() => cancelOrder()} />
-      </OptionsBox>
+      </Footer>
     </Container>
   );
 };

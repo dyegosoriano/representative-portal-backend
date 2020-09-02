@@ -3,11 +3,11 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   align-items: center;
-  justify-content: space-between;
 `;
 
 export const Title = styled.Text`
-  padding: 32px 0px;
+  padding: 16px 0px;
+  font-size: 16px;
 `;
 
 export const ScrollProducts = styled.ScrollView`
@@ -16,18 +16,20 @@ export const ScrollProducts = styled.ScrollView`
   padding: 0 16px;
 `;
 
-export const Product = styled.View`
-  padding: 16px;
-  margin-bottom: 16px;
-  background: #fff;
-
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 export const Strong = styled.Text`
   font-weight: bold;
+`;
+
+export const ProductName = styled.Text`
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #000;
+`;
+
+export const ProductText = styled.Text`
+  font-size: 16px;
+  color: #000;
 `;
 
 export const BoxModal = styled.View`
@@ -53,7 +55,7 @@ export const Picker = styled.Picker`
   width: 100%;
 `;
 
-export const OptionsBox = styled.View`
+export const Footer = styled.View`
   width: 100%;
   padding: 16px 0px;
 
