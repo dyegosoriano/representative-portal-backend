@@ -1,11 +1,11 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack'
 
-import SignIn from '../pages/SignIn';
+import SignIn from '../pages/SignIn'
 
 export default function Routes() {
-  const Stack = createStackNavigator();
+  const Stack = createStackNavigator()
 
   return (
     <Stack.Navigator
@@ -14,5 +14,5 @@ export default function Routes() {
     >
       <Stack.Screen name="SignIn" component={SignIn} />
     </Stack.Navigator>
-  );
+  )
 }

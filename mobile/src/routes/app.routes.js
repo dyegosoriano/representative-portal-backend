@@ -1,15 +1,15 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack'
 
-import Dashboard from '../pages/Dashboard';
-import Order from '../pages/Order';
-import MyOrders from '../pages/MyOrders';
-import NewOrder from '../pages/NewOrder';
-import Profile from '../pages/Profile';
+import Dashboard from '../pages/Dashboard'
+import Order from '../pages/Order'
+import MyOrders from '../pages/MyOrders'
+import NewOrder from '../pages/NewOrder'
+import Profile from '../pages/Profile'
 
 export default function Routes() {
-  const Stack = createStackNavigator();
+  const Stack = createStackNavigator()
 
   return (
     <Stack.Navigator
@@ -41,5 +41,5 @@ export default function Routes() {
         options={{ title: 'Perfil' }}
       />
     </Stack.Navigator>
-  );
+  )
 }
