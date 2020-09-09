@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'react-native'
+import { Button, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import api from '../../services/api'
 
+import Loading from '../Loading'
 import ProductBox from '../../components/ProductBox'
 
 import {
@@ -14,28 +15,39 @@ import {
   ScrollOrders,
 } from './styles'
 
-const MyOrders = () => {
+export default function MyOrders() {
+  const [loading, setLoading] = useState(true)
+  const [orders, setOrders] = useState([])
+
   const navigation = useNavigation()
 
-  const [orders, setOrders] = useState([])
+  function getOrder(order) {
+    navigation.navigate('Order', { order })
+  }
 
   async function getOrders() {
     try {
       const response = await api.get('/orders')
 
       setOrders(response.data)
+      setLoading(false)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
-    }
-  }
 
-  function getOrder(order) {
-    navigation.navigate('Order', { order })
+      Alert.alert('Ops!!!', 'Houve um problema com a conexão', [
+        {
+          text: 'Ok',
+          onPress: () => navigation.goBack(),
+        },
+      ])
+    }
   }
 
   useEffect(() => {
     getOrders()
   }, [])
+
+  if (loading) return <Loading />
 
   return (
     <>
@@ -62,5 +74,3 @@ const MyOrders = () => {
     </>
   )
 }
-
-export default MyOrders
