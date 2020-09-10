@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Alert, Button, View } from 'react-native'
+import { Alert, Button, Modal, View } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 import api from '../../services/api'
 
 import Loading from '../Loading'
+
 import ProductBox from '../../components/ProductBox'
 
 import {
@@ -18,7 +19,9 @@ import {
 } from './styles'
 
 const Order = () => {
+  const [modalVisible, setModalVisible] = useState(false)
   const [loading, setLoading] = useState(true)
+
   const [productsOrder, setProductsOrder] = useState([])
 
   const navigation = useNavigation()
@@ -83,6 +86,8 @@ const Order = () => {
 
   return (
     <Container>
+      <Modal animationType="slide" visible={modalVisible} />
+
       <Title>
         Pedido: <Strong>{order.id}</Strong>
       </Title>
@@ -113,7 +118,7 @@ const Order = () => {
 
       <Footer>
         <Button title="Confirmar" onPress={() => confirmOrder()} />
-        {/* <Button title="Novo item" onPress={() => setModalVisible(true)} /> */}
+        <Button title="Novo item" onPress={() => setModalVisible(true)} />
         <Button title="Cancelar" onPress={() => cancelOrder()} color="#f00" />
       </Footer>
     </Container>
