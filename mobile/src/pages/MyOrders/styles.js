@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-export const ScrollOrders = styled.ScrollView`
+export const ListOrders = styled.FlatList`
   padding: 16px;
 `
 

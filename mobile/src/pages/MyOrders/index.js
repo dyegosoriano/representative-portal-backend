@@ -7,17 +7,12 @@ import api from '../../services/api'
 import Loading from '../Loading'
 import ProductBox from '../../components/ProductBox'
 
-import {
-  OrderBox,
-  OrderDate,
-  OrderId,
-  OrderStatus,
-  ScrollOrders,
-} from './styles'
+import { OrderBox, OrderDate, OrderId, OrderStatus, ListOrders } from './styles'
 
 export default function MyOrders() {
   const [loading, setLoading] = useState(true)
   const [orders, setOrders] = useState([])
+  const [page, setPage] = useState(1)
 
   const navigation = useNavigation()
 
@@ -25,12 +20,14 @@ export default function MyOrders() {
     navigation.navigate('Order', { order })
   }
 
-  async function getOrders() {
+  async function loadOrders() {
     try {
-      const response = await api.get('/orders')
+      const response = await api.get('/orders', { params: { page } })
 
-      setOrders(response.data)
+      setOrders([...orders, ...response.data])
+
       setLoading(false)
+      setPage(+1)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
@@ -44,33 +41,35 @@ export default function MyOrders() {
   }
 
   useEffect(() => {
-    getOrders()
+    loadOrders()
   }, [])
 
   if (loading) return <Loading />
 
   return (
-    <>
-      <ScrollOrders>
-        {orders.map(order => (
-          <ProductBox key={order.id}>
-            <OrderBox>
-              <OrderId>Pedido n˚ {order.id}</OrderId>
-              <OrderDate>27/09/1988</OrderDate>
+    <ListOrders
+      data={orders}
+      onEndReached={loadOrders}
+      onEndReachedThreshold={0.5}
+      keyExtractor={item => String(item.id)}
+      renderItem={({ item }) => (
+        <ProductBox key={item.id}>
+          <OrderBox>
+            <OrderId>Pedido n˚ {item.id}</OrderId>
+            <OrderDate>27/09/1988</OrderDate>
 
-              {order.canceled_at && (
-                <OrderStatus color="#f00">Cancelado</OrderStatus>
-              )}
+            {item.canceled_at && (
+              <OrderStatus color="#f00">Cancelado</OrderStatus>
+            )}
 
-              {order.confirmed_at && (
-                <OrderStatus color="#0A0">Aprovado</OrderStatus>
-              )}
-            </OrderBox>
+            {item.confirmed_at && (
+              <OrderStatus color="#0A0">Aprovado</OrderStatus>
+            )}
+          </OrderBox>
 
-            <Button title="Acessar" onPress={() => getOrder(order)} />
-          </ProductBox>
-        ))}
-      </ScrollOrders>
-    </>
+          <Button title="Acessar" onPress={() => getOrder(item)} />
+        </ProductBox>
+      )}
+    />
   )
 }
