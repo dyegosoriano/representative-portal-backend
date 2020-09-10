@@ -27,7 +27,7 @@ export default function MyOrders() {
       setOrders([...orders, ...response.data])
 
       setLoading(false)
-      setPage(+1)
+      setPage(page + 1)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
@@ -50,8 +50,8 @@ export default function MyOrders() {
     <ListOrders
       data={orders}
       onEndReached={loadOrders}
-      onEndReachedThreshold={0.5}
-      keyExtractor={item => String(item.id)}
+      onEndReachedThreshold={0.2}
+      keyExtractor={order => String(order.id)}
       renderItem={({ item }) => (
         <ProductBox key={item.id}>
           <OrderBox>
