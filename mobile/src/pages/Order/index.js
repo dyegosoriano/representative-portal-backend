@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 
 import api from '../../services/api'
 
+import Loading from '../Loading'
 import ProductBox from '../../components/ProductBox'
 
 import {
@@ -17,6 +18,7 @@ import {
 } from './styles'
 
 const Order = () => {
+  const [loading, setLoading] = useState(true)
   const [productsOrder, setProductsOrder] = useState([])
 
   const navigation = useNavigation()
@@ -29,6 +31,7 @@ const Order = () => {
       const response = await api.get(`/orders/${order.id}`)
 
       setProductsOrder(response.data.itens)
+      setLoading(false)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
     }
@@ -75,6 +78,8 @@ const Order = () => {
   useEffect(() => {
     getItens()
   }, [])
+
+  if (loading) return <Loading />
 
   return (
     <Container>
