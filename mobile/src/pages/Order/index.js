@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import api from '../../services/api'
 
 import Loading from '../Loading'
-
+import AddItems from '../../components/AddItems'
 import ProductBox from '../../components/ProductBox'
 
 import {
@@ -86,7 +86,9 @@ const Order = () => {
 
   return (
     <Container>
-      <Modal animationType="slide" visible={modalVisible} />
+      <Modal animationType="slide" visible={modalVisible}>
+        <AddItems modalVisible={setModalVisible} order_id={order.id} />
+      </Modal>
 
       <Title>
         Pedido: <Strong>{order.id}</Strong>

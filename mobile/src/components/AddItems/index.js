@@ -5,7 +5,7 @@ import api from '../../services/api'
 
 import { BoxAmount, BoxModal, BoxModalText, Picker, Strong } from './styles'
 
-const AddItems = ({ order_id }) => {
+const AddItems = ({ order_id, modalVisible }) => {
   const [allProducts, setAllProducts] = useState([])
 
   const [productName, setProductName] = useState('')
@@ -15,15 +15,18 @@ const AddItems = ({ order_id }) => {
 
   async function confirmProduct() {
     try {
-      if (productId) {
-        await api.post('/items', {
-          product_id: productId,
-          order_id,
-          amount,
-        })
+      if (!productId) {
+        Alert.alert('Ops!!!', 'Selecione um produto')
+        return
       }
 
-      Alert.alert('Ops!!!', 'Selecione um produto')
+      await api.post('/items', {
+        product_id: productId,
+        order_id,
+        amount,
+      })
+
+      modalVisible(false)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
       Alert.alert('Ops!!!', 'Houve um problema com a conexão!')
@@ -110,7 +113,11 @@ const AddItems = ({ order_id }) => {
 
       <View>
         <Button title="Adicionar" onPress={confirmProduct} />
-        <Button title="Cancelar" color="#f00" />
+        <Button
+          title="Cancelar"
+          color="#f00"
+          onPress={() => modalVisible(false)}
+        />
       </View>
     </BoxModal>
   )
