@@ -87,7 +87,12 @@ const Order = () => {
   return (
     <Container>
       <Modal animationType="slide" visible={modalVisible}>
-        <AddItems modalVisible={setModalVisible} order_id={order.id} />
+        <AddItems
+          order_id={order.id}
+          products={productsOrder}
+          setProducts={setProductsOrder}
+          modalVisible={setModalVisible}
+        />
       </Modal>
 
       <Title>

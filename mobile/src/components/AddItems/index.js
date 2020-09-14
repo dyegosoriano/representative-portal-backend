@@ -5,7 +5,7 @@ import api from '../../services/api'
 
 import { BoxAmount, BoxModal, BoxModalText, Picker, Strong } from './styles'
 
-const AddItems = ({ order_id, modalVisible }) => {
+const AddItems = ({ order_id, modalVisible, products, setProducts }) => {
   const [allProducts, setAllProducts] = useState([])
 
   const [productName, setProductName] = useState('')
@@ -20,11 +20,13 @@ const AddItems = ({ order_id, modalVisible }) => {
         return
       }
 
-      await api.post('/items', {
+      const response = await api.post('/items', {
         product_id: productId,
         order_id,
         amount,
       })
+
+      setProducts([...products, response.data])
 
       modalVisible(false)
     } catch (error) {
