@@ -1,22 +1,33 @@
-import React, { useContext } from 'react';
+import React, { useContext } from 'react'
+import { Alert, Button } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
-import { Feather as Icon } from '@expo/vector-icons';
+import AuthContext from '../../contexts/auth'
 
-import AuthContext from '../../contexts/auth';
-import ButtonComponent from '../../components/Button';
+import api from '../../services/api'
 
-import {
-  Header,
-  UserCnpj,
-  UserName,
-  Footer,
-  ButtonText,
-  ButtonIcon,
-  ExitButton,
-} from './styles';
+import { Header, UserCnpj, UserName, Footer } from './styles'
 
 export default function Dashboard() {
-  const { user, handleSignOut } = useContext(AuthContext);
+  const { user, handleSignOut } = useContext(AuthContext)
+
+  const navigation = useNavigation()
+
+  async function getNewOrder() {
+    try {
+      const response = await api.post('/orders')
+      const order = response.data
+      navigation.navigate('Order', { order })
+    } catch (error) {
+      console.log(`error.message >>> ${error.message} <<<`)
+      Alert.alert('Ops!!!', 'Houve um problema com a conexão', [
+        {
+          text: 'Ok',
+          onPress: () => navigation.goBack(),
+        },
+      ])
+    }
+  }
 
   return (
     <>
@@ -26,27 +37,15 @@ export default function Dashboard() {
       </Header>
 
       <Footer>
-        <ButtonComponent
-          title="Novo pedido"
-          destiny="NewOrders"
-          icon="plus-square"
-        />
+        <Button title="Novo pedido" onPress={getNewOrder} />
 
-        <ButtonComponent
+        <Button
           title="Meus pedidos"
-          destiny="MyOrders"
-          icon="shopping-cart"
+          onPress={() => navigation.navigate('MyOrders')}
         />
 
-        <ButtonComponent title="Meu perfil" destiny="Profile" icon="user" />
-
-        <ExitButton onPress={handleSignOut}>
-          <ButtonText>Sair</ButtonText>
-          <ButtonIcon>
-            <Icon name="log-out" color="#fff" size={24} />
-          </ButtonIcon>
-        </ExitButton>
+        <Button title="Sair" onPress={handleSignOut} color="#f00" />
       </Footer>
     </>
-  );
+  )
 }
