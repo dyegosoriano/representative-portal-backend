@@ -29,24 +29,26 @@ const Order = () => {
 
   const { order } = route.params
 
+  const { confirmed_at } = order
+
   async function getItens() {
     try {
       const response = await api.get(`/orders/${order.id}`)
-
       setProductsOrder(response.data.itens)
       setLoading(false)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
+      Alert.alert('Ops!!!', 'Houve um problema com a conexão!')
     }
   }
 
   async function deleteItem(id) {
     try {
       await api.delete(`/items/${id}`)
-
       getItens()
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
+      Alert.alert('Ops!!!', 'Houve um problema com a conexão!')
     }
   }
 
@@ -55,9 +57,13 @@ const Order = () => {
       {
         text: 'OK',
         onPress: async () => {
-          await api.put(`/orders/${order.id}`, { closed: true })
-
-          navigation.goBack()
+          try {
+            await api.put(`/orders/${order.id}`, { confirm: true })
+            navigation.goBack()
+          } catch (error) {
+            console.log(`error.message >>> ${error.message} <<<`)
+            Alert.alert('Ops!!!', 'Houve um problema com a conexão!')
+          }
         },
       },
       { text: 'Cancelar' },
@@ -69,9 +75,13 @@ const Order = () => {
       {
         text: 'OK',
         onPress: async () => {
-          await api.delete(`/orders/${order.id}`)
-
-          navigation.goBack()
+          try {
+            await api.delete(`/orders/${order.id}`)
+            navigation.goBack()
+          } catch (error) {
+            console.log(`error.message >>> ${error.message} <<<`)
+            Alert.alert('Ops!!!', 'Houve um problema com a conexão!')
+          }
         },
       },
       { text: 'Cancelar' },
@@ -123,11 +133,13 @@ const Order = () => {
         )}
       />
 
-      <Footer>
-        <Button title="Confirmar" onPress={() => confirmOrder()} />
-        <Button title="Novo item" onPress={() => setModalVisible(true)} />
-        <Button title="Cancelar" onPress={() => cancelOrder()} color="#f00" />
-      </Footer>
+      {!confirmed_at && (
+        <Footer>
+          <Button title="Confirmar" onPress={() => confirmOrder()} />
+          <Button title="Novo item" onPress={() => setModalVisible(true)} />
+          <Button title="Cancelar" onPress={() => cancelOrder()} color="#f00" />
+        </Footer>
+      )}
     </Container>
   )
 }
