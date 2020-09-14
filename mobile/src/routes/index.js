@@ -2,16 +2,18 @@ import React, { useContext } from 'react'
 
 import AuthContext from '../contexts/auth'
 
-import AuthRoutes from './auth.routes'
 import AppRoutes from './app.routes'
-import Loading from '../pages/Loading'
+import AuthRoutes from './auth.routes'
+import LoadingModal from '../components/LoadingModal'
 
 export default function Routes() {
   const { signed, loading } = useContext(AuthContext)
 
-  if (loading) {
-    return <Loading />
-  }
+  return (
+    <>
+      <LoadingModal loading={loading} />
 
-  return signed ? <AppRoutes /> : <AuthRoutes />
+      {signed ? <AppRoutes /> : <AuthRoutes />}
+    </>
+  )
 }

@@ -4,9 +4,9 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 
 import api from '../../services/api'
 
-import Loading from '../Loading'
 import AddItems from '../../components/AddItems'
 import ProductBox from '../../components/ProductBox'
+import LoadingModal from '../../components/LoadingModal'
 
 import {
   Container,
@@ -92,10 +92,10 @@ const Order = () => {
     getItens()
   }, [])
 
-  if (loading) return <Loading />
-
   return (
     <Container>
+      <LoadingModal loading={loading} />
+
       <Modal animationType="slide" visible={modalVisible}>
         <AddItems
           order_id={order.id}

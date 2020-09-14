@@ -4,8 +4,8 @@ import { useNavigation } from '@react-navigation/native'
 
 import api from '../../services/api'
 
-import Loading from '../Loading'
 import ProductBox from '../../components/ProductBox'
+import LoadingModal from '../../components/LoadingModal'
 
 import { OrderBox, OrderDate, OrderId, OrderStatus, ListOrders } from './styles'
 
@@ -25,12 +25,10 @@ export default function MyOrders() {
       const response = await api.get('/orders', { params: { page } })
 
       setOrders([...orders, ...response.data])
-
       setLoading(false)
       setPage(page + 1)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
-
       Alert.alert('Ops!!!', 'Houve um problema com a conexão', [
         {
           text: 'Ok',
@@ -44,32 +42,34 @@ export default function MyOrders() {
     loadOrders()
   }, [])
 
-  if (loading) return <Loading />
-
   return (
-    <ListOrders
-      data={orders}
-      onEndReached={loadOrders}
-      onEndReachedThreshold={0.2}
-      keyExtractor={order => String(order.id)}
-      renderItem={({ item }) => (
-        <ProductBox key={item.id}>
-          <OrderBox>
-            <OrderId>Pedido n˚ {item.id}</OrderId>
-            <OrderDate>27/09/1988</OrderDate>
+    <>
+      <LoadingModal loading={loading} />
 
-            {item.canceled_at && (
-              <OrderStatus color="#f00">Cancelado</OrderStatus>
-            )}
+      <ListOrders
+        data={orders}
+        onEndReached={loadOrders}
+        onEndReachedThreshold={0.2}
+        keyExtractor={order => String(order.id)}
+        renderItem={({ item }) => (
+          <ProductBox key={item.id}>
+            <OrderBox>
+              <OrderId>Pedido n˚ {item.id}</OrderId>
+              <OrderDate>27/09/1988</OrderDate>
 
-            {item.confirmed_at && (
-              <OrderStatus color="#0A0">Aprovado</OrderStatus>
-            )}
-          </OrderBox>
+              {item.canceled_at && (
+                <OrderStatus color="#f00">Cancelado</OrderStatus>
+              )}
 
-          <Button title="Acessar" onPress={() => getOrder(item)} />
-        </ProductBox>
-      )}
-    />
+              {item.confirmed_at && (
+                <OrderStatus color="#0A0">Aprovado</OrderStatus>
+              )}
+            </OrderBox>
+
+            <Button title="Acessar" onPress={() => getOrder(item)} />
+          </ProductBox>
+        )}
+      />
+    </>
   )
 }
