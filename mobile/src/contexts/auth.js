@@ -1,58 +1,61 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react'
+import AsyncStorage from '@react-native-community/async-storage'
 
-import AsyncStorage from '@react-native-community/async-storage';
+import api from '../services/api'
+import * as auth from '../services/auth'
 
-import api from '../services/api';
-import * as auth from '../services/auth';
-
-const AuthContext = createContext();
+const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   async function handleSignIn(email, password) {
-    const response = await auth.signIn(email, password);
+    const response = await auth.signIn(email, password)
 
-    setUser(response.user);
+    setUser(response.user)
 
-    api.defaults.headers.Authorization = response.token;
+    api.defaults.headers.Authorization = response.token
 
     await AsyncStorage.setItem(
       '@RepresentativePortal:user',
       JSON.stringify(response.user)
-    );
+    )
 
     await AsyncStorage.setItem(
       '@RepresentativePortal:token',
       JSON.stringify(response.token)
-    );
+    )
   }
 
   useEffect(() => {
     async function loadStorageData() {
       const storageUser = await AsyncStorage.getItem(
         '@RepresentativePortal:user'
-      );
+      )
       const storageToken = await AsyncStorage.getItem(
         '@RepresentativePortal:token'
-      );
+      )
 
       if (storageUser && storageToken) {
-        setUser(JSON.parse(storageUser));
+        setUser(JSON.parse(storageUser))
 
-        api.defaults.headers.Authorization = JSON.parse(storageToken);
+        api.defaults.headers.Authorization = JSON.parse(storageToken)
       }
 
-      setLoading(false);
+      setLoading(false)
     }
 
-    loadStorageData();
-  }, []);
+    loadStorageData()
+  }, [])
 
   async function handleSignOut() {
-    await AsyncStorage.clear();
-    setUser(null);
+    setLoading(true)
+
+    await AsyncStorage.clear()
+
+    setLoading(false)
+    setUser(null)
   }
 
   return (
@@ -67,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
-export default AuthContext;
+export default AuthContext
