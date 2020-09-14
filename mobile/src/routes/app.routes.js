@@ -5,7 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Dashboard from '../pages/Dashboard'
 import Order from '../pages/Order'
 import MyOrders from '../pages/MyOrders'
-import NewOrder from '../pages/NewOrder'
 import Profile from '../pages/Profile'
 
 export default function Routes() {
@@ -27,12 +26,6 @@ export default function Routes() {
         name="Order"
         component={Order}
         options={{ title: 'Pedido' }}
-      />
-
-      <Stack.Screen
-        name="NewOrders"
-        component={NewOrder}
-        options={{ title: 'Novo pedido' }}
       />
 
       <Stack.Screen
