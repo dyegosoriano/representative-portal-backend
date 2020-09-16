@@ -1,6 +1,6 @@
-import Item from '../models/Item'
 import Product from '../models/Product'
 import Order from '../models/Order'
+import Item from '../models/Item'
 
 class ItemController {
   async store (request, response) {
@@ -17,8 +17,9 @@ class ItemController {
       const newItem = await Item.create({
         total_price: (amount * product.price),
         provider_id: product.provider_id,
-        product_id: product.id,
-        order_id: order.id,
+        product_name: product.name_product,
+        product_id,
+        order_id,
         amount
       })
 

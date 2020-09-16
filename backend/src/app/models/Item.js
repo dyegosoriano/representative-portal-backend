@@ -4,8 +4,9 @@ export default class Item extends Model {
   static init (connection) {
     super.init(
       {
-        amount: Sequelize.INTEGER,
-        total_price: Sequelize.DECIMAL
+        product_name: Sequelize.STRING,
+        total_price: Sequelize.DECIMAL,
+        amount: Sequelize.INTEGER
       },
       { sequelize: connection }
     )

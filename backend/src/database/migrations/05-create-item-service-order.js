@@ -9,7 +9,6 @@ module.exports = {
         primaryKey: true,
         allowNull: false
       },
-
       order_id: {
         type: Sequelize.INTEGER,
         references: { model: 'orders', key: 'id' },
@@ -31,7 +30,10 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false
       },
-
+      product_name: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       amount: {
         type: Sequelize.INTEGER,
         allowNull: false
