@@ -9,7 +9,6 @@ module.exports = {
         primaryKey: true,
         allowNull: false
       },
-
       owner_id: {
         type: Sequelize.INTEGER,
         references: { model: 'users', key: 'id' },
@@ -17,20 +16,18 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false
       },
-
-      confirmed_at: {
+      confirmed: {
         type: Sequelize.DATE,
         allowNull: true
       },
-      closed_at: {
+      closed: {
         type: Sequelize.DATE,
         allowNull: true
       },
-      canceled_at: {
+      canceled: {
         type: Sequelize.DATE,
         allowNull: true
       },
-
       created_at: {
         type: Sequelize.DATE,
         allowNull: false

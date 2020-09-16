@@ -3,8 +3,10 @@ import Order from '../models/Order'
 class OrderController {
   async store (request, response) {
     // Cadastrar ordem de serviço
+    const owner_id = request.userId
+
     try {
-      const newOrder = await Order.create({ owner_id: request.userId })
+      const newOrder = await Order.create({ owner_id })
 
       return response.json(newOrder)
     } catch (error) {
@@ -19,7 +21,7 @@ class OrderController {
     // Alterar dados
     const { userId } = request
     const { id } = request.params
-    const { closed, canceled, confirm } = request.body
+    const { close, cancel, confirm } = request.body
 
     try {
       const order = await Order.findByPk(id)
@@ -28,9 +30,9 @@ class OrderController {
 
       if (userId !== order.owner_id) return response.status(400).json({ message: "You can't change this item" })
 
-      if (closed) order.closed_at = new Date()
-      if (canceled) order.canceled_at = new Date()
-      if (confirm) order.confirmed_at = new Date()
+      if (close) order.closed = new Date()
+      if (cancel) order.canceled = new Date()
+      if (confirm) order.confirmed = new Date()
 
       await order.save()
 
@@ -52,7 +54,14 @@ class OrderController {
     try {
       const orders = await Order.findAll({
         where: { owner_id },
-        attributes: ['id', 'closed_at', 'canceled_at', 'confirmed_at'],
+        order: ['createdAt'],
+        attributes: [
+          'id',
+          'createdAt',
+          'confirmed',
+          'canceled',
+          'closed'
+        ],
         limit: 10,
         offset: (page - 1) * 10
       })
@@ -78,13 +87,13 @@ class OrderController {
       const order = await Order.findByPk(
         id, {
           include: {
-            association: 'itens',
+            association: 'items',
+            order: ['createdAt'],
             attributes: [
               'id',
-              'amount',
+              'product_name',
               'total_price',
-              'provider_id',
-              'product_id'
+              'amount'
             ]
           }
         }
@@ -94,7 +103,9 @@ class OrderController {
       if (userId !== order.owner_id) return response.status(400).json({ error: "You're not allowed to access this service order!" })
       if (!order) return response.status(400).json({ error: "You're not allowed to access that service order" })
 
-      return response.json(order)
+      const { confirmed, canceled, closed, items } = order
+
+      return response.json({ id, confirmed, canceled, closed, items })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
