@@ -68,16 +68,22 @@ class ProductController {
     const page = Number(request.query.page)
 
     try {
-      const products = await Product.findAll({
-        attributes: [
-          'id',
-          'product_name',
-          'price',
-          'amount'
-        ],
-        limit: 10,
-        offset: (page - 1) * 10
-      })
+      let products = []
+
+      if (!page) {
+        products = await Product.findAll()
+      } else {
+        products = await Product.findAll({
+          attributes: [
+            'id',
+            'product_name',
+            'price',
+            'amount'
+          ],
+          limit: 10,
+          offset: (page - 1) * 10
+        })
+      }
 
       return response.json(products)
     } catch (error) {
