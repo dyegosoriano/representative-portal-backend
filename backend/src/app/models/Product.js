@@ -4,9 +4,9 @@ export default class Product extends Model {
   static init (connection) {
     super.init(
       {
-        name_product: Sequelize.STRING,
-        price: Sequelize.INTEGER,
-        amount: Sequelize.INTEGER
+        product_name: Sequelize.STRING,
+        amount: Sequelize.INTEGER,
+        price: Sequelize.INTEGER
       },
       { sequelize: connection }
     )

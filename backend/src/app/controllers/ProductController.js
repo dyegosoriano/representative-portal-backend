@@ -4,12 +4,12 @@ class ProductController {
   async store (request, response) {
     // Cadastrar produto
     const provider_id = request.userId
-    const { name_product, price, amount } = request.body
+    const { product_name, price, amount } = request.body
 
     try {
       const newProduct = await Product.create({
         provider_id,
-        name_product,
+        product_name,
         price,
         amount
       })
@@ -28,17 +28,32 @@ class ProductController {
     // Alterar produto
     const { userId } = request
     const { id } = request.params
-    const { name_product, price, amount } = request.body
+    const { product_name, price, amount } = request.body
 
     try {
       const product = await Product.findByPk(id)
 
-      if (!product) return response.status(400).json({ error: 'The product requested was not found!' })
-      if (userId !== product.provider_id) return response.status(400).json({ error: "You're not allowed to alter this product" })
+      if (!product) {
+        return response
+          .status(400)
+          .json({ error: 'The product requested was not found!' })
+      }
+      if (userId !== product.provider_id) {
+        return response
+          .status(400)
+          .json({ error: "You're not allowed to alter this product" })
+      }
 
-      await product.update({ name_product, price, amount })
+      await product.update({ product_name, price, amount })
+      const { provider_id } = product
 
-      return response.json(product)
+      return response.json({
+        id,
+        provider_id,
+        product_name,
+        amount,
+        price
+      })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
@@ -50,11 +65,16 @@ class ProductController {
 
   async index (request, response) {
     // Listagem de produtos
-    const page = Number(request.query.page) || 1
+    const page = Number(request.query.page)
 
     try {
       const products = await Product.findAll({
-        attributes: ['id', 'name_product', 'price', 'amount'],
+        attributes: [
+          'id',
+          'product_name',
+          'price',
+          'amount'
+        ],
         limit: 10,
         offset: (page - 1) * 10
       })
@@ -74,11 +94,24 @@ class ProductController {
     const { id } = request.params
 
     try {
-      const products = await Product.findOne({ where: { id } })
+      const product = await Product.findOne({
+        where: { id },
+        attributes: [
+          'id',
+          'provider_id',
+          'product_name',
+          'amount',
+          'price'
+        ]
+      })
 
-      if (!products) return response.status(400).json({ message: 'O produto solicitado não existe!' })
+      if (!product) {
+        return response
+          .status(400)
+          .json({ message: 'O produto solicitado não existe!' })
+      }
 
-      return response.json(products)
+      return response.json(product)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
@@ -94,13 +127,23 @@ class ProductController {
     const { product_id } = request.params
 
     try {
-      const product = await Product.findOne({ where: { id: product_id, provider_id } })
+      const product = await Product.findOne({
+        where: { id: product_id, provider_id }
+      })
 
-      if (!product) return response.status(400).json({ message: 'Você não tem permissão para deletar esse produto' })
+      if (!product) {
+        return response
+          .status(400)
+          .json({
+            message: 'Você não tem permissão para deletar esse produto'
+          })
+      }
 
       await product.destroy()
 
-      return response.json({ message: `O produto ${product.name_product} foi deletado com sucesso!` })
+      return response.json({
+        message: `O produto ${product.product_name} foi deletado com sucesso!`
+      })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 

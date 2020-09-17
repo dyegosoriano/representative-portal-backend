@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         allowNull: false
       },
-      name_product: {
+      product_name: {
         type: Sequelize.STRING,
         allowNull: false
       },
