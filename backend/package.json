@@ -28,6 +28,7 @@
   "scripts": {
     "dev:server": "nodemon src/server.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
+    "start": "node dist/server.js",
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo:all",
     "seeds": "sequelize-cli db:seed:all"
