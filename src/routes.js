@@ -7,8 +7,8 @@ import ProductController from './app/controllers/ProductController'
 import OrderController from './app/controllers/OrderController'
 import ItemController from './app/controllers/ItemController'
 
-import authUserMiddlewares from './app/middlewares/authUser'
-import authProviderMiddlewares from './app/middlewares/authProvider'
+import authUserMiddleware from './app/middleware/authUser'
+import authProviderMiddleware from './app/middleware/authProvider'
 
 const routes = new Router()
 
@@ -19,34 +19,34 @@ routes
 
   // Rotas de usuários
   .post('/user', UserController.store)
-  .get('/user', authUserMiddlewares, UserController.show)
-  .put('/user', authUserMiddlewares, UserController.update)
+  .get('/user', authUserMiddleware, UserController.show)
+  .put('/user', authUserMiddleware, UserController.update)
 
   // Rotas de provedores
   .post('/provider', ProviderController.store)
-  .put('/provider', authProviderMiddlewares, ProviderController.update)
-  .get('/provider', authProviderMiddlewares, ProviderController.index)
-  .get('/provider/:id', authProviderMiddlewares, ProviderController.show)
-  .delete('/provider', authProviderMiddlewares, ProviderController.delete)
+  .put('/provider', authProviderMiddleware, ProviderController.update)
+  .get('/provider', authProviderMiddleware, ProviderController.index)
+  .get('/provider/:id', authProviderMiddleware, ProviderController.show)
+  .delete('/provider', authProviderMiddleware, ProviderController.delete)
 
   // Rotas de ordens de serviços
-  .post('/orders', authUserMiddlewares, OrderController.store)
-  .put('/orders/:id', authUserMiddlewares, OrderController.update)
-  .get('/orders', authUserMiddlewares, OrderController.index)
-  .get('/orders/:id', authUserMiddlewares, OrderController.show)
-  .delete('/orders/:id', authUserMiddlewares, OrderController.delete)
+  .post('/orders', authUserMiddleware, OrderController.store)
+  .put('/orders/:id', authUserMiddleware, OrderController.update)
+  .get('/orders', authUserMiddleware, OrderController.index)
+  .get('/orders/:id', authUserMiddleware, OrderController.show)
+  .delete('/orders/:id', authUserMiddleware, OrderController.delete)
 
   // Rotas de item das ordens de serviços
-  .post('/items', authUserMiddlewares, ItemController.store)
-  .put('/items/:id', authUserMiddlewares, ItemController.update)
-  .delete('/items/:id', authUserMiddlewares, ItemController.delete)
+  .post('/items', authUserMiddleware, ItemController.store)
+  .put('/items/:id', authUserMiddleware, ItemController.update)
+  .delete('/items/:id', authUserMiddleware, ItemController.delete)
 
   // Rotas de produtos
   .get('/products', ProductController.index)
   .get('/products/:id', ProductController.show)
 
-  .post('/products', authProviderMiddlewares, ProductController.store)
-  .put('/products/:id', authProviderMiddlewares, ProductController.update)
-  .delete('/products/:product_id', authProviderMiddlewares, ProductController.delete)
+  .post('/products', authProviderMiddleware, ProductController.store)
+  .put('/products/:id', authProviderMiddleware, ProductController.update)
+  .delete('/products/:product_id', authProviderMiddleware, ProductController.delete)
 
 export default routes
