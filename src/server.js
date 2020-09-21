@@ -1,4 +1,7 @@
+import dotenv from 'dotenv';
 import app from './app'
+
+dotenv.config();
 
 const port = process.env.PORT || 3333
 
@@ -7,7 +10,6 @@ app
   .use((request, response, next) => {
     const error = new Error('Not found')
     error.status = 404
-
     next(error)
   })
 

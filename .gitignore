@@ -1,8 +1,5 @@
-backend/node_modules/*
-backend/yarn.lock
-backend/.env
-
-mobile/node_modules/*
-mobile/yarn.lock
+node_modules/*
+dist/
+.env
 
 .DS_Store
