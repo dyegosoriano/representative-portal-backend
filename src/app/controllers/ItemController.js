@@ -17,7 +17,7 @@ class ItemController {
       const newItem = await Item.create({
         total_price: (amount * product.price),
         provider_id: product.provider_id,
-        product_name: product.name_product,
+        product_name: product.product_name,
         product_id,
         order_id,
         amount
