@@ -1,3 +1,6 @@
+import { format } from 'date-fns'
+import pt from 'date-fns/locale/pt'
+
 import Order from '../models/Order'
 
 class OrderController {
@@ -68,7 +71,14 @@ class OrderController {
 
       if (orders.count === 0) return response.json({ message: "You don't have service orders" })
 
-      return response.json(orders)
+      const formattedOrders = orders.map(item => (
+        {
+          ...item.dataValues,
+          createdAt: format(item.createdAt, 'dd/MM/yyyy', { locale: pt })
+        }
+      ))
+
+      return response.json(formattedOrders)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
