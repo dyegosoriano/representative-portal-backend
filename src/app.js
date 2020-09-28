@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 
 import routes from './routes'
+import loadRequest from './app/middleware/logRequest'
 
 import './database'
 
@@ -15,6 +16,7 @@ class App {
 
   middleware () {
     this.server.use(cors())
+    this.server.use(loadRequest)
     this.server.use(express.json())
   }
 
