@@ -24,7 +24,7 @@ class OrderController {
     // Alterar dados
     const { userId } = request
     const { id } = request.params
-    const { close, cancel, confirm } = request.body
+    const { close, cancel, confirm, delivered, onMyWay } = request.body
 
     try {
       const order = await Order.findByPk(id)
@@ -36,6 +36,8 @@ class OrderController {
       if (close) order.closed = new Date()
       if (cancel) order.canceled = new Date()
       if (confirm) order.confirmed = new Date()
+      if (onMyWay) order.on_my_way = new Date()
+      if (delivered) order.delivered = new Date()
 
       await order.save()
 
@@ -57,11 +59,13 @@ class OrderController {
     try {
       const orders = await Order.findAll({
         where: { owner_id },
-        order: ['createdAt'],
+        order: ['id'],
         attributes: [
           'id',
           'createdAt',
           'confirmed',
+          'on_my_way',
+          'delivered',
           'canceled',
           'closed'
         ],
@@ -98,7 +102,7 @@ class OrderController {
         id, {
           include: {
             association: 'items',
-            order: ['createdAt'],
+            order: ['id'],
             attributes: [
               'id',
               'product_name',
@@ -113,9 +117,7 @@ class OrderController {
       if (userId !== order.owner_id) return response.status(400).json({ error: "You're not allowed to access this service order!" })
       if (!order) return response.status(400).json({ error: "You're not allowed to access that service order" })
 
-      const { confirmed, canceled, closed, items } = order
-
-      return response.json({ id, confirmed, canceled, closed, items })
+      return response.json(order)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 

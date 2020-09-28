@@ -5,6 +5,8 @@ export default class Order extends Model {
     super.init(
       {
         confirmed: Sequelize.DATE,
+        delivered: Sequelize.DATE,
+        on_my_way: Sequelize.DATE,
         canceled: Sequelize.DATE,
         closed: Sequelize.DATE
       },

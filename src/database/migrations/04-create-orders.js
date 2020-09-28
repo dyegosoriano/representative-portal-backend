@@ -24,6 +24,14 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true
       },
+      delivered: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      on_my_way: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
       canceled: {
         type: Sequelize.DATE,
         allowNull: true
