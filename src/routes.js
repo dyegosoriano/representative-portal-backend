@@ -1,18 +1,23 @@
 import { Router } from 'express'
 
-import UserController from './app/controllers/UserController'
-import SessionController from './app/controllers/SessionController'
 import ProviderController from './app/controllers/ProviderController'
+import SessionController from './app/controllers/SessionController'
 import ProductController from './app/controllers/ProductController'
 import OrderController from './app/controllers/OrderController'
+import UserController from './app/controllers/UserController'
 import ItemController from './app/controllers/ItemController'
+import FileController from './app/controllers/FileController'
 
-import authUserMiddleware from './app/middleware/authUser'
 import authProviderMiddleware from './app/middleware/authProvider'
+import authUserMiddleware from './app/middleware/authUser'
 
 const routes = new Router()
 
-routes
+export default routes
+
+  // Files
+  .post('/files', FileController.store)
+
   // Rotas de autenticação
   .post('/sessions/user', SessionController.user)
   .post('/sessions/provider', SessionController.provider)
@@ -48,5 +53,3 @@ routes
   .post('/products', authProviderMiddleware, ProductController.store)
   .put('/products/:id', authProviderMiddleware, ProductController.update)
   .delete('/products/:product_id', authProviderMiddleware, ProductController.delete)
-
-export default routes
