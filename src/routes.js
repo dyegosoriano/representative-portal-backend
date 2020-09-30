@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import multer from 'multer'
 
 import ProviderController from './app/controllers/ProviderController'
 import SessionController from './app/controllers/SessionController'
@@ -10,13 +11,16 @@ import FileController from './app/controllers/FileController'
 
 import authProviderMiddleware from './app/middleware/authProvider'
 import authUserMiddleware from './app/middleware/authUser'
+import multerConfig from './config/multer'
+
+const upload = multer(multerConfig)
 
 const routes = new Router()
 
 export default routes
 
   // Files
-  .post('/files', FileController.store)
+  .post('/files', upload.single('file'), FileController.store)
 
   // Rotas de autenticação
   .post('/sessions/user', SessionController.user)

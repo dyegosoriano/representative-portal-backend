@@ -1,8 +1,9 @@
+import { resolve } from 'path'
 import express from 'express'
 import cors from 'cors'
 
-import routes from './routes'
 import loadRequest from './app/middleware/logRequest'
+import routes from './routes'
 
 import './database'
 
@@ -18,6 +19,7 @@ class App {
     this.server.use(cors())
     this.server.use(loadRequest)
     this.server.use(express.json())
+    this.server.use('/files', express.static(resolve(__dirname, '..', 'tmp', 'uploads')))
   }
 
   routes () {

@@ -2,7 +2,7 @@ import File from '../models/File'
 
 class FileController {
   async store (request, response, next) {
-    const { name, path } = request.body
+    const { originalname: name, filename: path } = request.file
 
     try {
       const file = await File.create({
