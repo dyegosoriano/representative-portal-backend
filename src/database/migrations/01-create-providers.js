@@ -5,13 +5,20 @@ module.exports = {
     return queryInterface.createTable('providers', {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement: true,
+        allowNull: false,
         primaryKey: true
       },
       name_provider: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      logo_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'files', key: 'id' },
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+        allowNull: true
       },
       email: {
         type: Sequelize.STRING,

@@ -1,20 +1,40 @@
 import Provider from '../models/Provider'
+import File from '../models/File'
 
 class ProviderController {
   async store (request, response) {
     // Cadastrar provedor
-    const { name_provider, email, cnpj, password } = request.body
+    const { name_provider, email, cnpj, password, logo_id } = request.body
 
     try {
       const emailExist = await Provider.findOne({ where: { email } })
       const cnpjExist = await Provider.findOne({ where: { cnpj } })
 
-      if (emailExist) return response.status(400).json({ error: 'The email has already been registered previously' })
-      if (cnpjExist) return response.status(400).json({ error: 'CNPJ has been previously registered' })
+      if (emailExist) {
+        return response
+          .status(400)
+          .json({ error: 'The email has already been registered previously' })
+      }
+      if (cnpjExist) {
+        return response
+          .status(400)
+          .json({ error: 'CNPJ has been previously registered' })
+      }
 
-      const { id } = await Provider.create({ name_provider, password, email, cnpj })
+      const { id } = await Provider.create({
+        name_provider,
+        password,
+        logo_id,
+        email,
+        cnpj
+      })
 
-      return response.json({ id, name_provider, email, cnpj })
+      return response.json({
+        id,
+        name_provider,
+        email,
+        cnpj
+      })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
@@ -26,7 +46,15 @@ class ProviderController {
 
   async update (request, response) {
     // Alterar provedor
-    const { name_provider, email, cnpj, oldPassword, newPassword, confirmationPassword } = request.body
+    const {
+      name_provider,
+      email,
+      cnpj,
+      oldPassword,
+      newPassword,
+      confirmationPassword,
+      logo_id
+    } = request.body
 
     try {
       const provider = await Provider.findByPk(request.userId)
@@ -54,13 +82,21 @@ class ProviderController {
       if (newPassword !== confirmationPassword) {
         return response
           .status(401)
-          .json({ error: 'The confirmation password does not match the new password' })
+          .json({
+            error: 'The confirmation password does not match the new password'
+          })
       }
 
       if (oldPassword && !(await provider.checkPassword(oldPassword))) {
-        return response
-          .status(401)
-          .json({ error: 'Password does not match' })
+        return response.status(401).json({ error: 'Password does not match' })
+      }
+
+      if (logo_id) {
+        const logoExist = await File.findByPk(logo_id)
+
+        if (!logoExist) return response.status(401).json({ error: 'The logo is not in the database' })
+
+        await provider.update({ logo_id })
       }
 
       await provider.update({
@@ -70,7 +106,9 @@ class ProviderController {
         cnpj
       })
 
-      return response.json({ message: `user ${provider.name_provider} has been updated` })
+      return response.json({
+        message: `user ${provider.name_provider} has been updated`
+      })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
@@ -85,7 +123,7 @@ class ProviderController {
     try {
       // Listagem de dados
       const providers = await Provider.findAll({
-        attributes: ['id', 'name_provider', 'email', 'cnpj'],
+        attributes: ['id', 'logo_id', 'name_provider', 'email', 'cnpj'],
         limit: 10,
         offset: (page - 1) * 10
       })
@@ -96,7 +134,7 @@ class ProviderController {
 
       return response
         .status(500)
-        .json({ error: 'there\'s been a mistake on the server' })
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 
@@ -110,7 +148,11 @@ class ProviderController {
         include: { association: 'products' }
       })
 
-      if (!provider) return response.status(400).json({ error: "The supplier doesn't exist!" })
+      if (!provider) {
+        return response
+          .status(400)
+          .json({ error: "The supplier doesn't exist!" })
+      }
 
       return response.json(provider)
     } catch (error) {
@@ -131,13 +173,15 @@ class ProviderController {
 
       await provider.save()
 
-      return response.json({ message: `The ${provider.name_provider} supplier has been successfully excluded!` })
+      return response.json({
+        message: `The ${provider.name_provider} supplier has been successfully excluded!`
+      })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
       return response
         .status(500)
-        .json({ error: 'there\'s been a mistake on the server' })
+        .json({ error: "there's been a mistake on the server" })
     }
   }
 }

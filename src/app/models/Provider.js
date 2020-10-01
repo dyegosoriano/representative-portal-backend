@@ -6,10 +6,11 @@ export default class Provider extends Model {
     super.init(
       {
         name_provider: Sequelize.STRING,
-        email: Sequelize.STRING,
-        cnpj: Sequelize.STRING,
+        password_hash: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
-        password_hash: Sequelize.STRING
+        logo_id: Sequelize.INTEGER,
+        email: Sequelize.STRING,
+        cnpj: Sequelize.STRING
       },
       { sequelize: connection }
     )
