@@ -1,17 +1,19 @@
 import Product from '../models/Product'
+import File from '../models/File'
 
 class ProductController {
   async store (request, response) {
     // Cadastrar produto
     const provider_id = request.userId
-    const { product_name, price, amount } = request.body
+    const { product_name, price, amount, product_image } = request.body
 
     try {
       const newProduct = await Product.create({
-        provider_id,
+        product_image,
         product_name,
-        price,
-        amount
+        provider_id,
+        amount,
+        price
       })
 
       return response.json(newProduct)
@@ -28,7 +30,7 @@ class ProductController {
     // Alterar produto
     const { userId } = request
     const { id } = request.params
-    const { product_name, price, amount } = request.body
+    const { product_name, price, amount, product_image } = request.body
 
     try {
       const product = await Product.findByPk(id)
@@ -44,16 +46,17 @@ class ProductController {
           .json({ error: "You're not allowed to alter this product" })
       }
 
-      await product.update({ product_name, price, amount })
-      const { provider_id } = product
+      if (product_image) {
+        const imageExist = await File.findByPk(product_image)
 
-      return response.json({
-        id,
-        provider_id,
-        product_name,
-        amount,
-        price
-      })
+        if (!imageExist) return response.status(401).json({ error: 'The image is not in the database' })
+
+        await product.update({ product_image })
+      }
+
+      await product.update({ product_name, price, amount })
+
+      return response.json(product)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
@@ -74,12 +77,18 @@ class ProductController {
         products = await Product.findAll()
       } else {
         products = await Product.findAll({
+          order: ['id'],
           attributes: [
             'id',
             'product_name',
             'price',
             'amount'
           ],
+          include: [{
+            model: File,
+            as: 'image',
+            attributes: ['name', 'url']
+          }],
           limit: 10,
           offset: (page - 1) * 10
         })
@@ -108,7 +117,12 @@ class ProductController {
           'product_name',
           'amount',
           'price'
-        ]
+        ],
+        include: [{
+          model: File,
+          as: 'image',
+          attributes: ['name', 'url']
+        }]
       })
 
       if (!product) {
