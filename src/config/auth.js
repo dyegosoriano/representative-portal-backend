@@ -1,7 +1,9 @@
 import 'dotenv/config'
 
-export default {
-  secretUser: process.env.USER_SECRET,
+const authConfig = {
   secretProvider: process.env.PROVIDER_SECRET,
+  secretUser: process.env.USER_SECRET,
   expiresIn: process.env.DAY_EXPIRES
 }
+
+export default authConfig
