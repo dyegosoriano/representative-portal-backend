@@ -5,8 +5,8 @@ module.exports = {
     return queryInterface.createTable('users', {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement: true,
+        allowNull: false,
         primaryKey: true
       },
       name: {
@@ -27,6 +27,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      // provider_id: {
+      //   type: Sequelize.INTEGER,
+      //   references: { model: 'providers', key: 'id' },
+      //   onUpdate: 'CASCADE',
+      //   onDelete: 'CASCADE',
+      //   allowNull: false
+      // },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false
