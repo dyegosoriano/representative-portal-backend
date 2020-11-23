@@ -1,21 +1,21 @@
 import { Router } from 'express'
 import multer from 'multer'
 
-import ProviderController from './app/controllers/ProviderController'
-import SessionController from './app/controllers/SessionController'
-import ProductController from './app/controllers/ProductController'
-import OrderController from './app/controllers/OrderController'
-import UserController from './app/controllers/UserController'
-import ItemController from './app/controllers/ItemController'
-import FileController from './app/controllers/FileController'
+import ProviderController from '@controllers/ProviderController'
+import ProductController from '@controllers/ProductController'
+import SessionController from '@controllers/SessionController'
+import OrderController from '@controllers/OrderController'
+import FileController from '@controllers/FileController'
+import ItemController from '@controllers/ItemController'
+import UserController from '@controllers/UserController'
 
-import authProviderMiddleware from './app/middleware/authProvider'
-import authUserMiddleware from './app/middleware/authUser'
+import authProviderMiddleware from '@middleware/authProvider'
+import authUserMiddleware from '@middleware/authUser'
 import multerConfig from './config/multer'
 
 const upload = multer(multerConfig)
 
-const routes = new Router()
+const routes = Router()
 
 export default routes
 
@@ -56,4 +56,8 @@ export default routes
 
   .post('/products', authProviderMiddleware, ProductController.store)
   .put('/products/:id', authProviderMiddleware, ProductController.update)
-  .delete('/products/:product_id', authProviderMiddleware, ProductController.delete)
+  .delete(
+    '/products/:product_id',
+    authProviderMiddleware,
+    ProductController.delete,
+  )
