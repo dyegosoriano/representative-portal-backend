@@ -1,6 +1,7 @@
 node_modules/*
 tmp/uploads/*
+!tmp/uploads/.gitkeep
 dist/
-.env
 
+.env
 .DS_Store
