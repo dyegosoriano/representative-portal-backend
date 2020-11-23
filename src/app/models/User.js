@@ -5,11 +5,12 @@ export default class User extends Model {
   static init (connection) {
     super.init(
       {
-        name: Sequelize.STRING,
-        email: Sequelize.STRING,
-        cnpj: Sequelize.REAL,
+        password_hash: Sequelize.STRING,
+        // provider_id: Sequelize.INTEGER,
         password: Sequelize.VIRTUAL,
-        password_hash: Sequelize.STRING
+        email: Sequelize.STRING,
+        name: Sequelize.STRING,
+        cnpj: Sequelize.REAL
       },
       { sequelize: connection }
     )
@@ -23,6 +24,10 @@ export default class User extends Model {
 
     return this
   }
+
+  // static associate (models) {
+  //   this.belongsTo(models.Provider, { foreignKey: 'id', as: 'provider' })
+  // }
 
   // Método de verificação de senha
   checkPassword (password) {

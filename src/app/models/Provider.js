@@ -27,6 +27,7 @@ export default class Provider extends Model {
 
   static associate (models) {
     this.hasMany(models.Product, { foreignKey: 'provider_id', as: 'products' })
+    // this.hasMany(models.User, { foreignKey: 'provider_id', as: 'users' })
   }
 
   // Método de verificação de senha
