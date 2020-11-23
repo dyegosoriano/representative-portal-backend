@@ -4,6 +4,9 @@ class UserController {
   async store (request, response) {
     // Cadastrar usuário
     const { name, email, cnpj, password } = request.body
+    const provider_id = request.userId
+
+    console.log(`ID Provider = ${provider_id}`)
 
     try {
       const emailExist = await User.findOne({ where: { email } })
@@ -14,7 +17,7 @@ class UserController {
 
       const { id } = await User.create({ password, name, email, cnpj })
 
-      return response.json({ id, name, email, cnpj })
+      return response.json({ id, name, email, cnpj, provider_id })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 

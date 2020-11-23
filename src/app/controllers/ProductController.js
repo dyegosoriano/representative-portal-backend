@@ -84,11 +84,11 @@ class ProductController {
             'price',
             'amount'
           ],
-          include: [{
+          include: {
             model: File,
             as: 'image',
-            attributes: ['name', 'url']
-          }],
+            attributes: ['name', 'path']
+          },
           limit: 10,
           offset: (page - 1) * 10
         })

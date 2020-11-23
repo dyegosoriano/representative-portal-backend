@@ -29,9 +29,17 @@ class OrderController {
     try {
       const order = await Order.findByPk(id)
 
-      if (!order) return response.status(400).json({ message: "That order of service doesn't exist!" })
+      if (!order) {
+        return response
+          .status(400)
+          .json({ message: "That order of service doesn't exist!" })
+      }
 
-      if (userId !== order.owner_id) return response.status(400).json({ message: "You can't change this item" })
+      if (userId !== order.owner_id) {
+        return response
+          .status(400)
+          .json({ message: "You can't change this item" })
+      }
 
       if (close) order.closed = new Date()
       if (cancel) order.canceled = new Date()
@@ -73,14 +81,12 @@ class OrderController {
         offset: (page - 1) * 10
       })
 
-      if (orders.count === 0) return response.json({ message: "You don't have service orders" })
+      if (orders.count === 0) { return response.json({ message: "You don't have service orders" }) }
 
-      const formattedOrders = orders.map(item => (
-        {
-          ...item.dataValues,
-          createdAt: format(item.createdAt, 'dd/MM/yyyy', { locale: pt })
-        }
-      ))
+      const formattedOrders = orders.map(item => ({
+        ...item.dataValues,
+        createdAt: format(item.createdAt, 'dd/MM/yyyy', { locale: pt })
+      }))
 
       return response.json(formattedOrders)
     } catch (error) {
@@ -98,24 +104,40 @@ class OrderController {
     const { userId } = request
 
     try {
-      const order = await Order.findByPk(
-        id, {
-          include: {
-            association: 'items',
-            order: ['id'],
-            attributes: [
-              'id',
-              'product_name',
-              'total_price',
-              'amount'
-            ]
-          }
+      const order = await Order.findOne({
+        where: { id },
+        attributes: [
+          'id',
+          'owner_id',
+          'createdAt',
+          'confirmed',
+          'on_my_way',
+          'delivered',
+          'canceled',
+          'closed'
+        ],
+        include: {
+          association: 'items',
+          order: ['id'],
+          attributes: ['id', 'product_name', 'total_price', 'amount']
         }
-      )
+      })
 
-      if (!order) return response.status(400).json({ erro: "The solicitation service order doesn't exist" })
-      if (userId !== order.owner_id) return response.status(400).json({ error: "You're not allowed to access this service order!" })
-      if (!order) return response.status(400).json({ error: "You're not allowed to access that service order" })
+      if (!order) {
+        return response
+          .status(400)
+          .json({ erro: "The solicitation service order doesn't exist" })
+      }
+      if (userId !== order.owner_id) {
+        return response
+          .status(400)
+          .json({ error: "You're not allowed to access this service order!" })
+      }
+      if (!order) {
+        return response
+          .status(400)
+          .json({ error: "You're not allowed to access that service order" })
+      }
 
       return response.json(order)
     } catch (error) {
@@ -135,14 +157,24 @@ class OrderController {
     try {
       const order = await Order.findByPk(id)
 
-      if (!order) return response.status(400).json({ error: "The solicitation service order doesn't exist" })
-      if (userId !== order.owner_id) return response.status(400).json({ error: "You're not authorized to delete this service order" })
+      if (!order) {
+        return response
+          .status(400)
+          .json({ error: "The solicitation service order doesn't exist" })
+      }
+      if (userId !== order.owner_id) {
+        return response
+          .status(400)
+          .json({ error: "You're not authorized to delete this service order" })
+      }
 
       order.destroy()
 
       await order.save()
 
-      return response.json({ message: 'The service order has been successfully deleted!' })
+      return response.json({
+        message: 'The service order has been successfully deleted!'
+      })
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
 
