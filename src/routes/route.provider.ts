@@ -57,6 +57,25 @@ providerRoute.get('/', async (req: Request, res: Response) => {
     return res.json(providers_view.renderAll(providers))
   } catch (error) {
     console.log(`error.message >>> ${error.message} <<<`)
+
+    return res
+      .status(500)
+      .json({ error: "there's been a mistake on the server" })
+  }
+})
+
+providerRoute.get('/:id', async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  try {
+    const providerRepository = getRepository(Providers)
+    const provider = await providerRepository.findOneOrFail(id)
+
+    return res.json(providers_view.render(provider))
+  } catch (error) {
+    console.log(`error.message >>> ${error.message} <<<`)
+
+    return res.status(500).json({ error: error.message })
   }
 })
 
