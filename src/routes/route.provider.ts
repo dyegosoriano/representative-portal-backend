@@ -145,4 +145,21 @@ providerRoute.put('/', async (req: Request, res: Response) => {
   }
 })
 
+providerRoute.delete('/', async (req: Request, res: Response) => {
+  const id = req.providerId
+
+  try {
+    const providerRepository = getRepository(Providers)
+    const provider = await providerRepository.delete({ id })
+
+    return res.json({
+      message: `Action completed successfully!`,
+    })
+  } catch (error) {
+    console.log(`error.message >>> ${error.message} <<<`)
+
+    return res.status(500).json({ error: error.message })
+  }
+})
+
 export default providerRoute
