@@ -16,4 +16,8 @@ export default {
       cnpj: provider.cnpj,
     }
   },
+
+  renderAll(providers: Providers[]): Render[] {
+    return providers.map(provider => this.render(provider))
+  },
 }

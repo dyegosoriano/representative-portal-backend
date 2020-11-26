@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express'
 import { getRepository } from 'typeorm'
 
+import authProviderMiddleware from '@middleware/authProvider'
 import providers_view from '@views/providers_view'
 import { passwordEncrypt } from '@util/password'
 
@@ -18,7 +19,6 @@ providerRoute.post('/', async (req: Request, res: Response) => {
     })
 
     providerExist.find(provider => {
-      console.log('ok')
       if (provider.email === email) throw new Error('The email already exists!')
       if (provider.cnpj === cnpj) throw new Error('The CNPJ already exists!')
     })
@@ -39,6 +39,24 @@ providerRoute.post('/', async (req: Request, res: Response) => {
     console.log(`error.message >>> ${error.message} <<<`)
 
     return res.status(500).json({ error: error.message })
+  }
+})
+
+providerRoute.use(authProviderMiddleware)
+
+providerRoute.get('/', async (req: Request, res: Response) => {
+  const page = Number(req.query.page) || 1
+
+  try {
+    const providerRepository = getRepository(Providers)
+    const providers = await providerRepository.find({
+      skip: (page - 1) * 10,
+      take: 10,
+    })
+
+    return res.json(providers_view.renderAll(providers))
+  } catch (error) {
+    console.log(`error.message >>> ${error.message} <<<`)
   }
 })
 
