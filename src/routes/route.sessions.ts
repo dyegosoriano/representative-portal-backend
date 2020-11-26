@@ -1,12 +1,12 @@
 import { Request, Response, Router } from 'express'
 import { getRepository } from 'typeorm'
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcryptjs'
+
+import { passwordCheck } from '@util/password'
+import authConfig from '@config/auth'
 
 import Providers from '@models/Providers'
 import Users from '@models/Users'
-
-import authConfig from '@config/auth'
 
 const sessionsRoute = Router()
 
@@ -14,10 +14,10 @@ sessionsRoute.post('/user', async (req: Request, res: Response) => {
   const { email, password } = req.body
 
   try {
-    const repoUser = getRepository(Users)
-    const user = await repoUser.findOneOrFail({ where: { email } })
+    const userRepository = getRepository(Users)
+    const user = await userRepository.findOneOrFail({ where: { email } })
 
-    if (!(await bcrypt.compare(password, user.passwordHash))) {
+    if (!(await passwordCheck(password, user.password_hash))) {
       throw new Error('password does not match')
     }
 
@@ -40,10 +40,12 @@ sessionsRoute.post('/provider', async (req: Request, res: Response) => {
   const { email, password } = req.body
 
   try {
-    const repoProvider = getRepository(Providers)
-    const provider = await repoProvider.findOneOrFail({ where: { email } })
+    const providerRepository = getRepository(Providers)
+    const provider = await providerRepository.findOneOrFail({
+      where: { email },
+    })
 
-    if (!(await bcrypt.compare(password, provider.passwordHash))) {
+    if (!(await passwordCheck(password, provider.password_hash))) {
       throw new Error('password does not match')
     }
 
