@@ -14,12 +14,16 @@ import sessionsRoute from './route.sessions'
 import userRoute from './route.user'
 
 import multerConfig from '@config/multer'
+import providerRoute from './route.provider'
 
 const upload = multer(multerConfig)
 
 const routes = Router()
 
-routes.use('/sessions', sessionsRoute).use('/user', userRoute)
+routes
+  .use('/sessions', sessionsRoute)
+  .use('/provider', providerRoute)
+  .use('/user', userRoute)
 
 // // Files
 // .post('/files', upload.single('file'), FileController.store)
