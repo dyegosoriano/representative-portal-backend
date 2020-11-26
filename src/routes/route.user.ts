@@ -90,24 +90,24 @@ userRoute.put('/', async (req: Request, res: Response) => {
       )
     }
 
-    if (email !== user.email) {
-      const emailExist = await userRepository.findOne({ where: { email } })
+    if (email || cnpj) {
+      const userExist = await userRepository.find({
+        where: [{ email }, { cnpj }],
+      })
 
-      if (emailExist) {
-        throw new Error('The email already exists in the database.')
-      }
+      userExist.find(item => {
+        if (user.id !== item.id) {
+          if (item.email === email) {
+            throw new Error('The email already exists!')
+          }
+          if (item.cnpj === cnpj) {
+            throw new Error('The CNPJ already exists!')
+          }
+        }
+      })
 
-      user.email = email
-    }
-
-    if (cnpj !== user.cnpj) {
-      const cnpjExist = await userRepository.findOne({ where: { cnpj } })
-
-      if (cnpjExist) {
-        throw new Error('The CNPJ already exists in the database.')
-      }
-
-      user.cnpj = cnpj
+      user.email !== email ? (user.email = email) : false
+      user.cnpj !== cnpj ? (user.cnpj = cnpj) : false
     }
 
     if (name) {
