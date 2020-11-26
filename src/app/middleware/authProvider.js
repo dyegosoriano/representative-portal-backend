@@ -3,7 +3,7 @@ import { promisify } from 'util'
 
 import authConfig from '@config/auth'
 
-export default async function authUserMiddleware (request, response, next) {
+export default async function authProviderMiddleware (request, response, next) {
   // Carregando token da requisição
   const authHeader = request.headers.authorization
 
