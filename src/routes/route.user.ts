@@ -19,7 +19,6 @@ userRoute.post('/', async (req: Request, res: Response) => {
     })
 
     userExist.find(user => {
-      console.log('ok')
       if (user.email === email) throw new Error('The email already exists!')
       if (user.cnpj === cnpj) throw new Error('The CNPJ already exists!')
     })
