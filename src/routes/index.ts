@@ -6,12 +6,12 @@ import ProductController from '@controllers/ProductController'
 import OrderController from '@controllers/OrderController'
 import FileController from '@controllers/FileController'
 import ItemController from '@controllers/ItemController'
-import UserController from '@controllers/UserController'
 
 import authProviderMiddleware from '@middleware/authProvider'
 import authUserMiddleware from '@middleware/authUser'
 
 import sessionsRoute from './route.sessions'
+import userRoute from './route.user'
 
 import multerConfig from '@config/multer'
 
@@ -19,15 +19,10 @@ const upload = multer(multerConfig)
 
 const routes = Router()
 
-routes.use('/sessions', sessionsRoute)
+routes.use('/sessions', sessionsRoute).use('/user', userRoute)
 
 // // Files
 // .post('/files', upload.single('file'), FileController.store)
-
-// // Rotas de usuários
-// .post('/user', UserController.store)
-// .get('/user', authUserMiddleware, UserController.show)
-// .put('/user', authUserMiddleware, UserController.update)
 
 // // Rotas de provedores
 // .post('/provider', ProviderController.store)
