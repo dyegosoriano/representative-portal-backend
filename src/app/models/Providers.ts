@@ -8,7 +8,7 @@ import Files from './Files'
 @Entity('providers', { schema: 'public' })
 export default class Providers extends GenericUser {
   @Column('character varying', { name: 'name_provider', length: 255 })
-  nameProvider: string
+  name_provider: string
 
   @OneToMany(() => Items, items => items.provider)
   items: Items[]
