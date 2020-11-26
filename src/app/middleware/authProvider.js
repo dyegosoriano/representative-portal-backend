@@ -15,7 +15,7 @@ export default async function authProviderMiddleware (request, response, next) {
   try {
     const decoded = await promisify(jwt.verify)(token, authConfig.secretProvider)
 
-    request.userId = decoded.id
+    request.providerId = decoded.id
 
     return next()
   } catch (error) {
