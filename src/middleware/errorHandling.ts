@@ -1,18 +1,21 @@
 import { NextFunction, Request, Response } from 'express'
+import AppError from '@errors/AppError'
 
 export default {
-  notFound(req: Request, res: Response, next: NextFunction): void {
-    const error: any = new Error('Not found')
-    error.status = 404
-
-    next(error)
+  notFound(req: Request, res: Response, next: NextFunction) {
+    throw new AppError('Not found', 404)
   },
 
-  cathAll(error: any, req: Request, res: Response, next: NextFunction): void {
-    console.log(`error.message >>> ${error.message} <<<`)
+  globalErrors(err: Error, req: Request, res: Response, next: NextFunction) {
+    if (err instanceof AppError) {
+      return res.status(err.statusCode).json({
+        status: 'error',
+        message: err.message,
+      })
+    }
 
-    res
-      .status(error.status || 500)
-      .json({ error: `Sorry! There was an error on our server.` })
+    console.log(`error.message >>> ${err.message} <<<`)
+
+    res.status(500).json({ status: 'error', message: `Internal server error` })
   },
 }

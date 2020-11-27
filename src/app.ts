@@ -1,5 +1,6 @@
-import { resolve } from 'path'
 import express from 'express'
+import 'express-async-errors'
+import { resolve } from 'path'
 import cors from 'cors'
 
 import errorHandling from '@middleware/errorHandling'
@@ -35,7 +36,7 @@ class App {
 
   errors(): void {
     this.server.use(errorHandling.notFound)
-    this.server.use(errorHandling.cathAll)
+    this.server.use(errorHandling.globalErrors)
   }
 }
 
