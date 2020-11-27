@@ -5,7 +5,7 @@ import authProviderMiddleware from '@middleware/authProvider'
 import providers_view from '@views/providers_view'
 import { passwordCheck, passwordEncrypt } from '@util/password'
 
-import Providers from '@models/Providers'
+import Providers from '@entity/Providers'
 
 const providerRoute = Router()
 

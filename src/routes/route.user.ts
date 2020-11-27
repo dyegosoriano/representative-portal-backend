@@ -5,7 +5,7 @@ import { passwordCheck, passwordEncrypt } from '@util/password'
 import authUserMiddleware from '@middleware/authUser'
 import users_view from '@views/users_view'
 
-import Users from '@models/Users'
+import Users from '@entity/Users'
 
 const userRoute = Router()
 

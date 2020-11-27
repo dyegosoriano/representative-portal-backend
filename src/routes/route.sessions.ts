@@ -5,8 +5,8 @@ import jwt from 'jsonwebtoken'
 import { passwordCheck } from '@util/password'
 import authConfig from '@config/auth'
 
-import Providers from '@models/Providers'
-import Users from '@models/Users'
+import Providers from '@entity/Providers'
+import Users from '@entity/Users'
 
 const sessionsRoute = Router()
 

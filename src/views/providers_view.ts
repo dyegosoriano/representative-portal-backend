@@ -1,4 +1,4 @@
-import Providers from '@models/Providers'
+import Providers from '@entity/Providers'
 
 interface Render {
   id: number

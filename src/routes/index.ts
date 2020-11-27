@@ -1,20 +1,12 @@
 import { Router } from 'express'
 import multer from 'multer'
 
-import ProviderController from '@controllers/ProviderController'
-import ProductController from '@controllers/ProductController'
-import OrderController from '@controllers/OrderController'
-import FileController from '@controllers/FileController'
-import ItemController from '@controllers/ItemController'
-
-import authProviderMiddleware from '@middleware/authProvider'
-import authUserMiddleware from '@middleware/authUser'
-
 import sessionsRoute from './route.sessions'
+import providerRoute from './route.provider'
+import orderRoute from './route.orders'
 import userRoute from './route.user'
 
 import multerConfig from '@config/multer'
-import providerRoute from './route.provider'
 
 const upload = multer(multerConfig)
 
@@ -23,17 +15,11 @@ const routes = Router()
 routes
   .use('/sessions', sessionsRoute)
   .use('/provider', providerRoute)
+  .use('/order', orderRoute)
   .use('/user', userRoute)
 
 // // Files
 // .post('/files', upload.single('file'), FileController.store)
-
-// // Rotas de provedores
-// .post('/provider', ProviderController.store)
-// .put('/provider', authProviderMiddleware, ProviderController.update)
-// .get('/provider', authProviderMiddleware, ProviderController.index)
-// .get('/provider/:id', authProviderMiddleware, ProviderController.show)
-// .delete('/provider', authProviderMiddleware, ProviderController.delete)
 
 // // Rotas de ordens de serviços
 // .post('/orders', authUserMiddleware, OrderController.store)
