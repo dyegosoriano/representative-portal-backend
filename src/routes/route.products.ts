@@ -5,6 +5,7 @@ import authProviderMiddleware from '@middleware/authProvider'
 
 import Products from '@entity/Products'
 import products_view from '@views/products_view'
+import AppError from '@errors/AppError'
 
 const productsRouter = Router()
 
@@ -27,7 +28,18 @@ productsRouter.get('/', async (req: Request, res: Response) => {
   return res.json(products_view.renderAll(products))
 })
 
-productsRouter.get('/:id', async (req: Request, res: Response) => {})
+productsRouter.get('/:id', async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  const productRepository = getRepository(Products)
+  const product = await productRepository.findOne({ where: { id } })
+
+  if (!product) {
+    throw new AppError('O produto solicitado não existe!', 400)
+  }
+
+  return res.json(products_view.render(product))
+})
 
 productsRouter.use(authProviderMiddleware)
 
