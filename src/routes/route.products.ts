@@ -8,7 +8,24 @@ import products_view from '@views/products_view'
 
 const productsRouter = Router()
 
-productsRouter.get('/', async (req: Request, res: Response) => {})
+productsRouter.get('/', async (req: Request, res: Response) => {
+  const page = Number(req.query.page)
+
+  const productRepository = getRepository(Products)
+
+  let products = []
+
+  if (!page) {
+    products = await productRepository.find()
+  } else {
+    products = await productRepository.find({
+      skip: (page - 1) * 10,
+      take: 10,
+    })
+  }
+
+  return res.json(products_view.renderAll(products))
+})
 
 productsRouter.get('/:id', async (req: Request, res: Response) => {})
 
