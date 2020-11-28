@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import multer from 'multer'
 
+import productsRouter from './route.products'
 import sessionsRoute from './route.sessions'
 import providerRoute from './route.provider'
 import orderRoute from './route.orders'
@@ -13,6 +14,7 @@ const upload = multer(multerConfig)
 const routes = Router()
 
 routes
+  .use('/products', productsRouter)
   .use('/sessions', sessionsRoute)
   .use('/provider', providerRoute)
   .use('/order', orderRoute)
