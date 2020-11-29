@@ -1,24 +1,21 @@
-import jwt from 'jsonwebtoken'
 import { promisify } from 'util'
+import jwt from 'jsonwebtoken'
 
+import AppError from '@errors/AppError'
 import authConfig from '@config/auth'
 
-export default async function authProviderMiddleware (request, response, next) {
+export default async function authProviderMiddleware(req, res, next) {
   // Carregando token da requisição
-  const authHeader = request.headers.authorization
+  const authHeader = req.headers.authorization
 
   // Validando existência do token
-  if (!authHeader) { return response.status(401).json({ error: 'Token not provided' }) }
+  if (!authHeader) throw new AppError('Token not provided', 401)
 
   const [, token] = authHeader.split(' ')
 
-  try {
-    const decoded = await promisify(jwt.verify)(token, authConfig.secretProvider)
+  const decoded = await promisify(jwt.verify)(token, authConfig.secretProvider)
 
-    request.providerId = decoded.id
+  req.providerId = decoded.id
 
-    return next()
-  } catch (error) {
-    return response.status(401).json({ error: 'Token invalid' })
-  }
+  return next()
 }
