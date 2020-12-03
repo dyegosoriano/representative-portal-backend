@@ -1,23 +1,23 @@
-import Products from '@entity/Products'
+import Product from '@entity/Product'
 
 interface Render {
-  id: number
+  id: string
   product: string
   amount: number
   price: string
 }
 
 export default {
-  render(products: Products): Render {
+  render(products: Product): Render {
     return {
       id: products.id,
-      product: products.product_name,
+      product: products.product,
       amount: products.amount,
       price: products.price,
     }
   },
 
-  renderAll(products: Products[]): Render[] {
+  renderAll(products: Product[]): Render[] {
     return products.map(product => this.render(product))
   },
 }

@@ -1,14 +1,14 @@
-import Users from '@entity/Users'
+import User from '@entity/User'
 
 interface Render {
-  id: number
+  id: string
   name: string
   email: string
   cnpj: string
 }
 
 export default {
-  render(user: Users): Render {
+  render(user: User): Render {
     return {
       id: user.id,
       name: user.name,

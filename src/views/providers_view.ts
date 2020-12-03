@@ -1,23 +1,23 @@
-import Providers from '@entity/Providers'
+import Provider from '@entity/Provider'
 
 interface Render {
-  id: number
+  id: string
   name: string
   email: string
   cnpj: string
 }
 
 export default {
-  render(provider: Providers): Render {
+  render(provider: Provider): Render {
     return {
       id: provider.id,
-      name: provider.name_provider,
+      name: provider.name,
       email: provider.email,
       cnpj: provider.cnpj,
     }
   },
 
-  renderAll(providers: Providers[]): Render[] {
+  renderAll(providers: Provider[]): Render[] {
     return providers.map(provider => this.render(provider))
   },
 }
