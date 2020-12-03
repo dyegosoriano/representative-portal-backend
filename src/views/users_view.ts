@@ -1,14 +1,14 @@
 import User from '@entity/User'
 
-interface Render {
+export interface UserRender {
   id: string
   name: string
   email: string
-  cnpj: string
+  cnpj: number
 }
 
 export default {
-  render(user: User): Render {
+  render(user: User): UserRender {
     return {
       id: user.id,
       name: user.name,
