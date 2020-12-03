@@ -16,7 +16,7 @@ interface Response {
   provider: {
     name: string
     email: string
-    cnpj: string
+    cnpj: number
   }
   token: string
 }

@@ -16,7 +16,7 @@ interface Response {
   user: {
     name: string
     email: string
-    cnpj: string
+    cnpj: number
   }
   token: string
 }
