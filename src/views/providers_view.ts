@@ -1,14 +1,14 @@
 import Provider from '@entity/Provider'
 
-interface Render {
+export interface ProviderRender {
   id: string
   name: string
   email: string
-  cnpj: string
+  cnpj: number
 }
 
 export default {
-  render(provider: Provider): Render {
+  render(provider: Provider): ProviderRender {
     return {
       id: provider.id,
       name: provider.name,
@@ -17,7 +17,7 @@ export default {
     }
   },
 
-  renderAll(providers: Provider[]): Render[] {
+  renderAll(providers: Provider[]): ProviderRender[] {
     return providers.map(provider => this.render(provider))
   },
 }
