@@ -13,5 +13,5 @@ export default abstract class GenericEntity extends Generic {
   email: string
 
   @Column('character varying', { name: 'cnpj', unique: true, length: 255 })
-  cnpj: string
+  cnpj: number
 }
