@@ -22,14 +22,12 @@ export default class CreateProviderService {
     })
 
     providerExist.find(provider => {
-      if (provider.email === email) throw new AppError('O email já existe!', 401)
-      if (provider.cnpj === cnpj) throw new AppError('O CNPJ já existe!', 401)
+      if (provider.email === email) throw new AppError('Este email ja foi cadastrado!', 401)
+      if (provider.cnpj === cnpj) throw new AppError('Este CNPJ ja foi cadastrado!', 401)
     })
 
     const provider = providerRepository.create({
       password: await passwordEncrypt(password),
-      created_at: new Date(),
-      updated_at: new Date(),
       email,
       cnpj,
       name,
