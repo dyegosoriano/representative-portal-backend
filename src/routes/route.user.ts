@@ -34,21 +34,14 @@ userRoute.get('/', async (request, response) => {
 })
 
 userRoute.put('/', async (request, response) => {
+  const { confirmPass, oldPass, newPass, email, name, cnpj } = request.body
   const { id } = request.user
-  const {
-    confirmationPassword,
-    oldPassword,
-    newPassword,
-    name,
-    email,
-    cnpj,
-  } = request.body
 
   const updateUser = new UpdateUserService()
   const user = await updateUser.execute({
-    confirmationPassword,
-    newPassword,
-    oldPassword,
+    confirmPass,
+    newPass,
+    oldPass,
     email,
     name,
     cnpj,

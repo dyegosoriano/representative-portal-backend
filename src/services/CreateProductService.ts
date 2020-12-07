@@ -22,8 +22,8 @@ export default class CreateProductService {
       price,
     })
 
-    const productCreated = await productRepository.save(newProduct)
+    await productRepository.save(newProduct)
 
-    return products_view.render(productCreated)
+    return products_view.render(newProduct)
   }
 }

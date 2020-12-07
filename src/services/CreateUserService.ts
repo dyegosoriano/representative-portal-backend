@@ -16,27 +16,22 @@ interface Request {
 export default class CreateUserService {
   async execute({ name, email, cnpj, password }: Request): Promise<UserRender> {
     const userRepository = getRepository(User)
-    const userExist = await userRepository.find({
-      where: [{ email }, { cnpj }],
-    })
+    const userExist = await userRepository.find({ where: [{ email }, { cnpj }] })
 
     userExist.find(user => {
-      if (user.email === email)
-        throw new AppError('Este email ja foi cadastrado!', 401)
-      if (user.cnpj === cnpj)
-        throw new AppError('Este CNPJ ja foi cadastrado!', 401)
+      if (user.email === email) throw new AppError('Este email ja foi cadastrado!', 401)
+      if (user.cnpj === cnpj) throw new AppError('Este CNPJ ja foi cadastrado!', 401)
     })
 
-    const data = {
+    const user = userRepository.create({
       password: await passwordEncrypt(password),
       email,
       name,
       cnpj,
-    }
+    })
 
-    const user = userRepository.create(data)
-    const userCreated = await userRepository.save(user)
+    await userRepository.save(user)
 
-    return users_view.render(userCreated)
+    return users_view.render(user)
   }
 }

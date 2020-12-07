@@ -20,8 +20,8 @@ providerRoute.post('/', async (request, response) => {
 providerRoute.use(authProviderMiddleware)
 
 providerRoute.put('/', async (request, response) => {
-  const { id } = request.provider
   const { confirmPass, oldPass, newPass, email, cnpj, name } = request.body
+  const { id } = request.provider
 
   const updateProvider = new UpdateProviderService()
   const provider = await updateProvider.execute({
@@ -43,9 +43,7 @@ providerRoute.delete('/', async (request, response) => {
   const deleteProvider = new DeleteProviderService()
   await deleteProvider.execute({ id })
 
-  return response.status(200).json({
-    message: `Ação concluída com sucesso!`,
-  })
+  return response.status(200).json({ message: `Ação concluída com sucesso!` })
 })
 
 export default providerRoute

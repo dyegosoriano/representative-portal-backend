@@ -17,9 +17,7 @@ export default class CreateProviderService {
   async execute({ password, email, name, cnpj }: Request): Promise<ProviderRender> {
     const providerRepository = getRepository(Provider)
 
-    const providerExist = await providerRepository.find({
-      where: [{ email }, { cnpj }],
-    })
+    const providerExist = await providerRepository.find({ where: [{ email }, { cnpj }] })
 
     providerExist.find(provider => {
       if (provider.email === email) throw new AppError('Este email ja foi cadastrado!', 401)

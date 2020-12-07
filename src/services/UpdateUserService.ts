@@ -1,4 +1,5 @@
 import { getRepository } from 'typeorm'
+import { validate } from 'uuid'
 
 import { passwordCheck, passwordEncrypt } from '@util/password'
 import users_view, { UserRender } from '@views/users_view'
@@ -7,56 +8,36 @@ import AppError from '@errors/AppError'
 import User from '@entity/User'
 
 interface Request {
-  confirmationPassword: string
-  newPassword: string
-  oldPassword: string
+  confirmPass: string
+  oldPass: string
+  newPass: string
   email: string
-  name: string
   cnpj: number
+  name: string
   id: string
 }
 
 export default class UpdateUserService {
-  async execute({
-    confirmationPassword,
-    newPassword,
-    oldPassword,
-    email,
-    name,
-    cnpj,
-    id,
-  }: Request): Promise<UserRender> {
+  async execute({ confirmPass, oldPass, newPass, email, cnpj, name, id }: Request): Promise<UserRender> {
+    if (!validate(id)) throw new AppError('O ID solicitado não foi encontrado!', 404)
+
     const userRepository = getRepository(User)
     const user = await userRepository.findOneOrFail(id)
 
-    const passwordChecked = await passwordCheck(oldPassword, user.password)
+    const passwordChecked = await passwordCheck(oldPass, user.password)
 
-    if (oldPassword && !passwordChecked) {
-      throw new AppError('Password does not match', 401)
-    }
+    if (oldPass && !passwordChecked) throw new AppError('Senha incorreta!', 401)
 
-    if (newPassword === confirmationPassword) {
-      user.password = await passwordEncrypt(newPassword)
-    } else {
-      throw new AppError(
-        'The confirmation password does not match the new password',
-        401,
-      )
-    }
+    if (newPass !== confirmPass) throw new AppError('A senha de confirmação não corresponde com a nova senha', 401)
+    if (newPass === confirmPass) user.password = await passwordEncrypt(newPass)
 
     if (email || cnpj) {
-      const userExist = await userRepository.find({
-        where: [{ email }, { cnpj }],
-      })
+      const userExist = await userRepository.find({ where: [{ email }, { cnpj }] })
 
       userExist.find(item => {
         if (user.id !== item.id) {
-          if (item.email === email) {
-            throw new AppError('The email already exists!', 401)
-          }
-          if (item.cnpj === cnpj) {
-            throw new AppError('The CNPJ already exists!', 401)
-          }
+          if (item.email === email) throw new AppError('O email já existe em nossa base de dados!', 401)
+          if (item.cnpj === cnpj) throw new AppError('O CNPJ já existe em nossa base de dados!', 401)
         }
       })
 
@@ -64,9 +45,7 @@ export default class UpdateUserService {
       user.cnpj !== cnpj ? (user.cnpj = cnpj) : false
     }
 
-    if (name) {
-      user.name = name
-    }
+    if (name) user.name = name
 
     await userRepository.save(user)
 
