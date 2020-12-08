@@ -7,15 +7,17 @@ export interface OrderRender {
   delivered: Date | null
   canceled: Date | null
   closed: Date | null
-  createdAt: Date | null
-  updatedAt: Date | null
-  owner: {
+  createdAt: Date
+  updatedAt: Date
+  owner?: {
     id: string
   }
 }
 
 export default {
   render(order: Order): OrderRender {
+    const owner = order.owner ? { id: order.owner.id } : undefined
+
     return {
       id: order.id,
       confirmed: order.confirmed,
@@ -25,9 +27,7 @@ export default {
       closed: order.closed,
       createdAt: order.created_at,
       updatedAt: order.updated_at,
-      owner: {
-        id: order.owner.id,
-      },
+      owner,
     }
   },
 
