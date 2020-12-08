@@ -1,71 +1,75 @@
-import { Request, Response, Router } from 'express'
-import { getRepository } from 'typeorm'
+import { Router } from 'express'
+
+import ShowOnlyProductsService from '@services/ShowOnlyProductsService'
+import ShowAllProductsService from '@services/ShowAllProductsService'
+import CreateProductService from '@services/CreateProductService'
+import UpdateProductService from '@services/UpdateProductService'
+import DeleteProductService from '@services/DeleteProductService'
 
 import authProviderMiddleware from '@middleware/authProvider'
 
-import Products from '@entity/Products'
-import products_view from '@views/products_view'
-import AppError from '@errors/AppError'
-
 const productsRouter = Router()
 
-productsRouter.get('/', async (req: Request, res: Response) => {
-  const page = Number(req.query.page)
+productsRouter.get('/', async (request, response) => {
+  const page = Number(request.query.page)
 
-  const productRepository = getRepository(Products)
+  const showProducts = new ShowAllProductsService()
+  const products = await showProducts.execute({ page })
 
-  let products = []
-
-  if (!page) {
-    products = await productRepository.find()
-  } else {
-    products = await productRepository.find({
-      skip: (page - 1) * 10,
-      take: 10,
-    })
-  }
-
-  return res.json(products_view.renderAll(products))
+  return response.json(products)
 })
 
-productsRouter.get('/:id', async (req: Request, res: Response) => {
-  const { id } = req.params
+productsRouter.get('/:id', async (request, response) => {
+  const { id } = request.params
 
-  const productRepository = getRepository(Products)
-  const product = await productRepository.findOne({ where: { id } })
+  const showProduct = new ShowOnlyProductsService()
+  const product = await showProduct.execute(id)
 
-  if (!product) {
-    throw new AppError('O produto solicitado não existe!', 400)
-  }
-
-  return res.json(products_view.render(product))
+  return response.json(product)
 })
 
 productsRouter.use(authProviderMiddleware)
 
-productsRouter.post('/', async (req: Request, res: Response) => {
-  const { product_name, price, amount, product_image } = req.body
-  const provider_id = req.providerId
+productsRouter.post('/', async (request, response) => {
+  const { product, price, amount } = request.body
+  const provider = request.provider
 
-  const productRepository = getRepository(Products)
-
-  const newProduct = productRepository.create({
-    created_at: new Date(),
-    updated_at: new Date(),
-    product_image,
-    product_name,
-    provider_id,
+  const createProduct = new CreateProductService()
+  const productCreated = await createProduct.execute({
+    provider,
+    product,
     amount,
     price,
   })
 
-  const productCreated = await productRepository.save(newProduct)
-
-  return res.json(products_view.render(productCreated))
+  return response.json(productCreated)
 })
 
-productsRouter.put('/', async (req: Request, res: Response) => {})
+productsRouter.put('/:id', async (request, response) => {
+  const { product, price, amount } = request.body
+  const provider = request.provider
+  const { id } = request.params
 
-productsRouter.delete('/:id', async (req: Request, res: Response) => {})
+  const updateProduct = new UpdateProductService()
+  const updatedProduct = await updateProduct.execute({
+    provider,
+    product,
+    amount,
+    price,
+    id,
+  })
+
+  return response.json(updatedProduct)
+})
+
+productsRouter.delete('/:id', async (request, response) => {
+  const provider = request.provider
+  const { id } = request.params
+
+  const deleteProduct = new DeleteProductService()
+  await deleteProduct.execute({ provider, id })
+
+  return response.json({ message: `Ação concluída com sucesso!` })
+})
 
 export default productsRouter
