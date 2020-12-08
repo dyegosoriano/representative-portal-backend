@@ -29,7 +29,6 @@ export default class UpdateProviderService {
     if (oldPass && !passwordChecked) throw new AppError('Senha incorreta!')
 
     if (newPass !== confirmPass) throw new AppError('A senha de confirmação não corresponde com a nova senha', 401)
-    if (newPass === confirmPass) provider.password = await passwordEncrypt(newPass)
 
     if (email || cnpj) {
       const providerExist = await providerRepository.find({ where: [{ email }, { cnpj }] })
@@ -40,12 +39,12 @@ export default class UpdateProviderService {
           if (item.cnpj === cnpj) throw new AppError('O CNPJ já existe em nossa base de dados!', 401)
         }
       })
-
-      provider.email !== email ? (provider.email = email) : false
-      provider.cnpj !== cnpj ? (provider.cnpj = cnpj) : false
     }
 
-    if (name) provider.name = name
+    provider.password = await passwordEncrypt(newPass)
+    provider.email = email
+    provider.name = name
+    provider.cnpj = cnpj
 
     await providerRepository.save(provider)
 

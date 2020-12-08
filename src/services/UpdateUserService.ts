@@ -29,7 +29,6 @@ export default class UpdateUserService {
     if (oldPass && !passwordChecked) throw new AppError('Senha incorreta!', 401)
 
     if (newPass !== confirmPass) throw new AppError('A senha de confirmação não corresponde com a nova senha', 401)
-    if (newPass === confirmPass) user.password = await passwordEncrypt(newPass)
 
     if (email || cnpj) {
       const userExist = await userRepository.find({ where: [{ email }, { cnpj }] })
@@ -40,12 +39,12 @@ export default class UpdateUserService {
           if (item.cnpj === cnpj) throw new AppError('O CNPJ já existe em nossa base de dados!', 401)
         }
       })
-
-      user.email !== email ? (user.email = email) : false
-      user.cnpj !== cnpj ? (user.cnpj = cnpj) : false
     }
 
-    if (name) user.name = name
+    user.password = await passwordEncrypt(newPass)
+    user.email = email
+    user.name = name
+    user.cnpj = cnpj
 
     await userRepository.save(user)
 
