@@ -1,7 +1,8 @@
-import { Entity, JoinColumn, ManyToOne } from 'typeorm'
+import { Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
 import GenericEntity from './GenericEntity'
 import Provider from './Provider'
+import Order from './Order'
 
 @Entity('users')
 export default class User extends GenericEntity {
@@ -9,6 +10,9 @@ export default class User extends GenericEntity {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn({ name: 'provider_id', referencedColumnName: 'id' })
-  provider_id: Provider
+  @JoinColumn({ name: 'provider', referencedColumnName: 'id' })
+  provider: Provider
+
+  @OneToMany(() => Order, order => order.id)
+  orders: Order[]
 }
