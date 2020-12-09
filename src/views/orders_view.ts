@@ -3,9 +3,9 @@ import Order from '@entity/Order'
 export interface OrderRender {
   id: string
   confirmed: Date | null
-  on_my_way: Date | null
   delivered: Date | null
   canceled: Date | null
+  onMyWay: Date | null
   closed: Date | null
   createdAt: Date
   updatedAt: Date
@@ -21,9 +21,9 @@ export default {
     return {
       id: order.id,
       confirmed: order.confirmed,
-      on_my_way: order.on_my_way,
       delivered: order.delivered,
       canceled: order.canceled,
+      onMyWay: order.onMyWay,
       closed: order.closed,
       createdAt: order.created_at,
       updatedAt: order.updated_at,
