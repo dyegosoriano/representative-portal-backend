@@ -11,12 +11,22 @@ export interface OrderRender {
   updatedAt: Date
   owner?: {
     id: string
+    name: string
+    email: string
+    cnpj: number
   }
 }
 
 export default {
   render(order: Order): OrderRender {
-    const owner = order.owner ? { id: order.owner.id } : undefined
+    const owner = order.owner
+      ? {
+          id: order.owner.id,
+          name: order.owner.name,
+          email: order.owner.email,
+          cnpj: order.owner.cnpj,
+        }
+      : undefined
 
     return {
       id: order.id,
