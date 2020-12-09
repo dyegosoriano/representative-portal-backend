@@ -7,9 +7,9 @@ import AppError from '@errors/AppError'
 import Order from '@entity/Order'
 
 interface Request {
-  userId: string
-  productId: string
   updateData: JsonRequest
+  productId: string
+  owner: string
 }
 
 interface JsonRequest {
@@ -21,7 +21,7 @@ interface JsonRequest {
 }
 
 export default class UpdateOrderService {
-  async execute({ userId, productId, updateData }: Request): Promise<OrderRender> {
+  async execute({ owner, productId, updateData }: Request): Promise<OrderRender> {
     if (!validate(productId)) throw new AppError('O ID solicitado não foi encontrado!', 404)
 
     const { delivered, onMyWay, confirm, cancel, close } = updateData
@@ -34,7 +34,7 @@ export default class UpdateOrderService {
 
     if (!order) throw new AppError('Ordem de serviço não encontrada!', 404)
 
-    if (userId !== order.owner.id) throw new AppError('Você não tem permissão para acessar essa ordem de serviço!', 401)
+    if (owner !== order.owner.id) throw new AppError('Você não tem permissão para acessar essa ordem de serviço!', 401)
 
     if (delivered) order.delivered = new Date()
     if (confirm) order.confirmed = new Date()
