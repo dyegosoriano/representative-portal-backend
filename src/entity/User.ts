@@ -9,6 +9,7 @@ export default class User extends GenericEntity {
   @ManyToOne(() => Provider, provider => provider.id, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    nullable: false,
   })
   @JoinColumn({ name: 'provider', referencedColumnName: 'id' })
   provider: Provider

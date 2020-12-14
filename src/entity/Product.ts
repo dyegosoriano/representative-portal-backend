@@ -17,6 +17,7 @@ export default class Product extends Generic {
   @ManyToOne(() => Provider, provider => provider.products, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    nullable: false,
   })
   @JoinColumn({ name: 'provider', referencedColumnName: 'id' })
   provider: Provider
