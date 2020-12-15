@@ -1,5 +1,4 @@
 import { getRepository } from 'typeorm'
-import { validate } from 'uuid'
 
 import providers_view, { ProviderRender } from '@views/providers_view'
 import { passwordCheck, passwordEncrypt } from '@util/password'
@@ -19,8 +18,6 @@ interface Request {
 
 export default class UpdateProviderService {
   async execute({ confirmPass, oldPass, newPass, email, cnpj, name, id }: Request): Promise<ProviderRender> {
-    if (!validate(id)) throw new AppError('O ID solicitado não foi encontrado!', 404)
-
     const providerRepository = getRepository(Provider)
     const provider = await providerRepository.findOneOrFail({ id })
 
@@ -35,8 +32,8 @@ export default class UpdateProviderService {
 
       providerExist.find(item => {
         if (provider.id !== item.id) {
-          if (item.email === email) throw new AppError('O email já existe em nossa base de dados!', 401)
-          if (item.cnpj === cnpj) throw new AppError('O CNPJ já existe em nossa base de dados!', 401)
+          if (item.email === email) throw new AppError('O email pertence a outro usuário!', 401)
+          if (+item.cnpj === cnpj) throw new AppError('O CNPJ pertence a outro usuário!', 401)
         }
       })
     }
