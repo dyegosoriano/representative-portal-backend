@@ -1,5 +1,4 @@
 import { getRepository } from 'typeorm'
-import { validate } from 'uuid'
 
 import { passwordCheck, passwordEncrypt } from '@util/password'
 import users_view, { UserRender } from '@views/users_view'
@@ -19,10 +18,10 @@ interface Request {
 
 export default class UpdateUserService {
   async execute({ confirmPass, oldPass, newPass, email, cnpj, name, id }: Request): Promise<UserRender> {
-    if (!validate(id)) throw new AppError('O ID solicitado não foi encontrado!', 404)
-
     const userRepository = getRepository(User)
-    const user = await userRepository.findOneOrFail(id)
+    const user = await userRepository.findOne({ id })
+
+    if (!user) throw new AppError('Usuário não encontrado!', 404)
 
     const passwordChecked = await passwordCheck(oldPass, user.password)
 
@@ -35,8 +34,8 @@ export default class UpdateUserService {
 
       userExist.find(item => {
         if (user.id !== item.id) {
-          if (item.email === email) throw new AppError('O email já existe em nossa base de dados!', 401)
-          if (item.cnpj === cnpj) throw new AppError('O CNPJ já existe em nossa base de dados!', 401)
+          if (item.email === email) throw new AppError('O email pertence a outro usuário!', 401)
+          if (+item.cnpj === cnpj) throw new AppError('O CNPJ pertence a outro usuário!', 401)
         }
       })
     }

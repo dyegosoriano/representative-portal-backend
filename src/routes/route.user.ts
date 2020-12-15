@@ -9,10 +9,11 @@ import authUserMiddleware from '@middleware/authUser'
 const userRoute = Router()
 
 userRoute.post('/', async (request, response) => {
-  const { name, email, cnpj, password } = request.body
+  const { name, email, cnpj, password, providerId } = request.body
 
   const createUser = new CreateUserService()
   const user = await createUser.execute({
+    providerId,
     password,
     email,
     cnpj,

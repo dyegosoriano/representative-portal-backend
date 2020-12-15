@@ -12,12 +12,12 @@ interface Request {
 
 export default class ShowUserService {
   async execute({ id }: Request): Promise<UserRender> {
-    if (!validate(id)) throw new AppError('O ID solicitado não foi encontrado!', 404)
+    if (!validate(id)) throw new AppError('ID válido', 401)
 
     const userRepo = getRepository(User)
     const user = await userRepo.findOne({ id })
 
-    if (!user) throw new AppError('Usuário não foi encontrado!')
+    if (!user) throw new AppError('Usuário não foi encontrado!', 404)
 
     return users_view.render(user)
   }
