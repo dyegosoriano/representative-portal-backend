@@ -5,7 +5,7 @@ import products_view, { ProductRender } from '@views/products_view'
 import Product from '@entity/Product'
 
 interface Request {
-  page?: number
+  page: number
 }
 
 export default class ShowAllProductsService {
@@ -14,13 +14,20 @@ export default class ShowAllProductsService {
 
     let products = []
 
-    if (!page) {
-      products = await productRepository.find()
-    } else {
-      products = await productRepository.find({
-        skip: (page - 1) * 20,
-        take: 20,
-      })
+    switch (page) {
+      case 0:
+        products = await productRepository.find({
+          order: { created_at: 'ASC' },
+        })
+        break
+
+      default:
+        products = await productRepository.find({
+          order: { created_at: 'ASC' },
+          skip: (page - 1) * 20,
+          take: 20,
+        })
+        break
     }
 
     return products_view.renderAll(products)

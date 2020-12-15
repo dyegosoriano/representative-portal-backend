@@ -8,7 +8,7 @@ import Product from '@entity/Product'
 
 export default class ShowOnlyProductsService {
   async execute(id: string): Promise<ProductRender> {
-    if (!validate(id)) throw new AppError('O ID solicitado não foi encontrado!', 404)
+    if (!validate(id)) throw new AppError('ID válido', 401)
 
     const productRepository = getRepository(Product)
     const product = await productRepository.findOne({ where: { id } })

@@ -11,7 +11,7 @@ import authProviderMiddleware from '@middleware/authProvider'
 const productsRouter = Router()
 
 productsRouter.get('/', async (request, response) => {
-  const page = Number(request.query.page)
+  const page = Number(request.query.page) || 0
 
   const showProducts = new ShowAllProductsService()
   const products = await showProducts.execute({ page })
@@ -32,7 +32,7 @@ productsRouter.use(authProviderMiddleware)
 
 productsRouter.post('/', async (request, response) => {
   const { product, price, amount } = request.body
-  const provider = request.provider
+  const { provider } = request
 
   const createProduct = new CreateProductService()
   const productCreated = await createProduct.execute({

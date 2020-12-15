@@ -12,7 +12,7 @@ interface Request {
 
 export default class DeleteProductService {
   async execute({ id, provider }: Request): Promise<void> {
-    if (!validate(id)) throw new AppError('O ID solicitado não foi encontrado!', 404)
+    if (!validate(id)) throw new AppError('ID válido', 401)
 
     const productRepository = getRepository(Product)
     const product = await productRepository.findOne({ where: { id }, relations: ['provider'] })

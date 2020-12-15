@@ -16,7 +16,7 @@ interface Request {
 
 export default class UpdateProductService {
   async execute({ product, provider, amount, price, id }: Request): Promise<ProductRender> {
-    if (!validate(id)) throw new AppError('O ID solicitado não foi encontrado!', 404)
+    if (!validate(id)) throw new AppError('ID válido', 401)
 
     const productRepository = getRepository(Product)
     const selectedProduct = await productRepository.findOne({ where: { id }, relations: ['provider'] })

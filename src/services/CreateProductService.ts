@@ -5,7 +5,7 @@ import products_view, { ProductRender } from '@views/products_view'
 import Product from '@entity/Product'
 
 interface Request {
-  provider: any
+  provider: { id: string }
   product: string
   amount: number
   price: number
