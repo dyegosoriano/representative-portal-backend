@@ -22,7 +22,7 @@ interface JsonRequest {
 
 export default class UpdateOrderService {
   async execute({ owner, productId, updateData }: Request): Promise<OrderRender> {
-    if (!validate(productId)) throw new AppError('O ID solicitado não foi encontrado!', 404)
+    if (!validate(productId)) throw new AppError('ID válido', 401)
 
     const { delivered, onMyWay, confirm, cancel, close } = updateData
 
