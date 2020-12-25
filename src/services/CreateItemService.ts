@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm'
 import { validate } from 'uuid'
 
+import items_view from '@views/items_view'
 import AppError from '@errors/AppError'
 
 import Product from '@entity/Product'
@@ -36,6 +37,6 @@ export default class CreateItemService {
       order,
     })
 
-    return item
+    return items_view.render(item)
   }
 }
