@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 
 import Generic from './Generic'
+import Item from './Item'
 import User from './User'
 
 @Entity('orders')
@@ -23,7 +24,11 @@ export default class Order extends Generic {
   @ManyToOne(() => User, user => user.orders, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    nullable: false,
   })
   @JoinColumn([{ name: 'owner', referencedColumnName: 'id' }])
   owner: User
+
+  @OneToMany(() => Item, item => item.order)
+  items: Item[]
 }
