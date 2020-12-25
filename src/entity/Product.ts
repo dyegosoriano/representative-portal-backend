@@ -8,7 +8,7 @@ export default class Product extends Generic {
   @Column('character varying', { name: 'product', length: 255 })
   product: string
 
-  @Column('numeric', { name: 'price' })
+  @Column('decimal', { name: 'price' })
   price: number
 
   @Column('integer', { name: 'amount' })
