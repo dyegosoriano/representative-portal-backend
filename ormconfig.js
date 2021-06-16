@@ -1,5 +1,4 @@
 const rootDir = process.env.NODE_ENV === 'development' ? 'src' : 'dist'
-const synchronize = process.env.DB_SINCRONIZE === 'true' ? true : false
 
 module.exports = {
   type: 'postgres',
@@ -10,7 +9,7 @@ module.exports = {
   database: process.env.DB_NAME,
   migrations: [`${rootDir}/database/migrations/*.{js,ts}`],
   entities: [`${rootDir}/entity/*.{js,ts}`],
-  synchronize,
+  synchronize: Boolean(process.env.DB_SINCRONIZE),
   logging: false,
   cli: {
     migrationsDir: ['src/database/migrations/'],
